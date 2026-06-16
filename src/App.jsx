@@ -1,9 +1,6 @@
 import { useState, useEffect } from "react";
 import { jsPDF } from "jspdf";
 
-
-
-
 const T = {
   bg:"#0d0b08",papper:"#1a1510",kant:"#3a2e1e",kant2:"#1e1810",
   text:"#e8d8b8",textDim:"#8a7a5a",guld:"#c9a84c",guldDim:"#7a5a1a",rod:"#8b1a1a"
