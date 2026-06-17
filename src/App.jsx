@@ -1418,10 +1418,24 @@ export default function App(){
     setAlderKlar(true);
     const r=fordel[idx];
     let tilldelad;
-    if(a<10&&!r.barnroll){
-      const barn=ROLLER_MASTER.filter(x=>x.barnroll).sort(()=>Math.random()-0.5);
-      tilldelad={...barn[0],kultMarke:undefined,erKultledare:false};
-    } else tilldelad=r;
+    if(a<10){
+      // Barn – ge barnroll om möjligt
+      if(r.barnroll){
+        tilldelad=r;
+      } else {
+        const barn=fordel.filter(x=>x.barnroll);
+        tilldelad=barn.length>0?barn[0]:{...r};
+      }
+    } else {
+      // Vuxen – ge aldrig barnroll
+      if(!r.barnroll){
+        tilldelad=r;
+      } else {
+        // Rollen är barnroll men spelaren är vuxen – byt till nästa vuxenroll
+        const vuxna=fordel.filter(x=>!x.barnroll&&!fordel.slice(0,idx).find(y=>y.id===x.id));
+        tilldelad=vuxna.length>0?vuxna[0]:r;
+      }
+    }
     setRoll(tilldelad);
     setAvslojar(false);setBekr(false);
   }
