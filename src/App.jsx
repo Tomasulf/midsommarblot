@@ -782,17 +782,36 @@ function RollPoangSektion({roll}){
 
 // ─── BARN-SEKTION ─────────────────────────────────────────────────────────────
 function BarnSektion({roll}){
-  const [open,setOpen]=useState(false);
   if(!roll.barnroll)return null;
   const ac="#ffb3c6";
-  return <ToggleBlock label="🤝 GEMENSAMMA UPPDRAG MED DIN KOMPIS" ac={ac} bg="#1a0a10" open={open} setOpen={setOpen}>
-    <p style={{fontSize:12,color:"#ffb3c6",lineHeight:1.6,marginBottom:12,fontWeight:700}}>NI ÄR ETT LAG! HÄR ÄR VAD NI SKA GÖRA TILLSAMMANS:</p>
-    {BARN_GEMENSAMMA.map((u,i)=><div key={i} style={{marginBottom:14,paddingBottom:14,borderBottom:i<2?`1px solid #ffb3c633`:"none"}}>
-      <div style={{fontSize:12,color:"#ffb3c6",fontFamily:"'Cinzel',serif",fontWeight:700,marginBottom:6}}>{u.titel}</div>
-      <p style={{fontSize:13,color:"#ffe8f0",lineHeight:1.7,margin:"0 0 6px"}}>{u.uppdrag}</p>
-      <div style={{fontSize:11,color:"#ffcc44",fontWeight:700}}>{u.poang}</div>
+  
+  // Hitta vilken kompis denna barnroll har
+  const kompis={
+    skogsvakten:{namn:"GALNINGEN MED GRYTAN",gille:"SMEDERNA"},
+    galningen:{namn:"SKOGSVAKTEN",gille:"ÖRTAGILLET"},
+    korsriddaren:{namn:"GALNINGEN MED GRYTAN",gille:"SMEDERNA"},
+  }[roll.id];
+
+  return <div style={{background:"#1a0a10",border:`2px solid ${ac}`,borderRadius:6,padding:"16px",marginBottom:8}}>
+    <div style={{fontSize:12,color:ac,letterSpacing:2,fontFamily:"'Cinzel',serif",marginBottom:12,textAlign:"center"}}>⚡ DIN KOMPIS IKVÄLL ⚡</div>
+    
+    <div style={{background:"#0a0008",border:`1px solid ${ac}44`,borderRadius:4,padding:"12px",marginBottom:16,textAlign:"center"}}>
+      <div style={{fontSize:18,marginBottom:4}}>🤝</div>
+      <div style={{fontSize:15,color:ac,fontWeight:700,fontFamily:"'Cinzel',serif",marginBottom:4}}>{kompis?.namn}</div>
+      <div style={{fontSize:12,color:"#ffb3c688"}}>FRÅN {kompis?.gille}</div>
+      <div style={{fontSize:11,color:"#ffe8f0",marginTop:8,lineHeight:1.5}}>HITTA DEM DIREKT NÄR SPELET BÖRJAR!</div>
+    </div>
+
+    <div style={{fontSize:12,color:ac,letterSpacing:2,fontFamily:"'Cinzel',serif",marginBottom:10}}>🎯 VAD NI SKA GÖRA TILLSAMMANS</div>
+    
+    {BARN_GEMENSAMMA.map((u,i)=><div key={i} style={{background:"#0a0008",border:`1px solid ${ac}33`,borderRadius:4,padding:"12px",marginBottom:8}}>
+      <div style={{fontSize:13,color:ac,fontWeight:700,marginBottom:6}}>{u.titel}</div>
+      <div style={{fontSize:13,color:"#ffe8f0",lineHeight:1.7,marginBottom:8}}>{u.uppdrag}</div>
+      <div style={{background:"#ffcc4422",borderRadius:3,padding:"6px 10px",display:"inline-block"}}>
+        <span style={{fontSize:12,color:"#ffcc44",fontWeight:700}}>💰 BELÖNING: {u.poang}</span>
+      </div>
     </div>)}
-  </ToggleBlock>;
+  </div>;
 }
 
 
@@ -805,8 +824,8 @@ function RollKort({roll,onBekrafta,spelarKon,spelarAlder}){
   const rollnamn=typeof roll.rollnamn==="function"?roll.rollnamn(spelarKon||""):roll.rollnamn;
   const namnforslag=roll.namnforslag||[];
 
-  return <div style={{...Sida,paddingTop:12}}>
-    {roll.barnroll&&<div style={{textAlign:"center",background:"#1a0a10",border:"1px solid #ffb3c644",borderRadius:4,padding:"8px",marginBottom:10,fontSize:12,color:"#ffb3c6"}}>🌸 Barnroll – enkel och rolig!</div>}
+  return <div style={{...Sida,paddingTop:12,...(roll.barnroll?{textTransform:"uppercase"}:{})}}>
+    {roll.barnroll&&<div style={{textAlign:"center",background:"#1a0a10",border:"1px solid #ffb3c644",borderRadius:4,padding:"8px",marginBottom:10,fontSize:12,color:"#ffb3c6",textTransform:"uppercase",letterSpacing:1}}>⭐ Ditt hemliga uppdrag börjar nu!</div>}
     <div style={{textAlign:"center",padding:"14px 0 10px"}}>
       <div style={{fontSize:50}}>{roll.icon}</div>
       <div style={{fontFamily:"'Cinzel',serif",fontSize:21,fontWeight:700,color:ac,letterSpacing:2,marginTop:6}}>{rollnamn}</div>
@@ -823,11 +842,35 @@ function RollKort({roll,onBekrafta,spelarKon,spelarAlder}){
     {roll.barnroll
       ?<div style={{background:ac+"15",border:`1px solid ${ac}44`,borderRadius:4,padding:"14px",marginBottom:8}}><p style={{fontSize:14,color:T.text,lineHeight:1.9,margin:0,whiteSpace:"pre-line",fontWeight:700}}>{roll.beskrivning}</p></div>
       :<Sek label="📖 Bakgrund" ac={ac}><p style={{...RT,whiteSpace:"pre-line"}}>{roll.beskrivning}</p></Sek>}
-    <Sek label="⚔ Ditt uppdrag" ac={ac} hi><p style={RT}>{roll.uppdrag}</p></Sek>
+    {roll.barnroll
+      ?<div style={{background:"#ffb3c622",border:"2px solid #ffb3c6",borderRadius:6,padding:"14px",marginBottom:8,textAlign:"center"}}>
+        <div style={{fontSize:12,color:"#ffb3c6",letterSpacing:2,fontFamily:"'Cinzel',serif",marginBottom:8}}>⭐ DITT UPPDRAG I KVÄLL</div>
+        <p style={{fontSize:14,color:"#ffe8f0",lineHeight:1.8,margin:"0 0 10px",fontWeight:700}}>{roll.uppdrag}</p>
+        <div style={{background:"#ffcc4422",borderRadius:3,padding:"6px 10px",display:"inline-block"}}>
+          <span style={{fontSize:12,color:"#ffcc44",fontWeight:700}}>💰 RAPPORT TILL VÄGAREN = +15p</span>
+        </div>
+      </div>
+      :<Sek label="⚔ Ditt uppdrag" ac={ac} hi><p style={RT}>{roll.uppdrag}</p></Sek>}
     <GillesuppdragSektion roll={roll}/>
     <RollPoangSektion roll={roll}/>
-    <Sek label="✦ Förmåga I" ac={ac}><p style={RT}>{roll.foermaga}</p></Sek>
-    {roll.foermaga2&&<Sek label="✦ Förmåga II" ac={ac}><p style={RT}>{roll.foermaga2}</p></Sek>}
+    {roll.barnroll
+      ?<div style={{background:"#0a0008",border:"2px solid #ffb3c6",borderRadius:6,padding:"14px",marginBottom:8}}>
+        <div style={{fontSize:12,color:"#ffb3c6",letterSpacing:2,fontFamily:"'Cinzel',serif",marginBottom:12,textAlign:"center"}}>🎭 DINA HYSS – GÖR DESSA UNDER KVÄLLEN</div>
+        <div style={{background:"#1a0a10",border:"1px solid #ffb3c644",borderRadius:4,padding:"12px",marginBottom:8}}>
+          <div style={{fontSize:13,color:"#ffe8f0",lineHeight:1.7,marginBottom:8}}>{roll.foermaga}</div>
+          <div style={{background:"#ffcc4422",borderRadius:3,padding:"6px 10px"}}>
+            <span style={{fontSize:12,color:"#ffcc44",fontWeight:700}}>💰 BELÖNING: +10p OM DU LYCKAS!</span>
+          </div>
+        </div>
+        {roll.foermaga2&&<div style={{background:"#1a0a10",border:"1px solid #ffb3c644",borderRadius:4,padding:"12px"}}>
+          <div style={{fontSize:13,color:"#ffe8f0",lineHeight:1.7,marginBottom:8}}>{roll.foermaga2}</div>
+          <div style={{background:"#ffcc4422",borderRadius:3,padding:"6px 10px"}}>
+            <span style={{fontSize:12,color:"#ffcc44",fontWeight:700}}>💰 BELÖNING: +10p OM DU LYCKAS!</span>
+          </div>
+        </div>}
+      </div>
+      :<><Sek label="✦ Förmåga I" ac={ac}><p style={RT}>{roll.foermaga}</p></Sek>
+      {roll.foermaga2&&<Sek label="✦ Förmåga II" ac={ac}><p style={RT}>{roll.foermaga2}</p></Sek>}</>}
 
     {(()=>{
       const aktivaIds=roll.aktivaIds||[];
@@ -884,8 +927,15 @@ function RollKort({roll,onBekrafta,spelarKon,spelarAlder}){
       </>}
     </ToggleBlock>}
 
-    <Sek label="💡 Tips" ac={T.guldDim}><p style={RT}>{roll.tips}</p></Sek>
+    {roll.barnroll
+      ?<div style={{background:"#0a0008",border:"1px solid #ffb3c644",borderRadius:4,padding:"12px",marginBottom:8,textAlign:"center"}}>
+        <div style={{fontSize:12,color:"#ffb3c6",fontWeight:700,lineHeight:1.7}}>{roll.tips}</div>
+      </div>
+      :<Sek label="💡 Tips" ac={T.guldDim}><p style={RT}>{roll.tips}</p></Sek>}
     <p style={{fontSize:11,color:T.textDim,textAlign:"center",marginTop:10}}>Memorera · Visa ingen · Lycka till</p>
+    <div style={{background:"#0a0a00",border:`1px solid ${T.kant}`,borderRadius:4,padding:"10px 14px",marginTop:10,textAlign:"center"}}>
+      <p style={{fontSize:11,color:T.guld,margin:0,lineHeight:1.7}}>{roll.barnroll?"🍬 PSST! VÄGAREN BELÖNAR GÄRNA SNÄLLA OCH HJÄLPSAMMA SPELARE MED EXTRA POÄNG... KANSKE TILL OCH MED GODIS!":"🥂 Vägaren kan belöna god stämning, generositet och hjälpsamhet med extra poäng. Tilltugg och påtår uppskattas alltid."}</p>
+    </div>
     {onBekrafta!==null&&<button style={{...BtnH,width:"100%",marginTop:10}} onClick={onBekrafta}>Jag har läst min roll ✓</button>}
     <div style={{height:32}}/>
   </div>;
