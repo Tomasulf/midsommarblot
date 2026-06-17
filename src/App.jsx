@@ -1085,6 +1085,7 @@ function StartVy({setVy}){
     <div style={{display:"flex",flexDirection:"column",gap:10,width:"100%",maxWidth:300}}>
       <button style={BtnH} onClick={()=>setVy("spelledare")}>⚖️ Spelledare / Vägaren</button>
       <button style={BtnS} onClick={()=>setVy("guide")}>📜 Roller & Relationer</button>
+      <button style={{...BtnS,borderColor:"#9999cc44",color:"#9999cc"}} onClick={()=>setVy("regler")}>📖 Spelregler</button>
       <button style={{...BtnS,borderColor:"#c9a84c44",color:T.guld}} onClick={()=>setVy("poang")}>⚖️ Resultattavla</button>
     </div>
   </div>;
@@ -1253,34 +1254,42 @@ function SpelarVy({rollData}){
     </div>}
 
     {/* REGLER */}
-    {tab===2&&<div style={Sida}>
-      <h2 style={SRubrik}>📜 Spelregler</h2>
-      {[
-        {fas:"🕐 16.00 – Ankomst",text:"Alla drar en hemlig roll via appen. Ingen annan ser din roll. Memorera den!"},
-        {fas:"🤫 Fas 1 – Allianser",text:"Mingla, bilda allianser, dela hemligheter. Genomför dina uppdrag. Dans vid 17.00."},
-        {fas:"⚖️ Fas 2 – Tinget",text:"Formella anklagelser framförs. Den anklagade försvarar sig i 90 sekunder. Fria anklagelser tillåts."},
-        {fas:"🕯 Fas 3 – Ritualen",text:"Dans kring midsommarstången. Levan Polkka – alla går runt huset. Håll koll på stången!"},
-        {fas:"🗳️ Fas 4 – Domen",text:"Alla pekar på den de tror är Kultledaren. Vägaren avslöjar rollerna – kultmärkta först, Kultledaren sist."},
-      ].map((f,i)=><div key={i} style={{...Kort,marginBottom:8}}>
-        <div style={{fontFamily:"'Cinzel',serif",fontSize:12,color:T.guld,marginBottom:6}}>{f.fas}</div>
-        <p style={{fontSize:12,color:T.textDim,lineHeight:1.6,margin:0}}>{f.text}</p>
-      </div>)}
-      <div style={{...Kort,borderColor:"#a8d5a244"}}>
-        <div style={{...Lbl,color:"#a8d5a2"}}>🌿 Byn vinner om…</div>
-        <p style={{fontSize:12,color:T.textDim,margin:0}}>Kultledaren pekas ut vid Domen.</p>
-      </div>
-      <div style={{...Kort,borderColor:"#cc333344",background:"#120808"}}>
-        <div style={{...Lbl,color:"#cc6666"}}>🩸 Kulten vinner om…</div>
-        <p style={{fontSize:12,color:"#cc9999",margin:0}}>Kultledaren överlever Domen oavslöjad – eller aktiverar Välsignelsen (30 sek vid stången).</p>
-      </div>
-      <div style={Kort}>
-        <div style={Lbl}>💰 Poäng</div>
-        <p style={{fontSize:12,color:T.textDim,lineHeight:1.7,margin:0}}>
-          Du tävlar på tre nivåer: <strong style={{color:T.guld}}>individuellt</strong> (dina uppdrag), <strong style={{color:T.guld}}>gillet</strong> (gemensamma uppdrag +30p) och <strong style={{color:T.guld}}>sidan</strong> (By vs Kult +30/50p).<br/><br/>
-          Check in med Vägaren för att registrera poäng. Resultaten avslöjas vid Domen.
-        </p>
-      </div>
-    </div>}
+    {tab===2&&<RegelVy setVy={()=>{}}/>}
+
+// ─── REGELVY ──────────────────────────────────────────────────────────────────
+const REGLER = [
+  {titel:"Spelets syfte",icon:"⚖️",farg:"#c9a84c",text:"Midsommarblot är ett socialt spel om lögner, allianser och avslöjanden.\n\nAlla tillhör ett gille – Örtagillet, Smederna eller Månkyrkan. Men bland er gömmer sig Mörkblotets Kult.\n\nByborna försöker avslöja Kultledaren. Kulten försöker överleva oavslöjad.\n\nDu tävlar på tre nivåer: individuellt, med ditt gille och på din sida (By vs Kult)."},
+  {titel:"Kvällens faser",icon:"🕐",farg:"#c9a84c",text:"FAS 1 – ALLIANSER\nMingla, bilda allianser, dela hemligheter, genomför uppdrag. Danser uppstår spontant.\n\nFAS 2 – TINGET\nFormella anklagelser framförs. Den anklagade försvarar sig. Inga roller avslöjas – Tinget skapar misstanke.\n\nFAS 3 – RITUALEN & DANSEN\nGilledanser genomförs. Kultledaren försöker fullborda ritualen vid stången.\n\nFAS 4 – DOMEN\nAlla pekar på den de tror är Kultledaren. Rollerna avslöjas dramatiskt."},
+  {titel:"Viktiga begrepp",icon:"📖",farg:"#c9a84c",text:"VÄGAREN – Spelets domare. Den enda som vet alla rollernas sanna identitet.\n\nALLIANS – Formell överenskommelse registrerad hos Vägaren. Allierade bör rösta likadant vid Domen.\n\nANKLAGELSE – Formell beskyllning vid Tinget. Varje roll har en förskriven anklagelse. Ger poäng om den leder rätt.\n\nFÖRMÅGA – Varje karaktär har två unika förmågor. Aktiveras genom att berätta för Vägaren.\n\nINLÖSEN – Poäng byts mot fördelar hos Vägaren: ledtrådar, extra röster eller immunitet.\n\nKEDJOR – Hemliga informationskedjor. Säg rätt fras, få rätt svar, dela en pusselbit om ritualen."},
+  {titel:"Dansen",icon:"🎵",farg:"#c9a84c",text:"Dans är en naturlig del av midsommarfirandet – men varje dans är ett uppdrag.\n\nDitt rollkort innehåller hemliga dansdirektiv för varje låt. Dessa är unika för din karaktär och ger poäng.\n\nGILLEDANSER är gemensamma uppdrag där hela gillet dansar på ett specifikt sätt. Lyckas alla bidrar det till gillebonusen.\n\nVar uppmärksam – andra observerar dig lika mycket som du observerar dem."},
+  {titel:"Poängsystemet",icon:"💰",farg:"#c9a84c",text:"INDIVIDUELLT – Uppdrag, förmågor, allianser, dans.\n\nGILLEBONUS +30p – Om hela gillet slutför sina uppdrag.\n\nSIDBONUS – Byn vinner: +30p · Kulten vinner: +50p\n\nDOMSPOÄNG – Rätt på kultmärkt: +20p · Rätt på Kultledaren: +40p · Fel: -5p\n\nLEDTRÅDAR – Lös in poäng hos Vägaren mot information om Kultledaren. Tre nivåer – ju dyrare, ju mer avslöjande."},
+  {titel:"Domen",icon:"🗳️",farg:"#c9a84c",text:"Domen är kvällens dramatiska klimax.\n\nVägaren räknar ned: TRE – TVÅ – ETT – alla pekar samtidigt på den de tror är Kultledaren.\n\nAvslöjandet sker i ordning:\n1. Kultmärkta avslöjas\n2. Kultledaren avslöjas sist – dramatiskt\n\nOm Kultledaren pekas ut har Byn vunnit.\nOm Kultledaren överlever har Kulten vunnit."},
+  {titel:"Vinstvillkor",icon:"🏆",farg:"#c9a84c",text:"BYBORNA VINNER OM Kultledaren pekas ut vid Domen.\n\nKULTEN VINNER OM Kultledaren överlever oavslöjad – eller om Mörkblotets ritual fullbordas.\n\nOAVGJORT om kultmärkta avslöjas men Kultledaren klarar sig. Vägaren avgör.\n\nKom ihåg – du tävlar också individuellt! Även om din sida förlorar kan du vinna som individ."},
+  {titel:"Allmänna regler",icon:"📜",farg:"#c9a84c",text:"• Din roll är hemlig – visa aldrig ditt rollkort\n• Lögner är tillåtna och uppmuntrade\n• Förmågor aktiveras genom Vägaren\n• Allianser registreras alltid hos Vägaren\n• Barnroller har förenklade uppdrag\n• Fråga Vägaren om du är osäker\n• Ha kul – det är midsommar!"},
+];
+
+function RegelVy({setVy}){
+  const [open,setOpen]=useState({});
+  const toggle=(i)=>setOpen(prev=>({...prev,[i]:!prev[i]}));
+  return <div style={Sida}>
+    <button style={Tillbaka} onClick={()=>setVy("start")}>← Tillbaka</button>
+    <h2 style={SRubrik}>📜 Spelregler</h2>
+    <div style={{...Kort,borderColor:"#c9a84c44",background:"#0a0800",marginBottom:16,textAlign:"center"}}>
+      <p style={{fontSize:13,color:TEXT,fontStyle:"italic",lineHeight:1.8,margin:0}}>
+        Läs igenom reglerna innan kvällen börjar.<br/>
+        Din hemliga roll får du via appen när kvällen startar.
+      </p>
+    </div>
+    {REGLER.map((r,i)=><div key={i} style={{marginBottom:6}}>
+      <button style={{width:"100%",background:open[i]?"#13100c":T.papper,border:`1px solid ${open[i]?"#c9a84c44":T.kant}`,borderRadius:open[i]?"4px 4px 0 0":"4px",padding:"12px 14px",fontSize:13,fontFamily:"'Cinzel',serif",cursor:"pointer",textAlign:"left",color:open[i]?T.guld:T.text,display:"flex",justifyContent:"space-between",alignItems:"center"}} onClick={()=>toggle(i)}>
+        <span>{r.icon} {r.titel}</span>
+        <span style={{fontSize:10,color:T.textDim}}>{open[i]?"▲":"▼"}</span>
+      </button>
+      {open[i]&&<div style={{background:"#0d0b08",border:`1px solid #c9a84c44`,borderTop:"none",borderRadius:"0 0 4px 4px",padding:"14px"}}>
+        <p style={{fontSize:12,color:T.text,lineHeight:1.9,margin:0,whiteSpace:"pre-line"}}>{r.text}</p>
+      </div>}
+    </div>)}
+    <div style={{height:32}}/>
   </div>;
 }
 
@@ -1365,6 +1374,7 @@ export default function App(){
     {vy==="deltagare"&&<DeltagarVy setVy={setVy} kontaktlista={kontaktlista} setKontaktlista={setKontaktlista}/>}
     {vy==="drag"&&<DragVy fordel={fordel} idx={idx} roll={roll} avslojar={avslojar} bekr={bekr} klart={klart} alder={alder} setAlder={setAlder} kon={kon} setKon={setKon} alderKlar={alderKlar} bekraftaAlder={bekraftaAlder} setAvslojar={setAvslojar} setBekr={setBekr} nasta={nasta} setVy={setVy}/>}
     {vy==="guide"&&<GuideVy setVy={setVy}/>}
+    {vy==="regler"&&<RegelVy setVy={setVy}/>}
     {vy==="poang"&&<PoangVy spelare={spelare} domAvslojad={domAvslojad} setDomAvslojad={setDomAvslojad} setVy={setVy}/>}
   </div>;
 }
