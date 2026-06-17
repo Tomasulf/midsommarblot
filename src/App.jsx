@@ -168,20 +168,28 @@ const ROLLER_MASTER=[
 
 // ─── DYNAMISK KEDJE-BYGGARE ───────────────────────────────────────────────────
 const PUSSELBIT={
-  "I":  "REBUS DEL I: »Vid det som aldrig faller ned…« – Stången är nyckeln. Den som håller den äger ritualen.",
-  "III":"REBUS DEL III: »…när klockan slagit halvt det sista…« – Ritualen aktiveras bara under SISTA HALVTIMMEN.",
-  "II": "REBUS DEL II: »…lägger handen den som äger natten…« – Kultledaren måste FYSISKT hålla handen på stången.",
-  "IV": "REBUS DEL IV: »…och tre röster ropar mot ljuset…« – TRE bybor vid stången ropar: 'Ljuset håller!'",
-  "sab1":"SABOTAGE: Kultledarens ritual kräver 30 sek ostört. Pratar du med dem – ritualen avbryts.",
-  "sab2":"SABOTAGE: Det räcker att STÄLLA SIG BREDVID för att avbryta. Du behöver inte veta att de är ledare.",
+  "I":  "REBUSDEL I: »Solstångsnattens mörker binds av ett gammalt löfte…«",
+  "III":"REBUSDEL III: »…som bryts av tre röster vid nattens hjärta…«",
+  "II": "REBUSDEL II: »…välsignade av ljuset och natten…«",
+  "IV": "REBUSDEL IV: »…som ropar tre gånger det gamla ordet.«",
+  "sab1":"SABOTAGE DEL 1: Kultledarens ritual kräver 30 sek ostört vid stången. Ställ dig bredvid – ritualen avbryts.",
+  "sab2":"SABOTAGE DEL 2: Du behöver INTE veta att de är Kultledare. Din närvaro vid stången räcker.",
 };
+
+// Rebuslösningen – avslöjas av Vägaren om byborna löser den i tid
+const REBUS_LOSNING = "Kultens förtrollning bryts om tre välsignade röster vid stången ropar tre gånger: LJUSET SEGRAR, LJUSET SEGRAR, LJUSET SEGRAR!";
+
+const REBUS_MENING_KOMPLETT = "Solstångsnattens mörker binds av ett gammalt löfte – välsignat av ljuset och natten – som bryts av tre röster vid nattens hjärta – som ropar tre gånger det gamla ordet.";
+
 
 const K1=[["kloka","den_resande","ortmastaren"],["kloka","den_resande","gronskan"],["kloka","ortmastaren","gronskan"],["ortmastaren","den_resande","gronskan"],["ortmastaren","kloka","gronskan"],["kloka","hogprasten","ortmastaren"],["kloka","munken","ortmastaren"],["gronskan","den_resande","ortmastaren"],["kloka","soldaten","ortmastaren"],["kloka","runlaesaren","ortmastaren"],["kloka","glodviskaren","ortmastaren"],["ortmastaren","munken","gronskan"],["kloka","mastersmeden","ortmastaren"],["den_resande","ortmastaren","munken"],["kloka","runlaesaren","gronskan"],["kloka","munken","gronskan"],["kloka","hogprasten","gronskan"],["ortmastaren","runlaesaren","gronskan"],["ortmastaren","hogprasten","gronskan"],["kloka","soldaten","gronskan"],["kloka","glodviskaren","gronskan"],["runlaesaren","ortmastaren","munken"],["hogprasten","ortmastaren","munken"],["gronskan","runlaesaren","munken"],["gronskan","mastersmeden","munken"],["gronskan","hogprasten","munken"],["gronskan","soldaten","munken"],["gronskan","glodviskaren","munken"],["gronskan","den_resande","munken"]];
 const K2=[["runlaesaren","mastersmeden","hogprasten"],["runlaesaren","glodviskaren","hogprasten"],["hogprasten","mastersmeden","runlaesaren"],["runlaesaren","soldaten","hogprasten"],["munken","mastersmeden","hogprasten"],["runlaesaren","munken","hogprasten"],["hogprasten","glodviskaren","runlaesaren"],["munken","soldaten","hogprasten"],["runlaesaren","den_resande","hogprasten"],["hogprasten","ortmastaren","runlaesaren"],["hogprasten","kloka","runlaesaren"],["munken","den_resande","hogprasten"],["runlaesaren","gronskan","hogprasten"],["hogprasten","soldaten","munken"],["runlaesaren","kloka","hogprasten"],["munken","kloka","hogprasten"],["runlaesaren","ortmastaren","hogprasten"],["munken","ortmastaren","hogprasten"],["hogprasten","den_resande","runlaesaren"],["hogprasten","den_resande","munken"],["runlaesaren","munken","mastersmeden"],["runlaesaren","munken","soldaten"],["runlaesaren","munken","den_resande"],["runlaesaren","munken","glodviskaren"],["runlaesaren","munken","kloka"],["runlaesaren","munken","ortmastaren"],["runlaesaren","munken","gronskan"],["munken","mastersmeden","soldaten"],["munken","mastersmeden","den_resande"],["munken","soldaten","den_resande"],["runlaesaren","mastersmeden","soldaten"],["runlaesaren","mastersmeden","den_resande"],["hogprasten","glodviskaren","mastersmeden"],["hogprasten","glodviskaren","soldaten"],["hogprasten","mastersmeden","soldaten"],["hogprasten","glodviskaren","den_resande"],["hogprasten","mastersmeden","den_resande"]];
 const K3=[["soldaten","galningen","korsriddaren"],["glodviskaren","galningen","korsriddaren"],["mastersmeden","galningen","korsriddaren"],["soldaten","skogsvakten","korsriddaren"],["soldaten","galningen","skogsvakten"],["glodviskaren","skogsvakten","korsriddaren"],["soldaten","glodviskaren","mastersmeden"],["glodviskaren","soldaten","den_resande"],["mastersmeden","soldaten","gronskan"],["soldaten","munken","mastersmeden"],["glodviskaren","munken","soldaten"],["mastersmeden","gronskan","den_resande"],["soldaten","ortmastaren","gronskan"],["glodviskaren","gronskan","den_resande"],["mastersmeden","munken","glodviskaren"],["soldaten","mastersmeden","den_resande"],["glodviskaren","mastersmeden","den_resande"],["soldaten","kloka","mastersmeden"],["mastersmeden","kloka","den_resande"],["munken","gronskan","den_resande"],["runlaesaren","soldaten","mastersmeden"],["hogprasten","soldaten","mastersmeden"],["ortmastaren","soldaten","mastersmeden"],["kloka","soldaten","mastersmeden"],["runlaesaren","glodviskaren","mastersmeden"],["hogprasten","glodviskaren","mastersmeden"],["kloka","glodviskaren","mastersmeden"],["ortmastaren","glodviskaren","mastersmeden"]];
 
-function byggKedjor(ids){
-  const har=id=>ids.includes(id);
+function byggKedjor(ids, kultIds=[]){
+  // Kultister får aldrig ingå i kedjor
+  const harOchInteKult=id=>ids.includes(id)&&!kultIds.includes(id);
+  const har=harOchInteKult;
   return [
     {id:"k1",namn:"Skogens röst",farg:"#a8d5a2",delar:["I","III"],kombos:K1},
     {id:"k2",namn:"Månens öga",farg:"#9999e0",delar:["II","IV"],kombos:K2},
@@ -227,7 +235,7 @@ const DANS_DIREKTIV={
     gronskan:"Dans med värdighet. Rätta upp folk som dansar fel.",
     mastersmeden:"Klappar fötterna utan att erkänna att det är dans. Armarna i kors.",
     soldaten:"Marschera i takt runt gruppen. Rak rygg.",
-    glodviskaren:"Dansar minimalistiskt nära ljusen. Blicken i lågan.",
+    glodviskaren:"Plocka upp ett löv eller en kvist. Håll den framför dig och rör dig minimalistiskt, som om du dansar med naturen. Titta ingen i ögonen.",
     hogprasten:"Försöker samla folk till cirkelgång. Utsträckta armar.",
     runlaesaren:"Armarna rakt upp, ögonen blundade. Svajar i takten.",
     munken:"Sjunger med på fel text med full övertygelse.",
@@ -242,7 +250,7 @@ const DANS_DIREKTIV={
     gronskan:"Marschera med värdighet. Rätta upp folk.",
     mastersmeden:"Fortfarande vägrar – men NU klappar båda fötterna.",
     soldaten:"Full militärtakt. Ropa 'Sol-DA-ten!' i takten.",
-    glodviskaren:"Stirrar in i lågan. 'Elden visar mig saker.'",
+    glodviskaren:"Stå still med en blomma eller gren i handen. Sväng den långsamt i takten. Om någon frågar – säg ingenting. Bara le.",
     hogprasten:"Led andäktig cirkelgång. Försök samla 5+ runt stången!",
     runlaesaren:"Armarna upp, ögonen blundade. 'Stjärnorna har talat.'",
     munken:"Sjunger med på fel text MED ÄNNU MER övertygelse.",
@@ -257,7 +265,7 @@ const DANS_DIREKTIV={
     gronskan:"Dans med full värdighet – inga tokiga rörelser.",
     mastersmeden:"Nu dansar han. Men han vet inte om det.",
     soldaten:"Full energi. Rör axlarna, stampar. 'Kriget är vunnet!'",
-    glodviskaren:"Cirkulerar med armarna utsträckta. Whispar 'Euphoria...'",
+    glodviskaren:"Cirkulera sakta med en blomma eller gren utsträckt framför dig. Subtilt. Intensivt. Som en ritual bara du förstår.",
     hogprasten:"SAMLA 5+ I CIRKELGÅNG RUNT STÅNGEN – +25p bonus!",
     runlaesaren:"Armarna rakt upp. Ögonen stängda. Svajar kraftigt.",
     munken:"Dansar med FULL ENERGI och sjunger på fel språk.",
@@ -279,18 +287,30 @@ const DANS_DIREKTIV={
     korsriddaren:"Håll hand. Du är kyrkans väktare. Stå rak.",
   },
   seven:{
-    mastersmeden:"CIRKULERA RUNT STÅNGEN. Rör axlarna. Smederna marscherar.",
-    soldaten:"CIRKULERA med full krigarenergi. Rör axlarna i takten.",
-    glodviskaren:"Cirkulera. Subtilt. Intensivt. Ögonen på alla.",
-    galningen:"CIRKULERA OCH SLÅ GRYTAN I TAKTEN! BOM BOM BOM!",
+    mastersmeden:"Cirkulera runt stången med rak rygg. Lyft axlarna på varje slag. Tungt. Bestämt. Som järn som hamras.",
+    soldaten:"Cirkulera med full kraft. Rör axlarna hårt i takten – upp, ned, upp, ned. Ingen kan missa dig.",
+    glodviskaren:"Cirkulera sakta med en blomma eller gren. Axlarna rör sig minimalistiskt i takten. Subtilt men exakt.",
+    galningen:"CIRKULERA OCH SLÅ GRYTAN I TAKTEN! AXLARNA UPP OCH NED PÅ VARJE SLAG! BOM BOM BOM!",
   },
 };
 
-const POLKKA=[
-  {omgang:1,bybo:"MEDURS",ledare:"MOTURS"},
-  {omgang:2,bybo:"MOTURS",ledare:"MEDURS"},
-  {omgang:3,bybo:"MEDURS",ledare:"MOTURS"},
+// Levan Polkka: slumpas vid rollutdelning
+// Kultledaren alltid MOTURS alla 3 omgångar
+// Bybor: slumpas så ca hälften åt varje håll, alla har minst 1 av varje
+const POLKKA_BYBO_KOMBINATIONER = [
+  ["MEDURS","MOTURS","MEDURS"],
+  ["MOTURS","MEDURS","MOTURS"],
+  ["MEDURS","MEDURS","MOTURS"],
+  ["MOTURS","MEDURS","MEDURS"],
+  ["MEDURS","MOTURS","MOTURS"],
+  ["MOTURS","MOTURS","MEDURS"],
 ];
+const POLKKA_LEDARE = ["MOTURS","MOTURS","MOTURS"];
+
+function slumpaPolkka(){
+  const idx=Math.floor(Math.random()*POLKKA_BYBO_KOMBINATIONER.length);
+  return POLKKA_BYBO_KOMBINATIONER[idx];
+}
 
 // ─── ANKLAGELSER ──────────────────────────────────────────────────────────────
 // Pool av anklagelser riktade mot olika grupper – slumpas ut två st vid spelstart
@@ -509,13 +529,30 @@ const KULTMARKEN=[
 const KULTLEDARE_INFO={
   beskrivning:"Bakom din byboroll gömmer sig Mörkblotets sanna ledare. Fullborda ritualen vid Solståndsnatten.",
   uppdrag:"Överlev Domen oavslöjad. Det är allt som krävs för kultens seger.",
-  valssignelsen:"Håll handen på stången ostört i 30 sekunder under dansen i Fas 3.",
-  foermaga:"🩸 Blodsband: Skicka hemligt tecken till kultmärkt (bestäm tecken med Vägaren).",
-  foermaga2:"🕯 Avsättning: Om en kultmärkt håller på att avslöjas – kontakta Vägaren diskret och namnge dem. De avsätts och spelar vidare som vanlig bybo. Du är skyddad.",
+  valssignelsen:"Håll handen på stången ostört i 30 sekunder under dansen i Fas 3. Om byborna saboterar ritualen missar du dessa poäng – men du kan fortfarande vinna på Domen.",
+  foermaga:"🩸 Blodsband: Hälsa på båda dina kultmärkta under Fas 1 med det hemliga tecknet (bestäm med Vägaren). +15p per lyckad hälsning = max +30p.",
+  foermaga2:"🕯 Avsättning: Om en kultmärkt håller på att avslöjas – kontakta Vägaren diskret och namnge dem. De spelar vidare som vanlig bybo. Du är skyddad.",
   igenkanning:"Säg 'Mörkret hälsar' till en spelare. Om de är märkt svarar de 'och natten är lång'.",
-  tips:"Spela din byboroll fullt ut. Den bäste kultledaren verkar aldrig misstänkt.",
-  pentagram:"Placera ut 3 pentagram diskret på tomten utan att bli påkommen. +30p om alla placeras. +20p extra om alla kultisternas pentagram placeras utan att bli påkomna.",
+  tips:"Sprid falska anklagelser. Rösta på en oskyldig bybo vid Domen. Om majoriteten röstar fel vinner kulten.",
+  pentagram:"Placera ut 3 pentagram diskret på tomten utan att bli påkommen. +30p om alla placeras.",
+  inlosen:[
+    {kostnad:30, vad:"Plantera ett falskt rykte via Vägaren – Vägaren viskar det diskret till 1-2 spelare."},
+    {kostnad:100, vad:"Omvänd EN bybo till kulten – de får ett enkelt direktiv och röstar med kulten vid Domen."},
+    {kostnad:50, vad:"5 extra röster vid Domen – rösta på en oskyldig bybo för att avleda."},
+    {kostnad:100, vad:"10 extra röster vid Domen – kan vara avgörande med 10 spelare."},
+  ],
 };
+
+const FALSKA_RYKTEN = [
+  "Jag hörde att någon från Örtagillet frågade var pentagrammen kom ifrån...",
+  "Någon såg Mästersmeden stå vid stången längre än nödvändigt under sista dansen.",
+  "Det sägs att Den Resande inte riktigt kom utifrån – de har varit här förut.",
+  "Runläsaren gav ett orakel ikväll som stämde lite för bra...",
+  "Någon hörde Munken/Nunnan viska något konstigt vid ölkannan. Inte en bön.",
+  "Det verkar som att Soldaten och någon från Månkyrkan hade ett hemligt möte tidigare.",
+  "Kloka Gumman/Gubben undvek att svara när någon frågade om stången.",
+];
+
 
 const KULTMARKE_KANDIDATER=["mastersmeden","lakemedlaren","soldaten","hogprasten","runlaesaren","den_resande","glodviskaren","munken"];
 
@@ -606,7 +643,8 @@ function blandaOchTilldela(antalBarn){
     if(sw)valdaBarn[1]=sw;
   }
   const aktivaIds=[...valdaVuxna,...valdaBarn].map(r=>r.id);
-  const kedjor=byggKedjor(aktivaIds);
+  const kultIds=[...kandidatSlump, kultledareId].filter(Boolean);
+  const kedjor=byggKedjor(aktivaIds, kultIds);
   const kandidater=valdaVuxna.filter(r=>r.gille!=="fri").map(r=>r.id);
   const markeSlump=[...KULTMARKEN].sort(()=>Math.random()-0.5).slice(0,2);
   const kandidatSlump=[...kandidater].sort(()=>Math.random()-0.5).slice(0,2);
@@ -624,7 +662,8 @@ function blandaOchTilldela(antalBarn){
 
   return allaRoller.map(r=>{
     const mi=kandidatSlump.indexOf(r.id);
-    let u={...r,kedjor,aktivaIds};
+    const polkkaDir=r.id===kultledareId?POLKKA_LEDARE:slumpaPolkka();
+    let u={...r,kedjor,aktivaIds,polkkaDir};
     if(mi!==-1)u={...u,kultMarke:markeSlump[mi]};
     if(r.id===kultledareId)u={...u,erKultledare:true};
     const minAnklagelse=anklagelseTilldelning.find(a=>a.rollId===r.id);
@@ -675,10 +714,10 @@ function KedjeSektion({roll}){
     {steg.filter(s=>s.typ==="mottagare"||s.typ==="mottagare_sandare").map((s,i)=>{
       const [open,setOpen]=useState(false);
       return <ToggleBlock key={i} label={`👂 Lyssna efter – ${s.kedjaNamn}`} ac={ac} bg="#0a0f08" open={open} setOpen={setOpen}>
-        <div style={{fontSize:10,color:ac,letterSpacing:2,marginBottom:6,fontFamily:"'Cinzel',serif"}}>OM NÅGON SÄGER NÅGOT MED</div>
-        <div style={{background:"#000a00",border:`1px solid ${ac}44`,borderRadius:3,padding:"12px",marginBottom:10,fontSize:16,color:ac,fontWeight:700,textAlign:"center"}}>"{s.triggerOrd}"</div>
-        <div style={{fontSize:10,color:ac,letterSpacing:2,marginBottom:6,fontFamily:"'Cinzel',serif"}}>SVARA MED</div>
-        <div style={{background:"#0a0800",border:`1px solid ${ac}44`,borderRadius:3,padding:"12px",marginBottom:10,fontSize:14,color:"#ffeebb",fontStyle:"italic",textAlign:"center"}}>"{s.svarslösenord}"</div>
+        {s.triggerOrd&&<><div style={{fontSize:10,color:ac,letterSpacing:2,marginBottom:6,fontFamily:"'Cinzel',serif"}}>OM NÅGON SÄGER NÅGOT MED</div>
+        <div style={{background:"#000a00",border:`1px solid ${ac}44`,borderRadius:3,padding:"12px",marginBottom:10,fontSize:16,color:ac,fontWeight:700,textAlign:"center"}}>"{s.triggerOrd}"</div></>}
+        {s.svarslösenord&&<><div style={{fontSize:10,color:ac,letterSpacing:2,marginBottom:6,fontFamily:"'Cinzel',serif"}}>SVARA MED</div>
+        <div style={{background:"#0a0800",border:`1px solid ${ac}44`,borderRadius:3,padding:"12px",marginBottom:10,fontSize:14,color:"#ffeebb",textAlign:"center"}}>"{s.svarslösenord}"</div></>}
         {s.pusselbit&&<><div style={{fontSize:10,color:ac,letterSpacing:2,marginBottom:6,fontFamily:"'Cinzel',serif"}}>DU FÅR SEDAN DENNA PUSSELBIT</div>
         <div style={{background:"#080808",border:`1px solid ${ac}33`,borderRadius:3,padding:"10px",fontSize:12,color:T.textDim,fontStyle:"italic"}}>Den som sagt frasen delar sin pusselbit med dig.</div></>}
       </ToggleBlock>;
@@ -708,10 +747,13 @@ function DansSektion({roll,erKultledare}){
     })}
     <div style={{borderTop:`1px solid ${T.kant}`,paddingTop:10}}>
       <div style={{fontSize:10,color:erKultledare?"#cc3333":T.guld,letterSpacing:2,fontFamily:"'Cinzel',serif",marginBottom:6}}>{erKultledare?"🩸 LEVAN POLKKA – HEMLIGT":"🎵 LEVAN POLKKA – GÅ RUNT HUSET"}</div>
-      {POLKKA.map((p,i)=><div key={i} style={{display:"flex",gap:8,alignItems:"center",marginBottom:5}}>
-        <span style={{fontSize:11,color:T.textDim,width:60}}>Omgång {p.omgang}:</span>
-        <span style={{fontSize:13,fontFamily:"'Cinzel',serif",fontWeight:700,color:erKultledare?"#cc3333":T.guld}}>{erKultledare?p.ledare:p.bybo}</span>
-      </div>)}
+      {[1,2,3].map((omgang,i)=>{
+        const dir=roll.polkkaDir?roll.polkkaDir[i]:(erKultledare?"MOTURS":"MEDURS");
+        return <div key={i} style={{display:"flex",gap:8,alignItems:"center",marginBottom:5}}>
+          <span style={{fontSize:11,color:T.textDim,width:60}}>Omgång {omgang}:</span>
+          <span style={{fontSize:14,fontFamily:"'Cinzel',serif",fontWeight:700,color:erKultledare?"#cc3333":T.guld}}>{dir}</span>
+        </div>;
+      })}
 
       {erKultledare&&<p style={{fontSize:11,color:"#cc9999",marginTop:4,fontStyle:"italic"}}>Gå moturs när alla andra går medurs. Var naturlig.</p>}
     </div>
@@ -911,7 +953,13 @@ function RollKort({roll,onBekrafta,spelarKon,spelarAlder}){
       <p style={{...RT,color:"#cc9999",marginBottom:10}}>{KULTLEDARE_INFO.tips}</p>
       <div style={{height:1,background:"#cc3333",margin:"8px 0"}}/>
       <div style={{fontSize:10,color:"#cc3333",letterSpacing:2,fontFamily:"'Cinzel',serif",marginBottom:6}}>🔺 PENTAGRAM-UPPDRAG</div>
-      <p style={{...RT,color:"#cc9999"}}>{KULTLEDARE_INFO.pentagram}</p>
+      <p style={{...RT,color:"#cc9999",marginBottom:10}}>{KULTLEDARE_INFO.pentagram}</p>
+      <div style={{height:1,background:"#cc3333",margin:"8px 0"}}/>
+      <div style={{fontSize:10,color:"#cc3333",letterSpacing:2,fontFamily:"'Cinzel',serif",marginBottom:6}}>💰 KULTENS INLÖSEN (via Vägaren i hemlighet)</div>
+      {KULTLEDARE_INFO.inlosen.map((inl,i)=><div key={i} style={{display:"flex",justifyContent:"space-between",padding:"5px 0",borderBottom:`1px solid #cc333322`}}>
+        <span style={{fontSize:11,color:"#cc9999",flex:1,lineHeight:1.5}}>{inl.vad}</span>
+        <span style={{fontSize:11,color:"#cc3333",fontWeight:700,marginLeft:10,flexShrink:0}}>{inl.kostnad}p</span>
+      </div>)}
     </ToggleBlock>}
 
     {roll.kultMarke&&!roll.erKultledare&&<ToggleBlock label={`🩸 Hemligt kultmärke – ${roll.kultMarke.namn}`} ac="#cc6666" bg="#140303" open={visMarke} setOpen={setVisMarke}>
@@ -1259,6 +1307,22 @@ function SpelledarVy({setVy,starta,tab,setTab,antalBarn,setAntalBarn,spelare,set
         </div>)}
         <p style={{fontSize:11,color:T.textDim,fontStyle:"italic",margin:0}}>Avslutar alltid: "Jag har vägt skuld mot oskuld. Vågen har talat."</p>
       </div>
+      <div style={{...Kort,borderColor:"#9999cc44",background:"#080814"}}>
+        <div style={{...Lbl,color:"#9999cc"}}>🧩 Rebuslösningen</div>
+        <p style={{fontSize:12,color:T.textDim,lineHeight:1.6,margin:"0 0 10px"}}>Om byborna löser rebusen INNAN Fas 3 och lämnar meningen till dig – berätta:</p>
+        <div style={{background:"#0a0a18",border:"1px solid #9999cc44",borderRadius:4,padding:"12px",marginBottom:10}}>
+          <p style={{fontSize:13,color:"#ccccff",lineHeight:1.8,margin:0,fontStyle:"italic"}}>"{REBUS_LOSNING}"</p>
+        </div>
+        <div style={{background:"#080814",border:"1px solid #9999cc22",borderRadius:4,padding:"10px"}}>
+          <div style={{fontSize:10,color:"#9999cc",letterSpacing:2,marginBottom:6}}>DEN KOMPLETTA MENINGEN (byborna måste para ihop)</div>
+          <p style={{fontSize:12,color:T.textDim,lineHeight:1.7,margin:0,fontStyle:"italic"}}>"{REBUS_MENING_KOMPLETT}"</p>
+        </div>
+      </div>
+      <div style={{...Kort,borderColor:"#cc333344",background:"#120808"}}>
+        <div style={{...Lbl,color:"#cc6666"}}>🩸 Kultens falska rykten</div>
+        <p style={{fontSize:11,color:T.textDim,marginBottom:8,lineHeight:1.5}}>Om Kultledaren köper falskt rykte (30p) – välj ett och viska diskret till 1-2 spelare:</p>
+        {FALSKA_RYKTEN.map((r,i)=><div key={i} style={{fontSize:11,color:"#cc9999",padding:"5px 0",borderBottom:`1px solid ${T.kant2}`,fontStyle:"italic"}}>"{r}"</div>)}
+      </div>
     </div>}
 
     {tab===3&&<PoangAdmin spelare={spelare} setSpelare={setSpelare}/>}
@@ -1310,6 +1374,7 @@ function DragVy({fordel,idx,roll,avslojar,bekr,klart,alder,setAlder,kon,setKon,a
       alder:alder||"",
       erk:roll.erKultledare?1:0,
       km:roll.kultMarke?.id||"",
+      pd:roll.polkkaDir||null,
     };
     const enkodad=btoa(JSON.stringify(miniData));
     const url="https://midsommarblot.vercel.app/#roll="+enkodad;
@@ -1534,6 +1599,7 @@ export default function App(){
             kultMarke:mini.km?kultmarken_alla.find(k=>k.id===mini.km)||null:null,
             spelarKon:mini.kon,
             spelarAlder:mini.alder,
+            polkkaDir:mini.pd||null,
           };
           return <SpelarVy rollData={rollData}/>;
         }
