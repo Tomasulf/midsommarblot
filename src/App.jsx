@@ -643,13 +643,13 @@ function blandaOchTilldela(antalBarn){
     if(sw)valdaBarn[1]=sw;
   }
   const aktivaIds=[...valdaVuxna,...valdaBarn].map(r=>r.id);
-  const kultIds=[...kandidatSlump, kultledareId].filter(Boolean);
-  const kedjor=byggKedjor(aktivaIds, kultIds);
   const kandidater=valdaVuxna.filter(r=>r.gille!=="fri").map(r=>r.id);
   const markeSlump=[...KULTMARKEN].sort(()=>Math.random()-0.5).slice(0,2);
   const kandidatSlump=[...kandidater].sort(()=>Math.random()-0.5).slice(0,2);
   const ledareKandidater=kandidater.filter(id=>!kandidatSlump.includes(id));
   const kultledareId=ledareKandidater[Math.floor(Math.random()*ledareKandidater.length)];
+  const kultIds=[...kandidatSlump, kultledareId].filter(Boolean);
+  const kedjor=byggKedjor(aktivaIds, kultIds);
   // Tilldela anklagelser – prioritera spelare >40 år
   const allaRoller=[...valdaVuxna,...valdaBarn];
   const anklagelsePool=[...ANKLAGELSE_POOL].sort(()=>Math.random()-0.5).slice(0,2);
