@@ -74,7 +74,7 @@ const ROLLER_MASTER=[
    foermaga:"🔥 Glödviskning: Gå fram till en person, luta dig nära och viska: 'Jag har hört något om dig.' Säg inget mer. De måste fråga vad – och du svarar bara: 'Det beror på vem som frågar.' Meddela Vägaren vad som hände. +10p om det skapade oro. En gång.",
    foermaga2:"💭 Spegeln: När någon gör en anklagelse – säg 'Jag hörde precis detsamma om [annan person]' utan bevis. Avleder misstanke. En gång. +10p om Vägaren bedömer att det påverkade Tinget.",
    fraser:[{fras:"Elden viskar för de som vet hur man lyssnar.",nyckelord:"elden viskar",svar:"Och vad säger elden dig ikväll?"}],
-   tips:"Var aldrig first, aldrig last – alltid i mitten.",
+   tips:"Var aldrig först, aldrig sist – alltid i mitten.",
    relationer:[{till:"Mästersmeden",typ:"förtroende",text:"Mästersmeden lyssnar på dina råd."},{till:"Soldaten",typ:"manipulation",text:"En viskning styr deras anklagelse dit du vill."},{till:"Högprästen",typ:"gammal allians",text:"Ni har delat hemligheter. Litar på varandra – till en viss gräns."}]},
   {id:"hogprasten",gille:"månkyrkan",gilleColor:"#9999e0",icon:"🌙",barnroll:false,
    rollnamn:()=>"Högprästen",
@@ -176,7 +176,7 @@ const PUSSELBIT={
 
 const REBUS_RAMSA = "Solstångsnattens mörker binds av ett gammalt löfte – välsignat av ljuset och natten – som bryts av tre röster vid nattens hjärta – som ropar tre gånger det gamla ordet.";
 
-// Svar som rebussamlaren använder för varje fragsbit
+// Svar som rebussamlaren använder för varje pusselbit
 const REBUS_SVAR = {
   "I":   "Och rötterna minns ännu längre.",
   "II":  "Då är frågan om vi är villiga att se det.",
@@ -184,7 +184,7 @@ const REBUS_SVAR = {
   "IV":  "Och vad ser månens öga ikväll?",
 };
 
-// Sändarkandidater - en per fragsbit med reserv om kultist
+// Sändarkandidater - en per pusselbit med reserv om kultist
 const REBUS_SENDARE_KANDIDATER = [
   {rollId:"kloka",      bit:"I",   fras:"Träden minns vad människor glömmer.",                    nyckel:"rötterna minns"},
   {rollId:"runlaesaren",bit:"II",  fras:"Stjärnorna har redan bestämt vad som ska hända ikväll.", nyckel:"villiga att se det"},
@@ -917,7 +917,7 @@ function KedjeStegSandare({s,ac}){
   const [open,setOpen]=useState(false);
   return <ToggleBlock label="🗣 Du bär en meddelande – hitta rätt person" ac={ac} bg="#080f08" open={open} setOpen={setOpen}>
     <p style={{fontSize:12,color:T.textDim,lineHeight:1.6,margin:"0 0 12px"}}>
-      Du bär ett meddelande som du ska fälla naturligt i samtal. Rebussamlaren känner igen den och svarar. Då ger du dem din fragsbit.
+      Du bär ett meddelande som du ska fälla naturligt i samtal. Rebussamlaren känner igen den och svarar. Då ger du dem din pusselbit.
     </p>
     <div style={{background:"#000a00",border:`1px solid ${ac}`,borderRadius:4,padding:"14px",marginBottom:10,textAlign:"center"}}>
       <div style={{fontSize:10,color:ac,letterSpacing:2,marginBottom:8,fontFamily:"'Cinzel',serif"}}>DITT MEDDELANDE – FÄll DET NATURLIGT I SAMTAL</div>
@@ -939,7 +939,7 @@ function KedjeStegMott({s,ac}){
   const [open,setOpen]=useState(false);
   return <ToggleBlock label="👂 Du är rebussamlaren – lyssna efter meddelanden" ac={ac} bg="#0a0f08" open={open} setOpen={setOpen}>
     <p style={{fontSize:12,color:T.textDim,lineHeight:1.6,margin:"0 0 12px"}}>
-      Någon bär ett meddelande och kommer att dela det naturligt i samtal med dig. När du hör den – svara med din mening. Då får du en fragsbit av dem.
+      Någon bär ett meddelande och kommer att dela det naturligt i samtal med dig. När du hör den – svara med din mening. Då får du en pusselbit av dem.
     </p>
     {s.fras&&<div style={{background:"#0a0a00",border:`1px solid ${ac}44`,borderRadius:4,padding:"12px",marginBottom:8}}>
       <div style={{fontSize:10,color:ac,letterSpacing:2,marginBottom:6,fontFamily:"'Cinzel',serif"}}>MEDDELANDET DU LETAR EFTER:</div>
@@ -963,9 +963,9 @@ function KedjeStegMott({s,ac}){
 // ─── ROLLKORT-SEKTIONER ───────────────────────────────────────────────────────
 function KedjeStegMottAlla({steg,ac}){
   const [open,setOpen]=useState(false);
-  return <ToggleBlock label={`🧩 Du är rebussamlaren – ${steg.length} fragsdelar att samla`} ac="#c9a84c" bg="#0a0800" open={open} setOpen={setOpen}>
+  return <ToggleBlock label={`🧩 Du är rebussamlaren – ${steg.length} pusseldelar att samla`} ac="#c9a84c" bg="#0a0800" open={open} setOpen={setOpen}>
     <p style={{fontSize:12,color:T.textDim,lineHeight:1.6,margin:"0 0 12px"}}>
-      Fyra olika spelare bär varsin mening. De söker upp dig och säger sin mening. Du svarar – och de ger dig sin fragsbit. Samla alla fyra innan Fas 3!
+      Fyra olika spelare bär varsin mening. De söker upp dig och säger sin mening. Du svarar – och de ger dig sin pusselbit. Samla alla fyra innan Fas 3!
     </p>
     {steg.map((s,i)=><div key={i} style={{marginBottom:12,padding:"12px",background:"#0a0800",border:`2px solid ${s.farg||ac}`,borderRadius:4}}>
       <div style={{fontSize:10,color:s.farg||ac,letterSpacing:2,marginBottom:8,fontFamily:"'Cinzel',serif"}}>FRAGSBIT {s.bit} – NÄR NÅGON SÄGER:</div>
