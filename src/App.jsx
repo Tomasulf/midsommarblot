@@ -1101,15 +1101,28 @@ function DragVy({fordel,idx,roll,avslojar,bekr,klart,alder,setAlder,kon,setKon,a
   </div>;
   if(bekr&&roll){
     // Spara roll i localStorage med unik nyckel
-    const kod=Math.random().toString(36).substr(2,8);
-    const url="https://midsommarblot-xi.vercel.app/#spelare="+kod;
-    try{
-      localStorage.setItem("mb_roll_"+kod, JSON.stringify({
-        ...roll,
-        spelarKon:kon,
-        spelarAlder:alder,
-      }));
-    }catch(e){}
+    const rollData={
+      id:roll.id,
+      gille:roll.gille,
+      gilleColor:roll.gilleColor,
+      icon:roll.icon,
+      barnroll:roll.barnroll,
+      rollnamn:roll.rollnamn?.toString()||"",
+      karaktar:roll.karaktar,
+      beskrivning:roll.beskrivning,
+      uppdrag:roll.uppdrag,
+      foermaga:roll.foermaga,
+      foermaga2:roll.foermaga2,
+      tips:roll.tips,
+      relationer:roll.relationer,
+      fraser:roll.fraser,
+      erKultledare:!!roll.erKultledare,
+      kultMarke:roll.kultMarke||null,
+      spelarKon:kon,
+      spelarAlder:alder,
+    };
+    const enkodad=btoa(unescape(encodeURIComponent(JSON.stringify(rollData))));
+    const url="https://midsommarblot-xi.vercel.app/#roll="+enkodad;
     return <div style={{...C,padding:"20px"}}>
       <div style={{fontFamily:"'Cinzel',serif",fontSize:16,color:T.guld,marginBottom:4,textAlign:"center"}}>
         {typeof roll.rollnamn==="function"?roll.rollnamn(kon||""):roll.rollnamn}
@@ -1296,16 +1309,16 @@ function SpelarVy({rollData}){
 export default function App(){
   // Kolla om vi är i spelarläge (QR-länk)
   const hash=window.location.hash||"";
-  const spelarkod=(hash.startsWith("#spelare=")&&hash.length>9) ? hash.slice(9) : null;
-  if(spelarkod&&spelarkod.length>=6){
+  if(hash.startsWith("#roll=")&&hash.length>6){
     try{
-      const data=localStorage.getItem("mb_roll_"+spelarkod);
-      if(data){
-        const rollData=JSON.parse(data);
+      const enkodad=hash.slice(6);
+      const rollData=JSON.parse(decodeURIComponent(escape(atob(enkodad))));
+      if(rollData&&rollData.id){
         return <SpelarVy rollData={rollData}/>;
       }
-    }catch(e){}
-    return <SpelarVy rollData={null}/>;
+    }catch(e){
+      return <SpelarVy rollData={null}/>;
+    }
   }
 
   const [vy,setVy]=useState("start");
