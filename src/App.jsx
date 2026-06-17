@@ -124,8 +124,8 @@ const ROLLER_MASTER=[
    karaktar:"SNABB, NYFIKEN OCH EXPERT PÅ ATT SMYGA!",
    beskrivning:"DU SER ALLT! 🌲\n\nDU SPRINGER TYST SOM EN RÄV. ANDRA SPELARE TROR ATT DU LEKER – I SJÄLVA VERKET SPIONERAR DU!\n\nHITTA DEN ANDRA BARNROLLEN DIREKT – NI KÄNNER IGEN VARANDRA PÅ ATT NI BÄR NÅGOT GRÖNT!",
    uppdrag:"SPANA PÅ EN SPELARE UNDER KVÄLLEN – RAPPORTERA TILL VÄGAREN!",
-   foermaga:"🌲 DITT HYS: Smyg upp bakom en spelare och viska: 'JAG VET VAD DU GJORT' – spring sedan iväg så fort du kan!",
-   foermaga2:"🌲 DITT HYS 2: Övertala en spelare att följa med till ett träd och 'välsigna' det tillsammans med dig. Om de frågar varför – säg att det är MYCKET viktigt.",
+   foermaga:"🌲 DITT HYSS: Smyg upp bakom en spelare och viska: 'JAG VET VAD DU GJORT' – spring sedan iväg så fort du kan!",
+   foermaga2:"🌲 DITT HYSS 2: Övertala en spelare att följa med till ett träd och 'välsigna' det tillsammans med dig. Om de frågar varför – säg att det är MYCKET viktigt.",
    tips:"INGEN MISSTÄNKER SKOGSVAKTEN. DET ÄR DIN SUPERKRAFT! 🦊",
    fraser:[],
    barnHyss:[
@@ -139,8 +139,8 @@ const ROLLER_MASTER=[
    karaktar:"BULLRIG, ENERGISK OCH TOTALT OMÖJLIG ATT IGNORERA!",
    beskrivning:"DU ÄR BYNS OFFICIELLA LJUDMAKARE! 🥁\n\nHITTA DEN ANDRA BARNROLLEN DIREKT – NI KÄNNER IGEN VARANDRA PÅ ATT NI BÄR NÅGOT GRÖNT!",
    uppdrag:"SLÅ PÅ GRYTAN OCH ROPA 'LYSSNA PÅ MIG!' MINST 3 GÅNGER UNDER KVÄLLEN!",
-   foermaga:"🥁 DITT HYS: Marschera tre varv runt midsommarstången medan du slår på grytan och sjunger 'VI ÄR KULTEN, VI ÄR KULTEN!' Så högt du kan!",
-   foermaga2:"🥁 DITT HYS 2: Avbryt Högprästens allvarligaste stund med tre HÖGA slag på grytan – PANG PANG PANG!",
+   foermaga:"🥁 DITT HYSS: Marschera tre varv runt midsommarstången medan du slår på grytan och sjunger 'VI ÄR KULTEN, VI ÄR KULTEN!' Så högt du kan!",
+   foermaga2:"🥁 DITT HYSS 2: Avbryt Högprästens allvarligaste stund med tre HÖGA slag på grytan – PANG PANG PANG!",
    tips:"INGEN TROR ATT DU MÄRKER SAKER. MEN DU MÄRKER ALLT! 👀",
    fraser:[],
    barnHyss:[
@@ -154,8 +154,8 @@ const ROLLER_MASTER=[
    karaktar:"LITEN, MODIG OCH FULLSTÄNDIGT ÖVERTYGAD OM ATT RÄTTVISA ALLTID SEGRAR!",
    beskrivning:"DU ÄR MÅNKYRKANS TAPPRE RIDDARE! ⚔️\n\nHITTA DEN ANDRA BARNROLLEN DIREKT – NI KÄNNER IGEN VARANDRA PÅ ATT NI BÄR NÅGOT GRÖNT!",
    uppdrag:"UTMANA EN SPELARE TILL STEN-SAX-PÅSE! VAKTA MIDSOMMARSTÅNGEN!",
-   foermaga:"⚔️ DITT HYS: Säg högt inför alla spelare: 'JAG VET VEM KULTLEDAREN ÄR – DET ÄR [peka på vem som helst]!' Håll dig inte för skratt!",
-   foermaga2:"⚔️ DITT HYS 2: Vakta midsommarstången i 5 minuter och säg NEJ till ALLA spelare som försöker komma nära!",
+   foermaga:"⚔️ DITT HYSS: Säg högt inför alla spelare: 'JAG VET VEM KULTLEDAREN ÄR – DET ÄR [peka på vem som helst]!' Håll dig inte för skratt!",
+   foermaga2:"⚔️ DITT HYSS 2: Vakta midsommarstången i 5 minuter och säg NEJ till ALLA spelare som försöker komma nära!",
    tips:"BARN SER SAKER SOM ANDRA SPELARE ÄR FÖR SMARTA FÖR ATT MÄRKA! 👀",
    fraser:[],
    barnHyss:[
@@ -624,7 +624,7 @@ function blandaOchTilldela(antalBarn){
 
   return allaRoller.map(r=>{
     const mi=kandidatSlump.indexOf(r.id);
-    let u={...r,kedjor};
+    let u={...r,kedjor,aktivaIds};
     if(mi!==-1)u={...u,kultMarke:markeSlump[mi]};
     if(r.id===kultledareId)u={...u,erKultledare:true};
     const minAnklagelse=anklagelseTilldelning.find(a=>a.rollId===r.id);
@@ -819,7 +819,7 @@ function RollKort({roll,onBekrafta,spelarKon,spelarAlder}){
       </div>
     </ToggleBlock>}
 
-    <Sek label="✦ Karaktär" ac={ac}><p style={RT}><em>{roll.karaktar}</em></p></Sek>
+    <Sek label="✦ Karaktär" ac={ac}><p style={RT}>{roll.karaktar}</p></Sek>
     <Sek label="📖 Bakgrund" ac={ac}><p style={{...RT,whiteSpace:"pre-line"}}>{roll.beskrivning}</p></Sek>
     <Sek label="⚔ Ditt uppdrag" ac={ac} hi><p style={RT}>{roll.uppdrag}</p></Sek>
     <GillesuppdragSektion roll={roll}/>
@@ -827,12 +827,28 @@ function RollKort({roll,onBekrafta,spelarKon,spelarAlder}){
     <Sek label="✦ Förmåga I" ac={ac}><p style={RT}>{roll.foermaga}</p></Sek>
     {roll.foermaga2&&<Sek label="✦ Förmåga II" ac={ac}><p style={RT}>{roll.foermaga2}</p></Sek>}
 
-    {roll.relationer?.length>0&&<ToggleBlock label={`🤝 Relationer (${roll.relationer.length})`} ac={ac} bg="#06080a" open={visRel} setOpen={setVisRel}>
-      {roll.relationer.map((r,i)=><div key={i} style={{marginBottom:i<roll.relationer.length-1?12:0,paddingBottom:i<roll.relationer.length-1?12:0,borderBottom:i<roll.relationer.length-1?`1px solid ${T.kant2}`:"none"}}>
-        <div style={{fontSize:11,color:ac,fontFamily:"'Cinzel',serif",letterSpacing:1,marginBottom:4}}>{r.till} · <span style={{color:T.guldDim}}>{r.typ}</span></div>
-        <p style={{...RT,color:T.textDim}}>{r.text}</p>
-      </div>)}
-    </ToggleBlock>}
+    {(()=>{
+      const aktivaIds=roll.aktivaIds||[];
+      const aktivaRollnamn=ROLLER_MASTER.filter(r=>aktivaIds.includes(r.id)).map(r=>typeof r.rollnamn==="function"?r.rollnamn(""):r.rollnamn);
+      const filtrerade=(roll.relationer||[]).filter(r=>{
+        // Barnroller: visa bara relationer till aktiva roller
+        if(roll.barnroll){
+          return aktivaIds.some(id=>{
+            const rm=ROLLER_MASTER.find(x=>x.id===id);
+            const rn=typeof rm?.rollnamn==="function"?rm.rollnamn(""):rm?.rollnamn;
+            return rn===r.till;
+          });
+        }
+        return true;
+      });
+      if(!filtrerade.length)return null;
+      return <ToggleBlock label={`🤝 Relationer (${filtrerade.length})`} ac={ac} bg="#06080a" open={visRel} setOpen={setVisRel}>
+        {filtrerade.map((r,i)=><div key={i} style={{marginBottom:i<filtrerade.length-1?12:0,paddingBottom:i<filtrerade.length-1?12:0,borderBottom:i<filtrerade.length-1?`1px solid ${T.kant2}`:"none"}}>
+          <div style={{fontSize:11,color:ac,fontFamily:"'Cinzel',serif",letterSpacing:1,marginBottom:4}}>{r.till} · <span style={{color:T.guldDim}}>{r.typ}</span></div>
+          <p style={{...RT,color:T.textDim}}>{r.text}</p>
+        </div>)}
+      </ToggleBlock>;
+    })()}
 
     <AnklagelseSektion roll={roll}/>
     <KedjeSektion roll={roll}/>
@@ -1424,7 +1440,7 @@ function SpelarVy({rollData}){
       </div>
       <div style={{...Kort,borderColor:"#cc333344",background:"#120808"}}>
         <div style={{...Lbl,color:"#cc6666"}}>🩸 Kultens kännetecken</div>
-        <p style={{fontSize:12,color:"#cc9999",lineHeight:1.6,margin:0}}>Kultmedlemmar bär INGET kännetecken. De döljer sig bland er.<br/><br/>Om någon säger <em>"Mörkret hälsar"</em> – svara <em>"och natten är lång"</em> om du är kultmärkt.</p>
+        <p style={{fontSize:12,color:"#cc9999",lineHeight:1.6,margin:0}}>Kultmedlemmar bär INGET kännetecken. De döljer sig bland er.<br/><br/>Om någon säger "Mörkret hälsar" – svara "och natten är lång" om du är kultmärkt.</p>
       </div>
     </div>}
 
