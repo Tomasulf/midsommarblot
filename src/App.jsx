@@ -1102,7 +1102,7 @@ function DragVy({fordel,idx,roll,avslojar,bekr,klart,alder,setAlder,kon,setKon,a
   if(bekr&&roll){
     // Spara roll i localStorage med unik nyckel
     const kod=Math.random().toString(36).substr(2,8);
-    const url=window.location.origin+window.location.pathname+"#spelare="+kod;
+    const url="https://midsommarblot-xi.vercel.app/#spelare="+kod;
     try{
       localStorage.setItem("mb_roll_"+kod, JSON.stringify({
         ...roll,
