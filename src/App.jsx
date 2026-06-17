@@ -1210,7 +1210,7 @@ function RegelVy({setVy}){
     <button style={Tillbaka} onClick={()=>setVy("start")}>← Tillbaka</button>
     <h2 style={SRubrik}>📜 Spelregler</h2>
     <div style={{...Kort,borderColor:"#c9a84c44",background:"#0a0800",marginBottom:16,textAlign:"center"}}>
-      <p style={{fontSize:13,color:TEXT,fontStyle:"italic",lineHeight:1.8,margin:0}}>
+      <p style={{fontSize:13,color:T.text,fontStyle:"italic",lineHeight:1.8,margin:0}}>
         Läs igenom reglerna innan kvällen börjar.<br/>
         Din hemliga roll får du via appen när kvällen startar.
       </p>
