@@ -22,7 +22,7 @@ const ROLLER_MASTER=[
    beskrivning:"Du är byns äldsta röst. Du minns saker andra glömt och kan känna om en person bär lögner.",
    uppdrag:"Identifiera minst en kultmärkt utan att avslöja hur. Om du anklagas – neka lugnt.",
    foermaga:"🔍 Helig Blick: Viska ett namn till Vägaren – du får 'Ren' eller 'Fläckad'. En gång.",
-   foermaga2:"🌿 Örtaté: Erbjud ett 'lugnande té' – motparten berättar en sanning.",
+   foermaga2:"🌿 Örtaté: Erbjud ditt 'lugnande té' till EN spelare. De måste svara ärligt på EN fråga. Meddela Vägaren vad du fick reda på. +10p. En gång per kväll.",
    fraser:[{fras:"Träden minns vad människor glömmer.",nyckelord:"minns vad",svar:"Och rötterna minns ännu längre."}],
    tips:"Tala sällan men tungt. Du är byns moraliska kompass.",
    relationer:[{till:"Örtmästaren",typ:"läromästare",text:"Örtmästaren lärde sig av dig. De bär en hemlighet de aldrig berättat."},{till:"Runläsaren",typ:"gammal konflikt",text:"Ni kom till olika slutsatser om mörkret. Kvällen kräver kanske att ni talar ut."},{till:"Den Resande",typ:"misstanke",text:"Den Resande dök upp i morse. Du känner igen blicken – den tillhör någon med ett syfte."}]},
@@ -32,7 +32,7 @@ const ROLLER_MASTER=[
    beskrivning:"Du blandar örter och minnen. Folk delar sina hemligheter hos dig i tron att du glömmer. Det gör du aldrig.",
    uppdrag:"Bilda allians med EN person från varje gille under Fas 1.",
    foermaga:"⚗️ Motgift: Om du pekas ut – tvinga fram ny omröstning.",
-   foermaga2:"🤝 Läkarkall: Lägg handen på en anklagads axel – alla måste höra motargument.",
+   foermaga2:"🤝 Läkarkall: Under Tinget – lägg handen på en anklagads axel och säg 'Jag vittnar för denna persons karaktär'. Anklagaren måste lyssna i 60 sek utan att avbryta. Meddela Vägaren. +10p.",
    fraser:[{fras:"Det som luktar vackrast kan döda snabbast.",nyckelord:"luktar vackrast",svar:"Och det som dödar snabbast kan också hela."}],
    tips:"Du är limmet mellan gillen. Ingen misstänker den som hjälper alla.",
    relationer:[{till:"Kloka Gumman/Gubben",typ:"läromästare",text:"De lärde dig allt. Du bär en hemlighet du aldrig berättat."},{till:"Grönskans Väktare",typ:"vänskap",text:"Väktaren agerar där du lyssnar. Ni kompletterar varandra."},{till:"Mästersmeden",typ:"skuld",text:"Du räddade Mästersmeden en gång. Det gör dem lojala – kanske för lojala."}]},
@@ -42,7 +42,7 @@ const ROLLER_MASTER=[
    beskrivning:"Du vaktar naturens ordning. Kulten stör den balansen – och du kan känna det i luften.",
    uppdrag:"Välj en person att övervaka. Berätta vad du observerat för tre andra.",
    foermaga:"🌿 Skogens Dom: En gång – personen måste lämna konversationen 2 min.",
-   foermaga2:"👁 Väktarens Blick: Stirra 30 sek – de måste förklara sig.",
+   foermaga2:"👁 Väktarens Blick: Stirra på en spelare i 30 sek och säg 'Förklara dig' – de måste ge en offentlig förklaring inför alla. +10p om Vägaren bedömer att det skapade misstanke.",
    fraser:[{fras:"Skogen ser vad elden inte når.",nyckelord:"elden inte når",svar:"Men elden värmer det skogen inte kan röra."}],
    tips:"Din misstänksamhet är ett vapen. Rikta den rätt.",
    relationer:[{till:"Örtmästaren",typ:"vänskap",text:"Örtmästaren lyssnar där du agerar."},{till:"Den Resande",typ:"stark misstanke",text:"Den Resande hör inte hemma här."},{till:"Mästersmeden",typ:"respekt",text:"Ni delar synen på ordning. Naturliga allierade."}]},
@@ -72,7 +72,7 @@ const ROLLER_MASTER=[
    beskrivning:"Du formar vad andra tänker utan att de märker det. Dina ord tänds långsamt men brinner länge.",
    uppdrag:"Plantera minst två idéer som andra tror är deras egna. Rapportera till Vägaren.",
    foermaga:"🔥 Glödviskning: Viska om en person – motparten måste reagera.",
-   foermaga2:"💭 Spegeln: 'Jag hörde precis detsamma' – utan att bevisa det.",
+   foermaga2:"💭 Spegeln: När någon gör en anklagelse – säg 'Jag hörde precis detsamma om [annan person]' utan bevis. Avleder misstanke. En gång. +10p om Vägaren bedömer att det påverkade Tinget.",
    fraser:[{fras:"Elden viskar för de som vet hur man lyssnar.",nyckelord:"elden viskar",svar:"Och vad säger elden dig ikväll?"}],
    tips:"Var aldrig first, aldrig last – alltid i mitten.",
    relationer:[{till:"Mästersmeden",typ:"förtroende",text:"Mästersmeden lyssnar på dina råd."},{till:"Soldaten",typ:"manipulation",text:"En viskning styr deras anklagelse dit du vill."},{till:"Högprästen",typ:"gammal allians",text:"Ni har delat hemligheter. Litar på varandra – till en viss gräns."}]},
@@ -82,7 +82,7 @@ const ROLLER_MASTER=[
    beskrivning:"Du är Månkyrkans röst. Den Resande bär en hemlighet om dig.",
    uppdrag:"Avge offentlig profetia under Fas 1. Samla 5+ i cirkelgång under Euphoria (+25p)!",
    foermaga:"🌙 Helgad Ritual: Samla alla – ingen kan anklagas under 3 min.",
-   foermaga2:"📿 Absolution: Bekännelse i enrum = skydd 10 min.",
+   foermaga2:"📿 Absolution: Ta en spelare åt sidan i Fas 1 – de berättar en bekännelse. De får immunitet mot anklagelse vid Tinget. Meddela Vägaren INNAN Tinget öppnar. +10p.",
    fraser:[
      {fras:"Månens öga sluter sig aldrig helt.",nyckelord:"sluter sig aldrig",svar:"Och vad ser månens öga ikväll?"},
      {fras:"Blotet kräver renhet – och renhet är sällsynt ikväll.",nyckelord:"renhet är sällsynt",svar:"Kanske är det orenheten som håller oss levande."},
@@ -398,21 +398,26 @@ const ROLL_UPPGIFTER = {
   kloka: [
     {label:"Helig Blick använd", poang:15},
     {label:"Kultmärkt identifierad", poang:30},
-    {label:"Allians bildad", poang:15},
+    {label:"Allians bildad (annat gille)", poang:15},
     {label:"Örtceremonin genomförd", poang:10},
+    {label:"Örtaté använt – sanning fångad", poang:10},
+    {label:"Hemlighet delad med rätt person", poang:10},
   ],
   ortmastaren: [
-    {label:"Allians med Örtagillet", poang:10},
-    {label:"Allians med Smederna", poang:10},
-    {label:"Allians med Månkyrkan", poang:10},
-    {label:"Allians med Den Resande", poang:10},
+    {label:"Allians med Smederna", poang:15},
+    {label:"Allians med Månkyrkan", poang:15},
+    {label:"Allians med Den Resande", poang:15},
     {label:"Motgift-förmåga använd", poang:20},
+    {label:"Läkarkall använt vid Tinget", poang:10},
+    {label:"Hemlighet delad med rätt person", poang:10},
   ],
   gronskan: [
     {label:"Spaningsrapport till Vägaren", poang:10},
     {label:"Skogens Dom använd", poang:15},
-    {label:"3 personer informerade om observation", poang:15},
-    {label:"Pentagram hittat", poang:10},
+    {label:"3 spelare informerade om observation", poang:15},
+    {label:"Väktarens Blick skapade misstanke", poang:10},
+    {label:"Hemlighet delad med rätt person", poang:10},
+    {label:"Allians med annat gille", poang:15},
   ],
   mastersmeden: [
     {label:"Gemensam anklagelse ledd", poang:20},
@@ -436,7 +441,7 @@ const ROLL_UPPGIFTER = {
     {label:"Profetia avgiven Fas 1", poang:15},
     {label:"5+ i cirkelgång runt stången", poang:25},
     {label:"Helgad Ritual genomförd", poang:15},
-    {label:"Absolution given", poang:10},
+    {label:"Absolution given (immunitet till Tinget)", poang:10},
   ],
   runlaesaren: [
     {label:"Runorakel givet (per person)", poang:10},
@@ -512,6 +517,64 @@ const BARN_GEMENSAMMA = [
     uppdrag:"Under Tinget – avbryt BÅDA på samma gång! En slår på grytan eller ropar något, den andre gör något annat galet. Vägaren avgör om det lyckades!",
     poang:"+25p VAR OM NI LYCKAS STÖRA TINGET!",
   },
+];
+
+
+// ─── HEMLIGHETER ──────────────────────────────────────────────────────────────
+// Delas ut av Vägaren i rollkuverten. Kan delas, säljas eller hållas hemliga.
+
+const HEMLIGHETER = {
+  kloka: [
+    "Du vet att Mästersmeden en gång ljög inför hela byn om något viktigt. Han vet att du vet.",
+  ],
+  ortmastaren: [
+    "Du vet att Högprästen för länge sedan gav absolution åt någon som inte förtjänade det. Du har aldrig berättat det.",
+  ],
+  gronskan: [
+    "Du har sett spår i skogen som inte tillhör något djur. Spåren leder mot midsommarstången.",
+  ],
+  mastersmeden: [
+    "Du vet att Den Resande var här för ett år sedan under ett annat namn. Du berättade det aldrig för någon.",
+  ],
+  soldaten: [
+    "Du känner igen ett av gesikterna ikväll från ett slag du aldrig pratat om. De vet att du känner igen dem.",
+  ],
+  glodviskaren: [
+    "Du vet att två spelare i byn delar en hemlighet de tror är begravd. Den är det inte.",
+  ],
+  hogprasten: [
+    "Du vet att ett av pentagrammen på tomten är falskt – placerat av någon som vill vilseleda.",
+  ],
+  runlaesaren: [
+    "Du vet att runorna pekade på ett specifikt gille redan när du kastar dem i morse. Du har inte berättat vilket.",
+  ],
+  munken: [
+    "Du hörde en konversation vid ölkannan som ingen visste att du hörde. Den handlade om stången.",
+    "Du vet vem som drack ur den heliga kalken utan lov. Det var inte en from handling.",
+  ],
+  den_resande: [
+    "Du vet att någon i byn inte är den de utger sig för att vara. Du har sett dem förut – i en annan by.",
+    "Du bär på ett brev som aldrig fick sin mottagare. Det avslöjar något om en person här ikväll.",
+    "Du vet att midsommarstången har ett märke på baksidan som ingen annan lagt märke till.",
+    "Du har hört talas om Mörkblotets Kult förut. Det slutade inte väl för den byn.",
+  ],
+};
+
+// ─── RUNORAKEL ────────────────────────────────────────────────────────────────
+// Runläsaren väljer mellan dessa. Max 2 orakel per kväll. 
+// Mottagaren bekräftar vid Domen om det stämde → +10p per orakel som stämde.
+
+const RUNORAKEL = [
+  "Mörkret rör sig nära dig ikväll. Håll dina vänner ännu närmre.",
+  "Din allians är inte vad den verkar. Någon du litar på ljuger.",
+  "Du kommer att tvingas välja mellan lojalitet och sanning. Välj klokt.",
+  "Det du söker finns redan i din hand. Du har bara inte sett det ännu.",
+  "En person du misstänker är oskyldig. En du inte misstänker är det inte.",
+  "Stången drar till sig mörker ikväll. Den som håller i den äger natten.",
+  "Dina rötter sitter djupare i denna jord än du tror. Lita på dem.",
+  "Någon i din närhet har already bestämt hur de ska rösta. Och det är inte på kultledaren.",
+  "Det gamla löftet bryts ikväll – men bara om tre röster ropar det rätta ordet.",
+  "Du är inte ensam i din misstanke. Men du är ensam i din kunskap.",
 ];
 
 
@@ -605,8 +668,10 @@ const UPPGIFTER=[
   {id:"julia_basis",label:"Julia – Fångad av stormvind",poang:20,kat:"special",rollId:"*"},
   {id:"julia_tre",label:"Julia – 3+ sjunger med",poang:30,kat:"special",rollId:"*"},
   {id:"julia_alla",label:"Julia – ALLA sjunger med",poang:50,kat:"special",rollId:"*"},
-  {id:"allians",label:"Allians registrerad",poang:15,kat:"uppdrag",rollId:"*"},
-  {id:"hemlighet",label:"Hemlighet samlad",poang:10,kat:"uppdrag",rollId:"*"},
+  {id:"allians",label:"Allians registrerad (annat gille)",poang:15,kat:"uppdrag",rollId:"*"},
+  {id:"allians_bruten",label:"Bruten allians",poang:-10,kat:"uppdrag",rollId:"*"},
+  {id:"hemlighet",label:"Hemlighet delad med rätt person",poang:10,kat:"uppdrag",rollId:"*"},
+  {id:"hemlighet_mottagen",label:"Hemlighet mottagen",poang:5,kat:"uppdrag",rollId:"*"},
   {id:"kedja",label:"Kedja slutförd",poang:10,kat:"uppdrag",rollId:"*"},
   {id:"formaga",label:"Förmåga använd rätt",poang:20,kat:"uppdrag",rollId:"*"},
   {id:"pentagram_hitta",label:"Pentagram hittat",poang:10,kat:"uppdrag",rollId:"*"},
@@ -947,6 +1012,42 @@ function BarnSektion({roll}){
 }
 
 
+// ─── HEMLIGHET-SEKTION ────────────────────────────────────────────────────────
+function HemlighetSektion({roll}){
+  const [open,setOpen]=useState(false);
+  const hemligheter=HEMLIGHETER[roll.id];
+  if(!hemligheter||roll.barnroll)return null;
+  const ac=roll.gilleColor||T.guld;
+  return <ToggleBlock label={`🤫 Din${hemligheter.length>1?" hemliga kunskaper":" hemliga kunskap"}`} ac={ac} bg="#08080a" open={open} setOpen={setOpen}>
+    <div style={{fontSize:11,color:T.textDim,fontStyle:"italic",marginBottom:10,lineHeight:1.5}}>
+      Du kan dela, sälja eller hålla denna kunskap hemlig. Den är din handelsvara.
+    </div>
+    {hemligheter.map((h,i)=><div key={i} style={{background:"#0a0a00",border:`1px solid ${ac}33`,borderRadius:3,padding:"12px",marginBottom:8}}>
+      <p style={{fontSize:13,color:T.text,lineHeight:1.8,margin:0,fontStyle:"italic"}}>"{h}"</p>
+    </div>)}
+    <div style={{fontSize:11,color:"#ffcc66",marginTop:4}}>+10p om du delar hemligheten med rätt person vid rätt tillfälle – Vägaren bedömer</div>
+  </ToggleBlock>;
+}
+
+// ─── ORAKEL-SEKTION ───────────────────────────────────────────────────────────
+function OrakelSektion({roll}){
+  const [open,setOpen]=useState(false);
+  if(roll.id!=="runlaesaren"||roll.barnroll)return null;
+  const ac="#9999e0";
+  return <ToggleBlock label="🔮 Dina runorakel – välj max 2" ac={ac} bg="#08080f" open={open} setOpen={setOpen}>
+    <div style={{fontSize:11,color:T.textDim,fontStyle:"italic",marginBottom:10,lineHeight:1.5}}>
+      Välj max 2 orakel att ge till 2 olika spelare under Fas 1. Meddela Vägaren vem som fick vilket.
+      Vid Domen – om mottagaren säger att det stämde → <span style={{color:"#ffcc66"}}>+10p per orakel</span>.
+      Du väljer själv VILKET orakel som "stämde" i efterhand.
+    </div>
+    {RUNORAKEL.map((o,i)=><div key={i} style={{background:"#08080f",border:"1px solid #9999cc33",borderRadius:3,padding:"10px",marginBottom:6,display:"flex",gap:10,alignItems:"flex-start"}}>
+      <span style={{fontSize:11,color:"#9999cc",flexShrink:0,marginTop:2}}>{i+1}.</span>
+      <p style={{fontSize:12,color:"#ccccff",lineHeight:1.7,margin:0,fontStyle:"italic"}}>"{o}"</p>
+    </div>)}
+  </ToggleBlock>;
+}
+
+
 // ─── REBUS-SEKTION ────────────────────────────────────────────────────────────
 function RebusSektion({roll}){
   const [open,setOpen]=useState(false);
@@ -1054,6 +1155,8 @@ function RollKort({roll,onBekrafta,spelarKon,spelarAlder}){
     })()}
 
     <AnklagelseSektion roll={roll}/>
+    <HemlighetSektion roll={roll}/>
+    <OrakelSektion roll={roll}/>
     <RebusSektion roll={roll}/>
     {!roll.barnroll&&<KedjeSektion roll={roll}/>}
     <DansSektion roll={roll} erKultledare={roll.erKultledare}/>
@@ -1300,7 +1403,7 @@ function PoangAdmin({spelare,setSpelare,fordel=[]}){
             <span style={{fontFamily:"'Cinzel',serif",fontSize:22,color:T.guld}}>{valdSp.poang}p</span>
           </div>
         </div>
-        {[{kat:"dans",lbl:"🎵 Dans"},{kat:"uppdrag",lbl:"⚔ Uppdrag"},{kat:"special",lbl:"🌪 Special"},{kat:"ting",lbl:"⚖️ Tinget"},{kat:"dom",lbl:"🗳️ Domen"},{kat:"gille",lbl:"🏅 Gille"}].map(({kat,lbl})=>{
+        {[{kat:"dans",lbl:"🎵 Dans"},{kat:"uppdrag",lbl:"⚔ Uppdrag"},{kat:"special",lbl:"🌪 Special"},{kat:"ting",lbl:"⚖️ Tinget"},{kat:"dom",lbl:"🗳️ Domen"}].map(({kat,lbl})=>{
           // Filtrera bort irrelevanta uppgifter
           const erKult=fordel.find(r=>r.id===valdSp.id&&(r.erKultledare||r.kultMarke));
           const uppg=UPPGIFTER.filter(u=>{
@@ -1322,6 +1425,29 @@ function PoangAdmin({spelare,setSpelare,fordel=[]}){
             </div>
           </div>;
         })}
+        {/* Gillebonus */}
+        <div style={{borderTop:`1px solid ${T.kant}`,marginTop:10,paddingTop:10}}>
+          <div style={Lbl}>🏅 Gillebonus</div>
+          <p style={{fontSize:11,color:T.textDim,margin:"0 0 8px",lineHeight:1.5}}>Klicka när hela gillet slutfört alla sina uppdrag. Ger +30p till alla i gillet.</p>
+          {gilleData.filter(g=>g.gid!=="fri").map(g=><button key={g.gid} style={{width:"100%",marginBottom:5,background:"transparent",border:`1px solid ${g.farg}44`,borderRadius:3,padding:"8px 10px",cursor:"pointer",textAlign:"left",fontFamily:"inherit",display:"flex",justifyContent:"space-between",alignItems:"center"}} onClick={()=>g.spelare.forEach(s=>addPoang(s.id,"gille_bonus"))}>
+            <span style={{fontSize:12,color:g.farg}}>{g.ikon} {g.namn} – Gillebonus</span>
+            <span style={{fontSize:12,color:"#a8d5a2",fontWeight:700}}>+30p alla</span>
+          </button>)}
+        </div>
+
+        {/* Sidbonus */}
+        <div style={{borderTop:`1px solid ${T.kant}`,marginTop:10,paddingTop:10}}>
+          <div style={Lbl}>⚖️ Sidbonus – vid Domen</div>
+          <button style={{width:"100%",marginBottom:5,background:"#060e06",border:"1px solid #3d6b3a44",borderRadius:3,padding:"8px 10px",cursor:"pointer",textAlign:"left",fontFamily:"inherit",display:"flex",justifyContent:"space-between"}} onClick={()=>spelare.filter(s=>!kultisterIds.includes(s.id)).forEach(s=>addPoang(s.id,"sido_byn"))}>
+            <span style={{fontSize:12,color:"#a8d5a2"}}>🌿 Byn vinner – alla bybor</span>
+            <span style={{fontSize:12,color:"#a8d5a2",fontWeight:700}}>+30p</span>
+          </button>
+          <button style={{width:"100%",marginBottom:5,background:"#120808",border:"1px solid #8b1a1a44",borderRadius:3,padding:"8px 10px",cursor:"pointer",textAlign:"left",fontFamily:"inherit",display:"flex",justifyContent:"space-between"}} onClick={()=>spelare.filter(s=>kultisterIds.includes(s.id)).forEach(s=>addPoang(s.id,"sido_kult"))}>
+            <span style={{fontSize:12,color:"#cc6666"}}>🩸 Kulten vinner – alla kultister</span>
+            <span style={{fontSize:12,color:"#cc6666",fontWeight:700}}>+50p</span>
+          </button>
+        </div>
+
         <div style={{borderTop:`1px solid ${T.kant}`,marginTop:10,paddingTop:10}}>
           <div style={Lbl}>💰 Lös in</div>
           {INLOSEN.map(inl=>{
