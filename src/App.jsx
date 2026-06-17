@@ -433,7 +433,7 @@ const ROLL_UPPGIFTER = {
     {label:"Rapport till Vägaren", poang:10},
   ],
   hogprasten: [
-    {label:"Profetia avgiven Fas 1", poang:20},
+    {label:"Profetia avgiven Fas 1", poang:15},
     {label:"5+ i cirkelgång runt stången", poang:25},
     {label:"Helgad Ritual genomförd", poang:15},
     {label:"Absolution given", poang:10},
@@ -444,37 +444,50 @@ const ROLL_UPPGIFTER = {
     {label:"Profetia visade sig stämma", poang:20},
   ],
   munken: [
-    {label:"Hemlighet samlad (per st, max 3)", poang:10},
+    {label:"Hemlighet samlad (per st, max 3)", poang:15},
     {label:"Rundan på huset genomförd", poang:15},
-    {label:"Skenbetagen-förmåga använd", poang:10},
+    {label:"Skenbetagen-förmåga använd", poang:15},
+    {label:"3+ hemligheter lämnade till Vägaren", poang:20},
   ],
   den_resande: [
-    {label:"Hemlighet samlad (per st)", poang:10},
-    {label:"Hemlighet bytt mot löfte", poang:15},
+    {label:"Hemlighet samlad (per st)", poang:15},
+    {label:"Hemlighet bytt mot löfte", poang:20},
     {label:"3+ uppbud under Cannelloni Macaroni", poang:15},
-    {label:"Sista budet använt", poang:10},
+    {label:"Sista budet använt", poang:15},
+    {label:"Allians med varje gille", poang:20},
   ],
   skogsvakten: [
-    {label:"Hittade de andra barnrollerna", poang:15},
-    {label:"Spaningsrapport till Vägaren", poang:5},
-    {label:"JAG SÅG DIG-förmåga använd", poang:10},
-    {label:"Falskt rykte placerat", poang:10},
-    {label:"Vuxen övad att smaka löv", poang:10},
-    {label:"Smög bakom 3 vuxna ostört", poang:15},
+    {label:"Hittade kompisen direkt", poang:20},
+    {label:"Spaningsrapport till Vägaren", poang:15},
+    {label:"JAG SÅG DIG-hyss genomfört", poang:15},
+    {label:"Trädvälsignelse genomförd", poang:15},
+    {label:"Smög bakom 3 spelare ostört", poang:20},
+    {label:"Pekade ut rätt kultledare vid Domen", poang:30},
+    {label:"Paraden genomförd (kompis med)", poang:20},
+    {label:"Det hemliga rådet (kompis med)", poang:15},
+    {label:"Störningsmanövern (kompis med)", poang:25},
   ],
   galningen: [
-    {label:"Hittade de andra barnrollerna", poang:15},
-    {label:"LYSSNA PÅ MIG! ropad (per gång)", poang:3},
-    {label:"PANG PANG PANG använd", poang:10},
-    {label:"Vunnit tävling mot vuxen", poang:10},
-    {label:"3 vuxna övertygade att dansa konstigt", poang:15},
+    {label:"Hittade kompisen direkt", poang:20},
+    {label:"LYSSNA PÅ MIG! ropad (per gång, max 3)", poang:10},
+    {label:"Marscherat runt stången och sjungit", poang:15},
+    {label:"Avbröt Högprästen med PANG PANG PANG", poang:20},
+    {label:"Vunnit sten-sax-påse mot spelare", poang:10},
+    {label:"Pekade ut rätt kultledare vid Domen", poang:30},
+    {label:"Paraden genomförd (kompis med)", poang:20},
+    {label:"Det hemliga rådet (kompis med)", poang:15},
+    {label:"Störningsmanövern (kompis med)", poang:25},
   ],
   korsriddaren: [
-    {label:"Hittade de andra barnrollerna", poang:15},
-    {label:"Äreduel vunnen (per duell)", poang:5},
-    {label:"Riddarlöftet använt", poang:10},
-    {label:"Vaktat stången 5 min", poang:15},
-    {label:"Misstänkt vuxen rapporterad", poang:10},
+    {label:"Hittade kompisen direkt", poang:20},
+    {label:"Äreduel vunnen (sten-sax-påse)", poang:15},
+    {label:"Riddarlöftet använt", poang:15},
+    {label:"Vaktat stången 5 min", poang:20},
+    {label:"Sagt vem kultledaren är högt", poang:15},
+    {label:"Pekade ut rätt kultledare vid Domen", poang:30},
+    {label:"Paraden genomförd (kompis med)", poang:20},
+    {label:"Det hemliga rådet (kompis med)", poang:15},
+    {label:"Störningsmanövern (kompis med)", poang:25},
   ],
 };
 
@@ -485,19 +498,19 @@ const BARN_GEMENSAMMA = [
     nr:1,
     titel:"PARADEN 🥁🌲",
     uppdrag:"MARSCHERA TILLSAMMANS runt hela huset! En av er slår takten, den andre leder. Minst 3 andra spelare måste titta på!",
-    poang:"+20p var om ni lyckas!",
+    poang:"+20p VAR OM NI LYCKAS!",
   },
   {
     nr:2,
     titel:"DET HEMLIGA RÅDET 🤫",
     uppdrag:"Sätt er ihop på ett hemligt ställe. Bestäm TILLSAMMANS vilken spelare som är mest misstänksam. Gå sedan till Vägaren och rapportera ert val!",
-    poang:"+15p var om ni rapporterar!",
+    poang:"+15p VAR OM NI RAPPORTERAR!",
   },
   {
     nr:3,
     titel:"STÖRNINGSMANÖVERN ⚡",
     uppdrag:"Under Tinget – avbryt BÅDA på samma gång! En slår på grytan eller ropar något, den andre gör något annat galet. Vägaren avgör om det lyckades!",
-    poang:"+25p var om ni lyckas störa Tinget!",
+    poang:"+25p VAR OM NI LYCKAS STÖRA TINGET!",
   },
 ];
 
@@ -516,21 +529,21 @@ const KULTMARKEN=[
    hur:"Spela din byboroll fullt ut. Kultuppdraget är ett hemligt extra lager som ingen annan känner till.",
    risk:"Kultledaren kan när som helst välja att avsätta dig om du riskerar att avslöjas. Du spelar då vidare som vanlig bybo – berätta inget om vad du visste.",
    pentagram:"Placera ut 2 pentagram diskret på tomten under kvällen utan att bli påkommen. Rapportera till Vägaren när du är klar.",
-   poang:"Direktiv utfört: +20p · Båda pentagram placerade ostört: +20p · Kulten vinner: +50p sidebonus"},
+   poang:"Direktiv utfört hela kvällen: +30p · Båda pentagram placerade ostört: +25p · Skyddade kultledaren (Vägarens bedömning): +20p · Kulten vinner: +50p sidebonus"},
   {id:"mk2",namn:"Mörkrets Spegel",
    kultInfo:"Du tjänar Mörkblotets Kult. Någonstans bland byborna finns en hemlig ledare – men du vet inte vem det är. Du tjänar kulten i blindo.",
    direktiv:"Håll andra spelare borta från midsommarstången under dansen i Fas 3. Skapa distraktioner, bjud in till samtal, hitta på något – men håll dem borta.",
    hur:"Du vet inte varför stången är viktig. Du vet bara att det är ditt uppdrag. Fråga inte. Gör det bara.",
    risk:"Kultledaren kan när som helst välja att avsätta dig om du riskerar att avslöjas. Du spelar då vidare som vanlig bybo – berätta inget om vad du visste.",
    pentagram:"Placera ut 2 pentagram diskret på tomten under kvällen utan att bli påkommen. Rapportera till Vägaren när du är klar.",
-   poang:"Direktiv utfört: +20p · Båda pentagram placerade ostört: +20p · Kulten vinner: +50p sidebonus"},
+   poang:"Direktiv utfört hela kvällen: +30p · Båda pentagram placerade ostört: +25p · Skyddade kultledaren (Vägarens bedömning): +20p · Kulten vinner: +50p sidebonus"},
   {id:"mk3",namn:"Tystnadens Väktare",
    kultInfo:"Du tjänar Mörkblotets Kult. Någonstans bland byborna finns en hemlig ledare – men du vet inte vem det är. Du tjänar kulten i blindo.",
    direktiv:"Om Mästersmeden eller Örtmästaren verkar vara på väg att avslöja något viktigt – avbryt dem. En fråga, ett skratt, ett avbrott. Vad som helst.",
    hur:"Var social och avbryt folk lite oftare än normalt. Det ska aldrig verka avsiktligt.",
    risk:"Kultledaren kan när som helst välja att avsätta dig om du riskerar att avslöjas. Du spelar då vidare som vanlig bybo – berätta inget om vad du visste.",
    pentagram:"Placera ut 2 pentagram diskret på tomten under kvällen utan att bli påkommen. Rapportera till Vägaren när du är klar.",
-   poang:"Direktiv utfört: +20p · Båda pentagram placerade ostört: +20p · Kulten vinner: +50p sidebonus"},
+   poang:"Direktiv utfört hela kvällen: +30p · Båda pentagram placerade ostört: +25p · Skyddade kultledaren (Vägarens bedömning): +20p · Kulten vinner: +50p sidebonus"},
 ];
 
 const KULTLEDARE_INFO={
@@ -564,9 +577,19 @@ const FALSKA_RYKTEN = [
 const KULTMARKE_KANDIDATER=["mastersmeden","lakemedlaren","soldaten","hogprasten","runlaesaren","den_resande","glodviskaren","munken"];
 
 const VINSTVILLKOR={
-  byn:{rubrik:"🌿 Byn vinner om…",villkor:["Kultledaren pekas ut och avslöjas vid Domen.","Välsignelsen saboteras OCH Kultledaren avslöjas."],tips:"Byn måste hitta KULTLEDAREN – inte bara de märkta."},
-  kulten:{rubrik:"🩸 Kulten vinner om…",villkor:["Kultledaren överlever Domen oavslöjad.","Välsignelsen aktiveras (30 sek ostört vid stången)."],tips:"Kultledaren behöver bara överleva."},
-  oavgjort:{rubrik:"⚖️ Oavgjort om…",villkor:["Märkta avslöjas men Kultledaren överlever."],tips:"Vägaren avgör med dramaturgi."},
+  niva1:{rubrik:"🎯 NIVÅ 1 – SIDAN",farg:"#c9a84c",villkor:[
+    "🌿 BYN vinner om Kultledaren pekas ut och avslöjas vid Domen.",
+    "🩸 KULTEN vinner om Kultledaren överlever Domen oavslöjad – eller om Välsignelsen aktiveras.",
+    "⚖️ OAVGJORT om kultmärkta avslöjas men Kultledaren klarar sig.",
+  ],tips:"Sidvinnaren utropas först vid Domen. +30p till vinnande bybo · +50p till vinnande kultist."},
+  niva2:{rubrik:"🏆 NIVÅ 2 – GILLET",farg:"#a8d5a2",villkor:[
+    "Vilket gille har flest poäng totalt när Domen faller?",
+    "Örtagillet, Smederna eller Månkyrkan räknas. Den Resande tävlar inte på gillenivå.",
+  ],tips:"Gillevinnaren utropas efter sidvinnaren. Hederstitel till hela gillet."},
+  niva3:{rubrik:"⭐ NIVÅ 3 – INDIVIDEN",farg:"#ffcc44",villkor:[
+    "Vem har flest individuella poäng av alla spelare?",
+    "Kan vara vem som helst – bybo, kultist, barn eller vuxen.",
+  ],tips:"Solstångsnattens hjälte utropas sist – den med absolut flest poäng. Stor ära."},
 };
 
 // ─── POÄNGSYSTEM ──────────────────────────────────────────────────────────────
@@ -578,7 +601,7 @@ const UPPGIFTER=[
   {id:"dans_gilledans",label:"Gilledans genomförd",poang:10,kat:"dans",rollId:"*"},
   {id:"dans_alla",label:"Alla 6 danser klara",poang:20,kat:"dans",rollId:"*"},
   {id:"dans_uppbud",label:"Den Resande – 3+ uppbud",poang:15,kat:"dans",rollId:["den_resande"]},
-  {id:"dans_cirkel",label:"Högprästen – 5+ i cirkelgång",poang:25,kat:"dans",rollId:["hogprasten"]},
+  {id:"dans_cirkel",label:"Högprästen – 5+ i cirkelgång",poang:15,kat:"dans",rollId:["hogprasten"]},
   {id:"julia_basis",label:"Julia – Fångad av stormvind",poang:20,kat:"special",rollId:"*"},
   {id:"julia_tre",label:"Julia – 3+ sjunger med",poang:30,kat:"special",rollId:"*"},
   {id:"julia_alla",label:"Julia – ALLA sjunger med",poang:50,kat:"special",rollId:"*"},
@@ -607,6 +630,7 @@ const UPPGIFTER=[
   {id:"dom_ledare",label:"Pekade rätt – Kultledaren",poang:40,kat:"dom",rollId:"*"},
   {id:"dom_fel",label:"Pekade fel",poang:-5,kat:"dom",rollId:"*"},
   {id:"sido_byn",label:"Sidebonus – Byn vann",poang:30,kat:"dom",rollId:"*"},
+  {id:"barn_dom",label:"Barnroll – pekade rätt på kultledaren",poang:30,kat:"dom",rollId:["skogsvakten","galningen","korsriddaren"]},
   {id:"sido_kult",label:"Sidebonus – Kulten vann",poang:50,kat:"dom",rollId:"*"},
   {id:"gille_bonus",label:"Gillebonus",poang:30,kat:"gille",rollId:"*",gilleBonus:true},
 ];
@@ -1038,6 +1062,91 @@ function RollKort({roll,onBekrafta,spelarKon,spelarAlder}){
   </div>;
 }
 
+// ─── STÅNGENS VÅG ─────────────────────────────────────────────────────────────
+function StangensVag({spelare,gilleData}){
+  // Beräkna by vs kult-poäng
+  // Kultister identifieras via gilleColor (vi har inte direkt tillgång till erKultledare här)
+  // Använd poängen för att visa relativ styrka
+  const totalPoang = spelare.reduce((a,s)=>a+s.poang,0)||1;
+  
+  // Gillepoäng för topplista
+  const gilleSort = [...gilleData].sort((a,b)=>b.total-a.total);
+  const maxGille = Math.max(...gilleData.map(g=>g.total),1);
+  
+  // Individuell topplista
+  const topSpelare = [...spelare].sort((a,b)=>b.poang-a.poang).slice(0,3);
+  
+  return <div>
+    {/* Gilletävlingen */}
+    <div style={{...Kort,borderColor:"#c9a84c44",marginBottom:8}}>
+      <div style={{fontSize:10,color:"#c9a84c",letterSpacing:2,fontFamily:"'Cinzel',serif",marginBottom:12,textAlign:"center"}}>🏆 GILLETÄVLINGEN</div>
+      {gilleSort.filter(g=>g.gid!=="fri").map((g,i)=><div key={g.gid} style={{marginBottom:10}}>
+        <div style={{display:"flex",justifyContent:"space-between",marginBottom:4}}>
+          <span style={{fontSize:13,color:g.farg,fontFamily:"'Cinzel',serif"}}>{i===0?"👑 ":""}{g.ikon} {g.namn}</span>
+          <span style={{fontSize:14,color:g.farg,fontWeight:700}}>{g.total}p</span>
+        </div>
+        <div style={{height:8,background:"#1a1510",borderRadius:4,overflow:"hidden"}}>
+          <div style={{height:"100%",width:`${Math.max(4,Math.round(g.total/maxGille*100))}%`,background:`linear-gradient(to right,${g.farg}88,${g.farg})`,borderRadius:4,transition:"width 0.5s"}}/>
+        </div>
+      </div>)}
+    </div>
+
+    {/* Individuell topplista */}
+    <div style={{...Kort,borderColor:"#c9a84c44",marginBottom:8}}>
+      <div style={{fontSize:10,color:"#c9a84c",letterSpacing:2,fontFamily:"'Cinzel',serif",marginBottom:12,textAlign:"center"}}>⭐ INDIVIDUELL TOPP 3</div>
+      {topSpelare.map((s,i)=>{
+        const g=Object.values(GILLE_INFO).find(x=>x.ids.includes(s.id));
+        const ac=g?.farg||"#c9a84c";
+        const medalj=["🥇","🥈","🥉"][i];
+        return <div key={s.id} style={{display:"flex",alignItems:"center",gap:10,padding:"6px 0",borderBottom:`1px solid #1e1810`}}>
+          <span style={{fontSize:18}}>{medalj}</span>
+          <span style={{fontSize:14}}>{s.icon}</span>
+          <span style={{flex:1,fontSize:13,color:ac,fontFamily:"'Cinzel',serif"}}>{s.rollnamn}</span>
+          <span style={{fontSize:16,fontWeight:700,color:ac}}>{s.poang}p</span>
+        </div>;
+      })}
+    </div>
+
+    {/* Stångens våg - By vs Kult-stämning */}
+    <div style={{...Kort,borderColor:"#c9a84c44",marginBottom:8}}>
+      <div style={{fontSize:10,color:"#c9a84c",letterSpacing:2,fontFamily:"'Cinzel',serif",marginBottom:12,textAlign:"center"}}>⚖️ STÅNGENS VÅG</div>
+      <p style={{fontSize:11,color:"#8a7a5a",textAlign:"center",margin:"0 0 12px",fontStyle:"italic"}}>Känslotempen för By vs Kult – inte exakt, men vägledande</p>
+      
+      {/* Visuell våg */}
+      <div style={{position:"relative",height:60,marginBottom:12}}>
+        {/* Stången */}
+        <div style={{position:"absolute",left:"50%",top:0,width:2,height:60,background:"#c9a84c",transform:"translateX(-50%)"}}/>
+        {/* Byn - vänster */}
+        <div style={{position:"absolute",left:0,top:"50%",transform:"translateY(-50%)",textAlign:"center",width:"45%"}}>
+          <div style={{fontSize:22}}>🌿</div>
+          <div style={{fontSize:11,color:"#a8d5a2",fontFamily:"'Cinzel',serif"}}>BYN</div>
+        </div>
+        {/* Kulten - höger */}
+        <div style={{position:"absolute",right:0,top:"50%",transform:"translateY(-50%)",textAlign:"center",width:"45%"}}>
+          <div style={{fontSize:22}}>🩸</div>
+          <div style={{fontSize:11,color:"#cc6666",fontFamily:"'Cinzel',serif"}}>KULTEN</div>
+        </div>
+      </div>
+
+      {/* Staplar */}
+      <div style={{display:"flex",gap:6,alignItems:"flex-end",height:80,marginBottom:8}}>
+        {spelare.map(s=>{
+          const g=Object.values(GILLE_INFO).find(x=>x.ids.includes(s.id));
+          const ac=g?.farg||"#c9a84c";
+          const hojd=Math.max(8,Math.round(s.poang/Math.max(...spelare.map(x=>x.poang),1)*70));
+          return <div key={s.id} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",gap:2}}>
+            <div style={{fontSize:10,color:ac,textAlign:"center"}}>{s.poang}p</div>
+            <div style={{width:"100%",height:hojd,background:`linear-gradient(to top,${ac}88,${ac})`,borderRadius:"2px 2px 0 0",minHeight:4}}/>
+            <div style={{fontSize:14,textAlign:"center"}}>{s.icon}</div>
+          </div>;
+        })}
+      </div>
+      <p style={{fontSize:10,color:"#8a7a5a",textAlign:"center",margin:0,fontStyle:"italic"}}>Vägaren vet vem som tillhör vilken sida – hemligheten avslöjas vid Domen</p>
+    </div>
+  </div>;
+}
+
+
 // ─── POÄNG-ADMIN ──────────────────────────────────────────────────────────────
 function PoangAdmin({spelare,setSpelare}){
   const [vald,setVald]=useState(null);
@@ -1088,7 +1197,7 @@ function PoangAdmin({spelare,setSpelare}){
   }));
 
   return <div>
-    <TabBar tabs={["Check-in","Fasöversikt","Gillen"]} active={subTab} onChange={setSubTab}/>
+    <TabBar tabs={["Check-in","Fasöversikt","Gillen & Våg"]} active={subTab} onChange={setSubTab}/>
 
     {subTab===0&&<>
       <div style={Kort}>
@@ -1168,6 +1277,7 @@ function PoangAdmin({spelare,setSpelare}){
       </div>
     </>}
 
+    {subTab===2&&<StangensVag spelare={spelare} gilleData={gilleData}/>}
     {subTab===2&&gilleData.map(g=><div key={g.gid} style={{...Kort,borderColor:g.farg+"44",marginBottom:8}}>
       <div style={{display:"flex",justifyContent:"space-between",marginBottom:8}}>
         <span style={{fontFamily:"'Cinzel',serif",fontSize:13,color:g.farg}}>{g.ikon} {g.namn}</span>
@@ -1344,10 +1454,10 @@ function SpelledarVy({setVy,starta,tab,setTab,antalBarn,setAntalBarn,spelare,set
     </>}
 
     {tab===1&&<div>
-      {Object.entries(VINSTVILLKOR).map(([k,v])=><div key={k} style={{...Kort,marginBottom:8,borderColor:k==="byn"?"#a8d5a244":k==="kulten"?"#cc333344":"#c9a84c44"}}>
-        <div style={{fontSize:12,color:k==="byn"?"#a8d5a2":k==="kulten"?"#cc3333":T.guld,fontFamily:"'Cinzel',serif",marginBottom:6}}>{v.rubrik}</div>
-        {v.villkor.map((vv,i)=><p key={i} style={{fontSize:11,color:T.textDim,margin:"0 0 4px",lineHeight:1.5}}>• {vv}</p>)}
-        <p style={{fontSize:10,color:T.guldDim,margin:"4px 0 0",fontStyle:"italic"}}>{v.tips}</p>
+      {Object.entries(VINSTVILLKOR).map(([k,v])=><div key={k} style={{...Kort,marginBottom:8,borderColor:v.farg+"44"}}>
+        <div style={{fontSize:13,color:v.farg,fontFamily:"'Cinzel',serif",marginBottom:8,fontWeight:700}}>{v.rubrik}</div>
+        {v.villkor.map((vv,i)=><p key={i} style={{fontSize:12,color:T.text,margin:"0 0 6px",lineHeight:1.6}}>{vv}</p>)}
+        <div style={{marginTop:8,padding:"6px 10px",background:v.farg+"15",borderRadius:3,fontSize:11,color:v.farg,fontStyle:"italic"}}>{v.tips}</div>
       </div>)}
     </div>}
 
