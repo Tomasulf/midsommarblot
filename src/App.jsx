@@ -1545,20 +1545,22 @@ function PoangAdmin({spelare,setSpelare,fordel=[]}){
       </div>
     </>}
 
-    {subTab===2&&<StangensVag spelare={spelare} gilleData={gilleData} bynProcent={bynProcent} kultProcent={kultProcent} bynPoang={bynPoang} kultPoang={kultPoang} kultisterIds={kultisterIds}/>}
-    {subTab===2&&gilleData.map(g=><div key={g.gid} style={{...Kort,borderColor:g.farg+"44",marginBottom:8}}>
-      <div style={{display:"flex",justifyContent:"space-between",marginBottom:8}}>
-        <span style={{fontFamily:"'Cinzel',serif",fontSize:13,color:g.farg}}>{g.ikon} {g.namn}</span>
-        <span style={{fontSize:16,color:T.guld,fontWeight:700}}>{g.total}p</span>
-      </div>
-      {g.spelare.map(s=><div key={s.id} style={{display:"flex",justifyContent:"space-between",padding:"4px 0",borderBottom:`1px solid ${T.kant2}`}}>
-        <span style={{fontSize:12,color:T.text}}>{s.icon} {s.rollnamn}</span>
-        <span style={{fontSize:13,color:g.farg,fontWeight:700}}>{s.poang}p</span>
+    {subTab===2&&<>
+      <StangensVag spelare={spelare} gilleData={gilleData} bynProcent={bynProcent} kultProcent={kultProcent} bynPoang={bynPoang} kultPoang={kultPoang} kultisterIds={kultisterIds}/>
+      {gilleData.map(g=><div key={g.gid} style={{...Kort,borderColor:g.farg+"44",marginBottom:8}}>
+        <div style={{display:"flex",justifyContent:"space-between",marginBottom:8}}>
+          <span style={{fontFamily:"'Cinzel',serif",fontSize:13,color:g.farg}}>{g.ikon} {g.namn}</span>
+          <span style={{fontSize:16,color:T.guld,fontWeight:700}}>{g.total}p</span>
+        </div>
+        {g.spelare.map(s=><div key={s.id} style={{display:"flex",justifyContent:"space-between",padding:"4px 0",borderBottom:`1px solid ${T.kant2}`}}>
+          <span style={{fontSize:12,color:T.text}}>{s.icon} {s.rollnamn}</span>
+          <span style={{fontSize:13,color:g.farg,fontWeight:700}}>{s.poang}p</span>
+        </div>)}
+        <button style={{...BtnS,width:"100%",marginTop:8,fontSize:11,padding:"6px",borderColor:g.farg+"44",color:g.farg}} onClick={()=>g.spelare.forEach(s=>addPoang(s.id,"gille_bonus"))}>
+          + Gillebonus +30p till alla i {g.namn}
+        </button>
       </div>)}
-      <button style={{...BtnS,width:"100%",marginTop:8,fontSize:11,padding:"6px",borderColor:g.farg+"44",color:g.farg}} onClick={()=>g.spelare.forEach(s=>addPoang(s.id,"gille_bonus"))}>
-        + Gillebonus +30p till alla i {g.namn}
-      </button>
-    </div>)}
+    </>}
   </div>;
 }
 
