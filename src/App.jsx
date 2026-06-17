@@ -1471,15 +1471,20 @@ function PoangAdmin({spelare,setSpelare,fordel=[]}){
         if(gIds.includes(s.id))return {...s,poang:s.poang+u.poang};
         return s;
       }
-      if(s.id===id)return {...s,poang:Math.max(0,s.poang+u.poang)};
+      if(s.id===id)return {...s,poang:s.poang+u.poang};
       return s;
     }));
+  }
+
+  function minusPoang(id,uppgId,belopp){
+    setSistaHandling({id,uppgId,poang:-belopp});
+    setSpelare(prev=>prev.map(x=>x.id===id?{...x,poang:x.poang-belopp}:x));
   }
 
   function angraHandling(){
     if(!sistaHandling)return;
     const {id,poang}=sistaHandling;
-    setSpelare(prev=>prev.map(s=>s.id===id?{...s,poang:Math.max(0,s.poang-poang)}:s));
+    setSpelare(prev=>prev.map(s=>s.id===id?{...s,poang:s.poang-poang}:s));
     setSistaHandling(null);
   }
 
@@ -1527,9 +1532,11 @@ function PoangAdmin({spelare,setSpelare,fordel=[]}){
           {spelare.map(s=>{
             const g=Object.values(GILLE_INFO).find(x=>x.ids.includes(s.id));
             const ac=g?.farg||T.guld;
-            return <button key={s.id} style={{fontSize:11,background:vald===s.id?ac+"33":"transparent",color:vald===s.id?ac:T.textDim,border:`1px solid ${vald===s.id?ac+"66":T.kant2}`,borderRadius:3,padding:"5px 9px",cursor:"pointer",fontFamily:"inherit",marginBottom:4}} onClick={()=>setVald(s.id)}>
-              {s.icon} {s.rollnamn} <strong>{s.poang}p</strong>
-            </button>;
+            return <div key={s.id} style={{display:"flex",flexDirection:"column",marginBottom:4}}>
+              <button style={{fontSize:11,background:vald===s.id?ac+"33":"transparent",color:vald===s.id?ac:T.textDim,border:`1px solid ${vald===s.id?ac+"66":T.kant2}`,borderRadius:3,padding:"5px 9px",cursor:"pointer",fontFamily:"inherit"}} onClick={()=>setVald(s.id)}>
+                {s.icon} {s.rollnamn} <strong>{s.poang}p</strong>
+              </button>
+            </div>;
           })}
         </div>
       </div>
@@ -1621,7 +1628,7 @@ function PoangAdmin({spelare,setSpelare,fordel=[]}){
               const ac=g?.farg||T.guld;
               return <div key={s.id} style={{display:"flex",gap:0,marginBottom:2}}>
                 <button title={`${ting.poang>0?"+":""}${ting.poang}p till ${s.rollnamn}`} style={{fontSize:10,background:ac+"22",color:ac,border:`1px solid ${ac}44`,borderRadius:"3px 0 0 3px",padding:"3px 6px",cursor:"pointer",fontFamily:"inherit"}} onClick={()=>addPoang(s.id,ting.id)}>{s.icon}+</button>
-                <button title={`Ångra för ${s.rollnamn}`} style={{fontSize:10,background:"#1a000022",color:"#cc6666",border:"1px solid #cc666633",borderRadius:"0 3px 3px 0",padding:"3px 5px",cursor:"pointer",fontFamily:"inherit"}} onClick={()=>{setSistaHandling({id:s.id,uppgId:ting.id,poang:-ting.poang});setSpelare(prev=>prev.map(x=>x.id===s.id?{...x,poang:Math.max(0,x.poang-ting.poang)}:x));}}> −</button>
+                <button title={`Ångra för ${s.rollnamn}`} style={{fontSize:10,background:"#1a000022",color:"#cc6666",border:"1px solid #cc666633",borderRadius:"0 3px 3px 0",padding:"3px 5px",cursor:"pointer",fontFamily:"inherit"}} onClick={()=>minusPoang(s.id,ting.id,ting.poang)}> −</button>
               </div>;
             })}
           </div>
@@ -1649,7 +1656,7 @@ function PoangAdmin({spelare,setSpelare,fordel=[]}){
               const ac=g?.farg||T.guld;
               return <div key={s.id} style={{display:"flex",gap:0,marginBottom:2}}>
                 <button title={`+${dans.poang}p till ${s.rollnamn}`} style={{fontSize:10,background:ac+"22",color:ac,border:`1px solid ${ac}44`,borderRadius:"3px 0 0 3px",padding:"3px 6px",cursor:"pointer",fontFamily:"inherit"}} onClick={()=>addPoang(s.id,dans.id)}>{s.icon}+</button>
-                <button title={`-${dans.poang}p från ${s.rollnamn}`} style={{fontSize:10,background:"#1a000022",color:"#cc6666",border:"1px solid #cc666633",borderRadius:"0 3px 3px 0",padding:"3px 5px",cursor:"pointer",fontFamily:"inherit"}} onClick={()=>{setSistaHandling({id:s.id,uppgId:dans.id,poang:-dans.poang});setSpelare(prev=>prev.map(x=>x.id===s.id?{...x,poang:Math.max(0,x.poang-dans.poang)}:x));}}> −</button>
+                <button title={`-${dans.poang}p från ${s.rollnamn}`} style={{fontSize:10,background:"#1a000022",color:"#cc6666",border:"1px solid #cc666633",borderRadius:"0 3px 3px 0",padding:"3px 5px",cursor:"pointer",fontFamily:"inherit"}} onClick={()=>minusPoang(s.id,dans.id,dans.poang)}> −</button>
               </div>;
             })}
           </div>
@@ -1681,7 +1688,7 @@ function PoangAdmin({spelare,setSpelare,fordel=[]}){
               const ac=g?.farg||T.guld;
               return <div key={s.id} style={{display:"flex",gap:0,marginBottom:2}}>
                 <button title={`${dom.poang>0?"+":""}${dom.poang}p till ${s.rollnamn}`} style={{fontSize:10,background:ac+"22",color:ac,border:`1px solid ${ac}44`,borderRadius:"3px 0 0 3px",padding:"3px 6px",cursor:"pointer",fontFamily:"inherit"}} onClick={()=>addPoang(s.id,dom.id)}>{s.icon}+</button>
-                <button title={`Ångra för ${s.rollnamn}`} style={{fontSize:10,background:"#1a000022",color:"#cc6666",border:"1px solid #cc666633",borderRadius:"0 3px 3px 0",padding:"3px 5px",cursor:"pointer",fontFamily:"inherit"}} onClick={()=>{setSistaHandling({id:s.id,uppgId:dom.id,poang:-dom.poang});setSpelare(prev=>prev.map(x=>x.id===s.id?{...x,poang:Math.max(0,x.poang-dom.poang)}:x));}}> −</button>
+                <button title={`Ångra för ${s.rollnamn}`} style={{fontSize:10,background:"#1a000022",color:"#cc6666",border:"1px solid #cc666633",borderRadius:"0 3px 3px 0",padding:"3px 5px",cursor:"pointer",fontFamily:"inherit"}} onClick={()=>minusPoang(s.id,dom.id,dom.poang)}> −</button>
               </div>;
             })}
           </div>
