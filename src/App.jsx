@@ -509,21 +509,26 @@ const JULIA_UPPDRAG={
 // ─── KULTDATA ─────────────────────────────────────────────────────────────────
 const KULTMARKEN=[
   {id:"mk1",namn:"Skuggviskaren",
-   kultInfo:"Du tjänar Mörkblotets Kult. En hemlig ledare finns bland er – men du vet inte vem.",
-   direktiv:"Skydda Runläsaren från anklagelse under Tinget. Avled uppmärksamheten diskret.",
-   hur:"Spela din byboroll fullt ut. Kultuppdraget är ett extra lager.",
-   risk:"Om kultledaren avsätter dig – ta emot det med värdighet och spela vidare som bybo.",
-   pentagram:"Placera ut 2 pentagram diskret på tomten utan att bli påkommen. +20p om båda placeras utan att du avslöjas."},
+   kultInfo:"Du tjänar Mörkblotets Kult. Någonstans bland byborna finns en hemlig ledare – men du vet inte vem det är. Du tjänar kulten i blindo.",
+   direktiv:"Skydda Runläsaren från anklagelser under Tinget. Avled uppmärksamheten från dem – subtilt och diskret.",
+   hur:"Spela din byboroll fullt ut. Kultuppdraget är ett hemligt extra lager som ingen annan känner till.",
+   risk:"Kultledaren kan när som helst välja att avsätta dig om du riskerar att avslöjas. Du spelar då vidare som vanlig bybo – berätta inget om vad du visste.",
+   pentagram:"Placera ut 2 pentagram diskret på tomten under kvällen utan att bli påkommen. Rapportera till Vägaren när du är klar.",
+   poang:"Direktiv utfört: +20p · Båda pentagram placerade ostört: +20p · Kulten vinner: +50p sidebonus"},
   {id:"mk2",namn:"Mörkrets Spegel",
-   kultInfo:"Du tjänar Mörkblotets Kult. En hemlig ledare finns bland er – men du vet inte vem.",
-   direktiv:"Håll folk borta från midsommarstången under dansen. Skapa distraktioner.",
-   hur:"Veta inte varför stången är viktig – du vet bara att du måste hålla folk borta.",
-   risk:"Om du avslöjas spelar du vidare som vanlig bybo."},
+   kultInfo:"Du tjänar Mörkblotets Kult. Någonstans bland byborna finns en hemlig ledare – men du vet inte vem det är. Du tjänar kulten i blindo.",
+   direktiv:"Håll andra spelare borta från midsommarstången under dansen i Fas 3. Skapa distraktioner, bjud in till samtal, hitta på något – men håll dem borta.",
+   hur:"Du vet inte varför stången är viktig. Du vet bara att det är ditt uppdrag. Fråga inte. Gör det bara.",
+   risk:"Kultledaren kan när som helst välja att avsätta dig om du riskerar att avslöjas. Du spelar då vidare som vanlig bybo – berätta inget om vad du visste.",
+   pentagram:"Placera ut 2 pentagram diskret på tomten under kvällen utan att bli påkommen. Rapportera till Vägaren när du är klar.",
+   poang:"Direktiv utfört: +20p · Båda pentagram placerade ostört: +20p · Kulten vinner: +50p sidebonus"},
   {id:"mk3",namn:"Tystnadens Väktare",
-   kultInfo:"Du tjänar Mörkblotets Kult. En hemlig ledare finns bland er – men du vet inte vem.",
-   direktiv:"Om Mästersmeden eller Örtmästaren verkar nära att avslöja något – avbryt dem.",
-   hur:"Var social och råka avbryta folk lite för ofta.",
-   risk:"Om du avslöjas spelar du vidare som vanlig bybo."},
+   kultInfo:"Du tjänar Mörkblotets Kult. Någonstans bland byborna finns en hemlig ledare – men du vet inte vem det är. Du tjänar kulten i blindo.",
+   direktiv:"Om Mästersmeden eller Örtmästaren verkar vara på väg att avslöja något viktigt – avbryt dem. En fråga, ett skratt, ett avbrott. Vad som helst.",
+   hur:"Var social och avbryt folk lite oftare än normalt. Det ska aldrig verka avsiktligt.",
+   risk:"Kultledaren kan när som helst välja att avsätta dig om du riskerar att avslöjas. Du spelar då vidare som vanlig bybo – berätta inget om vad du visste.",
+   pentagram:"Placera ut 2 pentagram diskret på tomten under kvällen utan att bli påkommen. Rapportera till Vägaren när du är klar.",
+   poang:"Direktiv utfört: +20p · Båda pentagram placerade ostört: +20p · Kulten vinner: +50p sidebonus"},
 ];
 
 const KULTLEDARE_INFO={
@@ -622,7 +627,7 @@ const INITIAL_SPELARE=ROLLER_MASTER.filter(r=>!r.barnroll).concat(ROLLER_MASTER.
 const GILLE_INFO={
   ortagillet:{namn:"Örtagillet",ikon:"🌿",farg:"#a8d5a2",ids:["kloka","ortmastaren","gronskan","skogsvakten"]},
   smederna:{namn:"Smederna",ikon:"⚒",farg:"#d4956a",ids:["mastersmeden","soldaten","glodviskaren","galningen"]},
-  mankyrkan:{namn:"Månkyrkan",ikon:"☽",farg:"#9999e0",ids:["hogprasten","runlaesaren","munken","korsriddaren"]},
+  månkyrkan:{namn:"Månkyrkan",ikon:"☽",farg:"#9999e0",ids:["hogprasten","runlaesaren","munken","korsriddaren"]},
   fri:{namn:"Den Resande",ikon:"🎲",farg:"#c9a84c",ids:["den_resande"]},
 };
 
@@ -730,7 +735,7 @@ function DansSektion({roll,erKultledare}){
   const rollId=roll.id;
   const gille=roll.gille;
   const ac=roll.barnroll?"#ffb3c6":roll.gilleColor||T.guld;
-  const gilleLatId={ortagillet:"guld",smederna:"seven",mankyrkan:"only"}[gille];
+  const gilleLatId={ortagillet:"guld",smederna:"seven",månkyrkan:"only"}[gille];
   const relevanta=["cannelloni","walking","euphoria",...(gilleLatId?[gilleLatId]:[])];
   const harDir=relevanta.some(lid=>DANS_DIREKTIV[lid]?.[rollId]);
   if(!harDir)return null;
@@ -971,7 +976,14 @@ function RollKort({roll,onBekrafta,spelarKon,spelarAlder}){
         <div style={{height:1,background:"#8b1a1a",margin:"8px 0"}}/>
         <div style={{fontSize:10,color:"#cc6666",letterSpacing:2,fontFamily:"'Cinzel',serif",marginBottom:6}}>🔺 PENTAGRAM-UPPDRAG</div>
         <p style={{...RT,color:"#cc9999",marginBottom:6}}>{roll.kultMarke.pentagram}</p>
-        <p style={{fontSize:11,color:"#cc6666"}}>Om du blir påkommen med ett pentagram – +0p. Håll det hemligt!</p>
+      </>}
+      {roll.kultMarke.poang&&<>
+        <div style={{height:1,background:"#8b1a1a",margin:"8px 0"}}/>
+        <div style={{fontSize:10,color:"#cc6666",letterSpacing:2,fontFamily:"'Cinzel',serif",marginBottom:6}}>💰 DINA POÄNGMÖJLIGHETER</div>
+        {roll.kultMarke.poang.split(" · ").map((p,i)=><div key={i} style={{display:"flex",justifyContent:"space-between",padding:"4px 0",borderBottom:`1px solid #cc333322`}}>
+          <span style={{fontSize:11,color:"#cc9999"}}>{p.split(":")[0]}</span>
+          <span style={{fontSize:11,color:"#cc3333",fontWeight:700}}>{p.split(":")[1]}</span>
+        </div>)}
       </>}
     </ToggleBlock>}
 
