@@ -1638,11 +1638,7 @@ export default function App(){
         // Slå upp full rolldata från ROLLER_MASTER
         const basRoll=ROLLER_MASTER.find(r=>r.id===mini.id);
         if(basRoll){
-          const kultmarken_alla=[
-            {id:"mk1",namn:"Skuggviskaren",direktiv:"Skydda Runläsaren från anklagelse under Tinget.",hur:"Spela din byboroll fullt ut.",risk:"Om du avslöjas spelar du vidare som vanlig bybo."},
-            {id:"mk2",namn:"Mörkrets Spegel",direktiv:"Håll folk borta från midsommarstången under dansen.",hur:"Skapa distraktioner naturligt.",risk:"Om du avslöjas spelar du vidare som vanlig bybo."},
-            {id:"mk3",namn:"Tystnadens Väktare",direktiv:"Om Mästersmeden eller Örtmästaren verkar nära att avslöja något – avbryt dem.",hur:"Var social och råka avbryta folk lite för ofta.",risk:"Om du avslöjas spelar du vidare som vanlig bybo."},
-          ];
+          const kultmarken_alla=KULTMARKEN;
           // Rekonstruera kedjor från aktiva kedja-ids
           const aktivaKedjeIds=mini.kid?mini.kid.split(",").filter(Boolean):[];
           const alleRollerIds=ROLLER_MASTER.map(r=>r.id);
