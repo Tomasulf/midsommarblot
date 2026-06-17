@@ -176,6 +176,27 @@ const PUSSELBIT={
 
 const REBUS_RAMSA = "Solstångsnattens mörker binds av ett gammalt löfte – välsignat av ljuset och natten – som bryts av tre röster vid nattens hjärta – som ropar tre gånger det gamla ordet.";
 
+// Svar som rebussamlaren använder för varje fragsbit
+const REBUS_SVAR = {
+  "I":   "Och rötterna minns ännu längre.",
+  "II":  "Då är frågan om vi är villiga att se det.",
+  "III": "Och det som dödar snabbast kan också hela.",
+  "IV":  "Och vad ser månens öga ikväll?",
+};
+
+// Sändarkandidater - en per fragsbit med reserv om kultist
+const REBUS_SENDARE_KANDIDATER = [
+  {rollId:"kloka",      bit:"I",   fras:"Träden minns vad människor glömmer.",                    nyckel:"rötterna minns"},
+  {rollId:"runlaesaren",bit:"II",  fras:"Stjärnorna har redan bestämt vad som ska hända ikväll.", nyckel:"villiga att se det"},
+  {rollId:"ortmastaren",bit:"III", fras:"Det som luktar vackrast kan döda snabbast.",             nyckel:"dödar snabbast kan också"},
+  {rollId:"hogprasten", bit:"IV",  fras:"Månens öga sluter sig aldrig helt.",                     nyckel:"vad ser månens öga"},
+  // Reserver
+  {rollId:"gronskan",   bit:"I",   fras:"Skogen ser vad elden inte når.",                         nyckel:"rötterna minns"},
+  {rollId:"mastersmeden",bit:"II", fras:"Järnet ljuger aldrig – det är smeden som kan.",          nyckel:"villiga att se det"},
+  {rollId:"soldaten",   bit:"III", fras:"Den som tvekar förlorar mer än slaget.",                  nyckel:"dödar snabbast kan också"},
+  {rollId:"munken",     bit:"IV",  fras:"Gud förlåter – men han behöver lite tid på sig.",        nyckel:"vad ser månens öga"},
+];
+
 const REBUS_LOSNING = "Kultens förtrollning bryts om tre välsignade röster vid stången ropar tre gånger: LJUSET SEGRAR, LJUSET SEGRAR, LJUSET SEGRAR!";
 
 const REBUS_MENING_KOMPLETT = REBUS_RAMSA;
@@ -808,9 +829,6 @@ function blandaOchTilldela(antalBarn, fordeltaBarnIds=[]){
   });
   const aktivaIds=allaRoller.map(r=>r.id);
   
-  console.log("Roller:",allaRoller.map(r=>r.id).join(", "));
-  console.log("Totalt:",allaRoller.length,"roller");
-  console.log("Gille utan barn:",gilles.find(g=>!barnGillen.includes(g)));
 
   // ── Steg 4: Tilldela kultister (BARA bland vuxna, aldrig barn) ────────────
   const vuxnaKandidater=valdaVuxna.map(r=>r.id);
