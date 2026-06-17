@@ -763,8 +763,6 @@ function PoangAdmin({spelare,setSpelare}){
     const u=UPPGIFTER.find(x=>x.id===uppgId);
     if(!u)return;
     setSistaHandling({id,uppgId,poang:u.poang});
-    const u=UPPGIFTER.find(x=>x.id===uppgId);
-    if(!u)return;
     setSpelare(prev=>prev.map(s=>{
       if(u.gilleBonus){
         const sp=prev.find(x=>x.id===id);
@@ -1297,9 +1295,9 @@ function SpelarVy({rollData}){
 
 export default function App(){
   // Kolla om vi är i spelarläge (QR-länk)
-  const hash=window.location.hash;
-  const spelarkod=hash.startsWith("#spelare=") ? hash.replace("#spelare=","") : null;
-  if(spelarkod){
+  const hash=window.location.hash||"";
+  const spelarkod=(hash.startsWith("#spelare=")&&hash.length>9) ? hash.slice(9) : null;
+  if(spelarkod&&spelarkod.length>=6){
     try{
       const data=localStorage.getItem("mb_roll_"+spelarkod);
       if(data){
