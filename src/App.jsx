@@ -1516,7 +1516,7 @@ function PoangAdmin({spelare,setSpelare,fordel=[]}){
           })}
         </div>
       </div>}
-
+    </>}
 
     {subTab===1&&<>
       <div style={{...Kort,borderColor:"#c9a84c44"}}>
