@@ -1424,6 +1424,8 @@ function DragVy({fordel,idx,roll,avslojar,bekr,klart,alder,setAlder,kon,setKon,a
       km:roll.kultMarke?.id||"",
       rb:roll.erRebussamlare?1:0,
       pd:roll.polkkaDir||null,
+      ai:roll.anklagelse?.id||"",
+      kid:roll.kedjor?roll.kedjor.map(k=>k.id).join(","):"",
     };
     const enkodad=btoa(JSON.stringify(miniData));
     const url="https://midsommarblot.vercel.app/#roll="+enkodad;
@@ -1641,6 +1643,14 @@ export default function App(){
             {id:"mk2",namn:"Mörkrets Spegel",direktiv:"Håll folk borta från midsommarstången under dansen.",hur:"Skapa distraktioner naturligt.",risk:"Om du avslöjas spelar du vidare som vanlig bybo."},
             {id:"mk3",namn:"Tystnadens Väktare",direktiv:"Om Mästersmeden eller Örtmästaren verkar nära att avslöja något – avbryt dem.",hur:"Var social och råka avbryta folk lite för ofta.",risk:"Om du avslöjas spelar du vidare som vanlig bybo."},
           ];
+          // Rekonstruera kedjor från aktiva kedja-ids
+          const aktivaKedjeIds=mini.kid?mini.kid.split(",").filter(Boolean):[];
+          const alleRollerIds=ROLLER_MASTER.map(r=>r.id);
+          const rekonstrueradeKedjor=aktivaKedjeIds.length>0?byggKedjor(alleRollerIds,[]).filter(k=>aktivaKedjeIds.includes(k.id)):[];
+
+          // Rekonstruera anklagelse
+          const anklagelse=mini.ai?ANKLAGELSE_POOL.find(a=>a.id===mini.ai)||null:null;
+
           const rollData={
             ...basRoll,
             rollnamn:typeof basRoll.rollnamn==="function"?basRoll.rollnamn(mini.kon):basRoll.rollnamn,
@@ -1650,6 +1660,9 @@ export default function App(){
             spelarAlder:mini.alder,
             polkkaDir:mini.pd||null,
             erRebussamlare:mini.rb===1,
+            anklagelse:anklagelse,
+            kedjor:rekonstrueradeKedjor,
+            aktivaIds:alleRollerIds,
           };
           return <SpelarVy rollData={rollData}/>;
         }
