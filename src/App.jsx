@@ -1110,7 +1110,7 @@ function DragVy({fordel,idx,roll,avslojar,bekr,klart,alder,setAlder,kon,setKon,a
       km:roll.kultMarke?.id||"",
     };
     const enkodad=btoa(JSON.stringify(miniData));
-    const url="https://midsommarblot-xi.vercel.app/#roll="+enkodad;
+    const url="https://midsommarblot.vercel.app/#roll="+enkodad;
     return <div style={{...C,padding:"20px"}}>
       <div style={{fontFamily:"'Cinzel',serif",fontSize:16,color:T.guld,marginBottom:4,textAlign:"center"}}>
         {typeof roll.rollnamn==="function"?roll.rollnamn(kon||""):roll.rollnamn}
