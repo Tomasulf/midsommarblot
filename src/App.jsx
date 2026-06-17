@@ -703,6 +703,31 @@ function TabBar({tabs,active,onChange}){
   </div>;
 }
 
+function KedjeStegSandare({s,ac}){
+  const [open,setOpen]=useState(false);
+  return <ToggleBlock label={`🗣 Din fras – ${s.kedjaNamn}`} ac={ac} bg="#080f08" open={open} setOpen={setOpen}>
+    <div style={{fontSize:10,color:ac,letterSpacing:2,marginBottom:6,fontFamily:"'Cinzel',serif"}}>DIN FRAS</div>
+    <div style={{background:"#000a00",border:`1px solid ${ac}44`,borderRadius:3,padding:"12px",marginBottom:10,fontSize:14,color:"#d0ffd0",fontStyle:"italic",textAlign:"center",lineHeight:1.7}}>"{s.fras}"</div>
+    <div style={{fontSize:10,color:ac,letterSpacing:2,marginBottom:6,fontFamily:"'Cinzel',serif"}}>OM MOTTAGAREN SVARAR MED</div>
+    <div style={{background:"#0a0800",border:`1px solid ${ac}33`,borderRadius:3,padding:"10px",marginBottom:10,fontSize:13,color:ac,fontWeight:700}}>"{s.triggerOrd}"</div>
+    <div style={{fontSize:10,color:ac,letterSpacing:2,marginBottom:6,fontFamily:"'Cinzel',serif"}}>GE DEM DENNA PUSSELBIT</div>
+    <div style={{background:"#080808",border:`1px solid ${ac}55`,borderRadius:3,padding:"10px",fontSize:12,color:"#e0e0ff",lineHeight:1.7}}>{s.pusselbit}</div>
+  </ToggleBlock>;
+}
+
+function KedjeStegMott({s,ac}){
+  const [open,setOpen]=useState(false);
+  return <ToggleBlock label={`👂 Lyssna efter – ${s.kedjaNamn}`} ac={ac} bg="#0a0f08" open={open} setOpen={setOpen}>
+    {s.triggerOrd&&<><div style={{fontSize:10,color:ac,letterSpacing:2,marginBottom:6,fontFamily:"'Cinzel',serif"}}>OM NÅGON SÄGER NÅGOT MED</div>
+    <div style={{background:"#000a00",border:`1px solid ${ac}44`,borderRadius:3,padding:"12px",marginBottom:10,fontSize:16,color:ac,fontWeight:700,textAlign:"center"}}>"{s.triggerOrd}"</div></>}
+    {s.svarslösenord&&<><div style={{fontSize:10,color:ac,letterSpacing:2,marginBottom:6,fontFamily:"'Cinzel',serif"}}>SVARA MED</div>
+    <div style={{background:"#0a0800",border:`1px solid ${ac}44`,borderRadius:3,padding:"12px",marginBottom:10,fontSize:14,color:"#ffeebb",textAlign:"center"}}>"{s.svarslösenord}"</div></>}
+    {s.pusselbit&&<><div style={{fontSize:10,color:ac,letterSpacing:2,marginBottom:6,fontFamily:"'Cinzel',serif"}}>DU FÅR SEDAN DENNA PUSSELBIT</div>
+    <div style={{background:"#080808",border:`1px solid ${ac}33`,borderRadius:3,padding:"10px",fontSize:12,color:"#8a7a5a",fontStyle:"italic"}}>Den som sagt frasen delar sin pusselbit med dig.</div></>}
+  </ToggleBlock>;
+}
+
+
 // ─── ROLLKORT-SEKTIONER ───────────────────────────────────────────────────────
 function KedjeSektion({roll}){
   const kedjor=roll.kedjor||[];
@@ -710,28 +735,8 @@ function KedjeSektion({roll}){
   if(!steg.length)return null;
   const ac=roll.barnroll?"#ffb3c6":roll.gilleColor||T.guld;
   return <div style={{marginBottom:8}}>
-    {steg.filter(s=>s.typ==="sandare").map((s,i)=>{
-      const [open,setOpen]=useState(false);
-      return <ToggleBlock key={i} label={`🗣 Din fras – ${s.kedjaNamn}`} ac={ac} bg="#080f08" open={open} setOpen={setOpen}>
-        <div style={{fontSize:10,color:ac,letterSpacing:2,marginBottom:6,fontFamily:"'Cinzel',serif"}}>DIN FRAS</div>
-        <div style={{background:"#000a00",border:`1px solid ${ac}44`,borderRadius:3,padding:"12px",marginBottom:10,fontSize:14,color:"#d0ffd0",fontStyle:"italic",textAlign:"center",lineHeight:1.7}}>"{s.fras}"</div>
-        <div style={{fontSize:10,color:ac,letterSpacing:2,marginBottom:6,fontFamily:"'Cinzel',serif"}}>OM MOTTAGAREN SVARAR MED</div>
-        <div style={{background:"#0a0800",border:`1px solid ${ac}33`,borderRadius:3,padding:"10px",marginBottom:10,fontSize:13,color:ac,fontWeight:700}}>"{s.triggerOrd}"</div>
-        <div style={{fontSize:10,color:ac,letterSpacing:2,marginBottom:6,fontFamily:"'Cinzel',serif"}}>GE DEM DENNA PUSSELBIT</div>
-        <div style={{background:"#080808",border:`1px solid ${ac}55`,borderRadius:3,padding:"10px",fontSize:12,color:"#e0e0ff",lineHeight:1.7}}>{s.pusselbit}</div>
-      </ToggleBlock>;
-    })}
-    {steg.filter(s=>s.typ==="mottagare"||s.typ==="mottagare_sandare").map((s,i)=>{
-      const [open,setOpen]=useState(false);
-      return <ToggleBlock key={i} label={`👂 Lyssna efter – ${s.kedjaNamn}`} ac={ac} bg="#0a0f08" open={open} setOpen={setOpen}>
-        {s.triggerOrd&&<><div style={{fontSize:10,color:ac,letterSpacing:2,marginBottom:6,fontFamily:"'Cinzel',serif"}}>OM NÅGON SÄGER NÅGOT MED</div>
-        <div style={{background:"#000a00",border:`1px solid ${ac}44`,borderRadius:3,padding:"12px",marginBottom:10,fontSize:16,color:ac,fontWeight:700,textAlign:"center"}}>"{s.triggerOrd}"</div></>}
-        {s.svarslösenord&&<><div style={{fontSize:10,color:ac,letterSpacing:2,marginBottom:6,fontFamily:"'Cinzel',serif"}}>SVARA MED</div>
-        <div style={{background:"#0a0800",border:`1px solid ${ac}44`,borderRadius:3,padding:"12px",marginBottom:10,fontSize:14,color:"#ffeebb",textAlign:"center"}}>"{s.svarslösenord}"</div></>}
-        {s.pusselbit&&<><div style={{fontSize:10,color:ac,letterSpacing:2,marginBottom:6,fontFamily:"'Cinzel',serif"}}>DU FÅR SEDAN DENNA PUSSELBIT</div>
-        <div style={{background:"#080808",border:`1px solid ${ac}33`,borderRadius:3,padding:"10px",fontSize:12,color:T.textDim,fontStyle:"italic"}}>Den som sagt frasen delar sin pusselbit med dig.</div></>}
-      </ToggleBlock>;
-    })}
+    {steg.filter(s=>s.typ==="sandare").map((s,i)=><KedjeStegSandare key={i} s={s} ac={ac}/>)}
+    {steg.filter(s=>s.typ==="mottagare"||s.typ==="mottagare_sandare").map((s,i)=><KedjeStegMott key={i} s={s} ac={ac}/>)}
   </div>;
 }
 
@@ -1270,6 +1275,21 @@ function DeltagarVy({setVy,kontaktlista,setKontaktlista}){
   </div>;
 }
 
+function ManusBlock({f}){
+  const [open,setOpen]=useState(false);
+  return <div style={{marginBottom:6}}>
+    <button style={{width:"100%",background:open?"#13100c":"#1a1510",border:`1px solid ${open?f.farg+"44":"#3a2e1e"}`,borderRadius:open?"4px 4px 0 0":"4px",padding:"10px 12px",cursor:"pointer",textAlign:"left",fontFamily:"inherit",display:"flex",justifyContent:"space-between",alignItems:"center"}} onClick={()=>setOpen(v=>!v)}>
+      <span style={{fontSize:12,color:f.farg,fontFamily:"'Cinzel',serif",letterSpacing:1}}>{f.fas}</span>
+      <span style={{fontSize:10,color:"#8a7a5a"}}>{open?"▲":"▼"}</span>
+    </button>
+    {open&&<div style={{background:"#0a0800",border:`1px solid ${f.farg}33`,borderTop:"none",borderRadius:"0 0 4px 4px",padding:"14px"}}>
+      {f.rader.map((r,j)=><p key={j} style={{fontSize:13,color:"#e8e0c8",lineHeight:1.9,margin:"0 0 6px",fontStyle:"italic"}}>"{r}"</p>)}
+      {f.tips&&<div style={{marginTop:10,padding:"8px 10px",background:f.farg+"15",borderRadius:3,fontSize:11,color:f.farg}}>{f.tips}</div>}
+    </div>}
+  </div>;
+}
+
+
 // ─── SPELLEDARE-VY ────────────────────────────────────────────────────────────
 function SpelledarVy({setVy,starta,tab,setTab,antalBarn,setAntalBarn,spelare,setSpelare,domAvslojad,setDomAvslojad,fordel}){
   const [visaRoster,setVisaRoster]=useState(false);
@@ -1411,19 +1431,7 @@ function SpelledarVy({setVy,starta,tab,setTab,antalBarn,setAntalBarn,spelare,set
              "Jag har vägt skuld mot oskuld. Vågen har talat.",
            ],
            tips:"Avslöja roller dramatiskt. Presentera poängresultaten sist."},
-        ].map((f,i)=>{
-          const [open,setOpen]=useState(false);
-          return <div key={i} style={{marginBottom:6}}>
-            <button style={{width:"100%",background:open?"#13100c":T.papper,border:`1px solid ${open?f.farg+"44":T.kant}`,borderRadius:open?"4px 4px 0 0":"4px",padding:"10px 12px",cursor:"pointer",textAlign:"left",fontFamily:"inherit",display:"flex",justifyContent:"space-between",alignItems:"center"}} onClick={()=>setOpen(v=>!v)}>
-              <span style={{fontSize:12,color:f.farg,fontFamily:"'Cinzel',serif",letterSpacing:1}}>{f.fas}</span>
-              <span style={{fontSize:10,color:T.textDim}}>{open?"▲":"▼"}</span>
-            </button>
-            {open&&<div style={{background:"#0a0800",border:`1px solid ${f.farg}33`,borderTop:"none",borderRadius:"0 0 4px 4px",padding:"14px"}}>
-              {f.rader.map((r,j)=><p key={j} style={{fontSize:13,color:"#e8e0c8",lineHeight:1.9,margin:"0 0 6px",fontStyle:"italic"}}>"{r}"</p>)}
-              {f.tips&&<div style={{marginTop:10,padding:"8px 10px",background:f.farg+"15",borderRadius:3,fontSize:11,color:f.farg}}>{f.tips}</div>}
-            </div>}
-          </div>;
-        })}
+        ].map((f,i)=><ManusBlock key={i} f={f}/>)}
       </div>
       <div style={{...Kort,borderColor:"#9999cc44",background:"#080814"}}>
         <div style={{...Lbl,color:"#9999cc"}}>🧩 Rebuslösningen</div>
