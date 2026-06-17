@@ -121,12 +121,12 @@ const ROLLER_MASTER=[
    relationer:[{till:"Mästersmeden",typ:"misstänkt",text:"Misstänker dig med rätta. Ge precis nog för att hålla dem lugna."},{till:"Högprästen",typ:"hemlighet",text:"Du vet något om Högprästen. Ditt bästa trumfkort."},{till:"Runläsaren",typ:"avtal",text:"Ni delar info – aldrig mot varandra. Avtalet krackelerar."}]},
   {id:"skogsvakten",gille:"ortagillet",gilleColor:"#ffb3c6",icon:"🌲",barnroll:true,
    rollnamn:()=>"Skogsvakten",
-   karaktar:"SNABB, NYFIKEN OCH EXPERT PÅ ATT SMYGA!",
-   beskrivning:"DU SER ALLT! 🌲\n\nDU SPRINGER TYST SOM EN RÄV. ANDRA SPELARE TROR ATT DU LEKER – I SJÄLVA VERKET SPIONERAR DU!\n\nHITTA DEN ANDRA BARNROLLEN DIREKT – NI KÄNNER IGEN VARANDRA PÅ ATT NI BÄR NÅGOT GRÖNT!",
-   uppdrag:"SPANA PÅ EN SPELARE UNDER KVÄLLEN – RAPPORTERA TILL VÄGAREN!",
-   foermaga:"🌲 DITT HYSS: Smyg upp bakom en spelare och viska: 'JAG VET VAD DU GJORT' – spring sedan iväg så fort du kan!",
-   foermaga2:"🌲 DITT HYSS 2: Övertala en spelare att följa med till ett träd och 'välsigna' det tillsammans med dig. Om de frågar varför – säg att det är MYCKET viktigt.",
-   tips:"INGEN MISSTÄNKER SKOGSVAKTEN. DET ÄR DIN SUPERKRAFT! 🦊",
+   karaktar:"DU ÄR KVÄLLENS HEMLIGA ÖGA. DU SER VAD INGEN ANNAN SER.",
+   beskrivning:"DITT UPPDRAG ÄR VIKTIGT.\n\nDU RÖR DIG OBEMÄRKT. DU LYSSNAR. DU SPANAR. MEDAN ANDRA SPELARE PRATAR OCH PLANERAR – SER DU ALLT.\n\nDIN PARTNER I KVÄLL TILLHÖR SMEDERNA. HITTA DEM DIREKT.",
+   uppdrag:"VÄLJ EN SPELARE ATT SPANA PÅ UNDER HELA KVÄLLEN. RAPPORTERA TILL VÄGAREN VAD DU SER.",
+   foermaga:"🌲 HYSS 1: Smyg upp bakom en spelare och viska: JAG VET VAD DU GJORT – spring sedan iväg!",
+   foermaga2:"🌲 HYSS 2: Övertala en spelare att följa med till ett träd och välsigna det. Om de frågar varför – säg att det är MYCKET viktigt.",
+   tips:"DU ÄR FARLIGARE ÄN DU SER UT. ANVÄND DET.",
    fraser:[],
    barnHyss:[
      "SMYG upp bakom en spelare och viska 'JAG VET VAD DU GJORT' – spring sedan iväg!",
@@ -136,12 +136,12 @@ const ROLLER_MASTER=[
    relationer:[{till:"Galningen med Grytan",typ:"bästa kompis",text:"NI ÄR ETT HEMLIGT LAG! Hitta varandra direkt!"},{till:"Korsriddaren",typ:"kompis",text:"NI ÄR ETT HEMLIGT LAG! Hitta varandra direkt!"}]},
   {id:"galningen",gille:"smederna",gilleColor:"#ffcc88",icon:"🥁",barnroll:true,
    rollnamn:()=>"Galningen med Grytan",
-   karaktar:"BULLRIG, ENERGISK OCH TOTALT OMÖJLIG ATT IGNORERA!",
-   beskrivning:"DU ÄR BYNS OFFICIELLA LJUDMAKARE! 🥁\n\nHITTA DEN ANDRA BARNROLLEN DIREKT – NI KÄNNER IGEN VARANDRA PÅ ATT NI BÄR NÅGOT GRÖNT!",
-   uppdrag:"SLÅ PÅ GRYTAN OCH ROPA 'LYSSNA PÅ MIG!' MINST 3 GÅNGER UNDER KVÄLLEN!",
-   foermaga:"🥁 DITT HYSS: Marschera tre varv runt midsommarstången medan du slår på grytan och sjunger 'VI ÄR KULTEN, VI ÄR KULTEN!' Så högt du kan!",
-   foermaga2:"🥁 DITT HYSS 2: Avbryt Högprästens allvarligaste stund med tre HÖGA slag på grytan – PANG PANG PANG!",
-   tips:"INGEN TROR ATT DU MÄRKER SAKER. MEN DU MÄRKER ALLT! 👀",
+   karaktar:"DU ÄR KVÄLLENS VILDASTE KRAFT. ALLA HÖR DIG. INGEN KAN STOPPA DIG.",
+   beskrivning:"DIN GRYTA ÄR DITT VAPEN.\n\nNÄR DU SLÅR – LYSSNAR ALLA. NÄR DU TALAR – TIGER ALLA. DU HAR MER MAKT ÄN DU TROR.\n\nDIN PARTNER I KVÄLL TILLHÖR ÖRTAGILLET. HITTA DEM DIREKT.",
+   uppdrag:"SLÅ PÅ GRYTAN OCH ROPA LYSSNA PÅ MIG MINST 3 GÅNGER. VARJE GÅNG BERÄTTAR DU NÅGOT DU SETT.",
+   foermaga:"🥁 HYSS 1: Marschera tre varv runt stången och sjung VI ÄR KULTEN VI ÄR KULTEN – så högt du kan!",
+   foermaga2:"🥁 HYSS 2: Avbryt Högprästens allvarligaste stund med tre slag på grytan – PANG PANG PANG!",
+   tips:"DU MÄRKER ALLT. ANVÄND DET.",
    fraser:[],
    barnHyss:[
      "MARSCHERA tre varv runt stången och sjung 'VI ÄR KULTEN, VI ÄR KULTEN!' så högt du kan!",
@@ -151,12 +151,12 @@ const ROLLER_MASTER=[
    relationer:[{till:"Skogsvakten",typ:"bästa kompis",text:"NI ÄR ETT HEMLIGT LAG! Hitta varandra direkt!"},{till:"Korsriddaren",typ:"kompis",text:"NI ÄR ETT HEMLIGT LAG! Hitta varandra direkt!"}]},
   {id:"korsriddaren",gille:"månkyrkan",gilleColor:"#c8b8ff",icon:"⚔️",barnroll:true,
    rollnamn:()=>"Korsriddaren",
-   karaktar:"LITEN, MODIG OCH FULLSTÄNDIGT ÖVERTYGAD OM ATT RÄTTVISA ALLTID SEGRAR!",
-   beskrivning:"DU ÄR MÅNKYRKANS TAPPRE RIDDARE! ⚔️\n\nHITTA DEN ANDRA BARNROLLEN DIREKT – NI KÄNNER IGEN VARANDRA PÅ ATT NI BÄR NÅGOT GRÖNT!",
-   uppdrag:"UTMANA EN SPELARE TILL STEN-SAX-PÅSE! VAKTA MIDSOMMARSTÅNGEN!",
-   foermaga:"⚔️ DITT HYSS: Säg högt inför alla spelare: 'JAG VET VEM KULTLEDAREN ÄR – DET ÄR [peka på vem som helst]!' Håll dig inte för skratt!",
-   foermaga2:"⚔️ DITT HYSS 2: Vakta midsommarstången i 5 minuter och säg NEJ till ALLA spelare som försöker komma nära!",
-   tips:"BARN SER SAKER SOM ANDRA SPELARE ÄR FÖR SMARTA FÖR ATT MÄRKA! 👀",
+   karaktar:"DU ÄR KVÄLLENS VAKTHÅLLARE. INGENTING SKER UTAN ATT DU SER DET.",
+   beskrivning:"DITT LÖFTE ÄR HELIGT.\n\nDU VAKTAR. DU UTMANAR. DU AVSLÖJAR. MIDSOMMARSTÅNGEN OCH SANNINGEN ÄR UNDER DITT SKYDD I KVÄLL.\n\nDIN PARTNER I KVÄLL TILLHÖR SMEDERNA. HITTA DEM DIREKT.",
+   uppdrag:"UTMANA EN SPELARE TILL STEN-SAX-PÅSE. VAKTA MIDSOMMARSTÅNGEN MOT ALLA SOM KOMMER NÄRA.",
+   foermaga:"⚔️ HYSS 1: Säg högt inför alla: JAG VET VEM KULTLEDAREN ÄR – DET ÄR [peka på vem som helst]. Håll dig inte för skratt!",
+   foermaga2:"⚔️ HYSS 2: Vakta stången i 5 minuter och säg NEJ till alla som försöker komma nära!",
+   tips:"DU SER SAKER SOM ANDRA MISSAR. LITA PÅ DIG SJÄLV.",
    fraser:[],
    barnHyss:[
      "SÄG högt: 'JAG VET VEM KULTLEDAREN ÄR – DET ÄR [peka på vem som helst]!'",
@@ -820,7 +820,9 @@ function RollKort({roll,onBekrafta,spelarKon,spelarAlder}){
     </ToggleBlock>}
 
     <Sek label="✦ Karaktär" ac={ac}><p style={RT}>{roll.karaktar}</p></Sek>
-    <Sek label="📖 Bakgrund" ac={ac}><p style={{...RT,whiteSpace:"pre-line"}}>{roll.beskrivning}</p></Sek>
+    {roll.barnroll
+      ?<div style={{background:ac+"15",border:`1px solid ${ac}44`,borderRadius:4,padding:"14px",marginBottom:8}}><p style={{fontSize:14,color:T.text,lineHeight:1.9,margin:0,whiteSpace:"pre-line",fontWeight:700}}>{roll.beskrivning}</p></div>
+      :<Sek label="📖 Bakgrund" ac={ac}><p style={{...RT,whiteSpace:"pre-line"}}>{roll.beskrivning}</p></Sek>}
     <Sek label="⚔ Ditt uppdrag" ac={ac} hi><p style={RT}>{roll.uppdrag}</p></Sek>
     <GillesuppdragSektion roll={roll}/>
     <RollPoangSektion roll={roll}/>
@@ -851,7 +853,7 @@ function RollKort({roll,onBekrafta,spelarKon,spelarAlder}){
     })()}
 
     <AnklagelseSektion roll={roll}/>
-    <KedjeSektion roll={roll}/>
+    {!roll.barnroll&&<KedjeSektion roll={roll}/>}
     <DansSektion roll={roll} erKultledare={roll.erKultledare}/>
     <BarnSektion roll={roll}/>
     <JuliaSektion spelarKon={spelarKon} spelarAlder={spelarAlder}/>
