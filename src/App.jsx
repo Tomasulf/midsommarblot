@@ -278,18 +278,49 @@ const POLKKA=[
 ];
 
 // ─── ANKLAGELSER ──────────────────────────────────────────────────────────────
-const ANKLAGELSER={
-  kloka:"Träden minns – och jag minns med dem. Det finns någon bland oss ikväll vars rötter inte sitter i vår jord. Jag kan känna det. Jag har känt det hela kvällen. Jag säger ingenting mer – men jag ber er alla se er om.",
-  ortmastaren:"Jag vill inte tro det. Men det som luktar vackrast kan döda snabbast – och här ikväll finns det någon vars vänlighet luktar lite för vackert. Tinget bör ta det på allvar.",
-  gronskan:"Skogen ser vad elden inte når. Och ikväll ser skogen ett ansikte bland oss som inte stämmer. Balansen är störd. Jag kräver att Tinget undersöker detta.",
-  mastersmeden:"Järnet ljuger aldrig. Smederna har diskuterat och vi är överens: det finns en röta i Ausås Blotängar ikväll. Och röta sprider sig om man inte tar tag i den.",
-  soldaten:"Jag tvekar inte. Någon i det här rummet ler vid fel tillfällen, svarar en halv sekund för sent och undviker ett specifikt ämne. Tinget bör agera – och agera nu.",
-  glodviskaren:"Elden viskar ikväll om någon som ler för mycket. Som alltid finns på rätt plats vid rätt tillfälle. Som hjälper alla – men kanske hjälper sig själv mest av allt.",
-  hogprasten:"Månkyrkan har tagit emot ett tecken. Det pekar mot någon som kom till Ausås Blotängar utifrån. Någon vars rötter inte sitter i vår jord. Jag avger detta i kyrkans namn.",
-  runlaesaren:"Runorna pekade på ett specifikt gillefärg redan när kvällen började. Jag ville inte tro det. Runorna hade inte fel. De har aldrig fel.",
-  munken:"Gud förlåter – men han behöver lite tid på sig. Och under den tid han tar på sig har jag lyssnat noga. Det jag hört om en viss person den här kvällen... det var faktiskt ganska mörkt.",
-  den_resande:"Jag har sett det här förut – i en annan by, en annan natt. Det slutade inte väl. Mönstret är detsamma: ett gille, en person, ett syfte som inte stämmer med vad de säger.",
-};
+// Pool av anklagelser riktade mot olika grupper – slumpas ut två st vid spelstart
+// Prioriteras till spelare >40 år
+
+const ANKLAGELSE_POOL = [
+  {
+    id:"mot_ortagillet",
+    riktning:"Örtagillet",
+    text:"Det finns ett gammalt ordspråk: den som känner till varje ört i skogen – det är inte en oskyldig människa. Örtagillets folk ler. De hjälper. De bjuder på té. Och ikväll undrar jag – vad är det egentligen i det téet?",
+    stil:"Kort paus efter 'oskyldig människa'. Titta långsamt mot Örtagillets medlemmar. Avsluta med ett litet leende.",
+  },
+  {
+    id:"mot_smederna",
+    riktning:"Smederna",
+    text:"Järnet säger en sak. Smedens ögon säger en annan. Jag har sett hur någon från brödraskapets led rör sig när de tror att ingen tittar. Det är inte en oskyldig rörelse. Järnet ljuger aldrig – men smeden kan.",
+    stil:"Stå stilla. Tala långsamt. Titta på smederna en extra sekund innan du ser bort.",
+  },
+  {
+    id:"mot_mankyrkan",
+    riktning:"Månkyrkan",
+    text:"Kyrkan talar om månens öga och renhet. Men renheten i Månkyrkan ikväll – den luktar lite konstigt, om ni frågar mig. Som något som försöker dölja sig bakom högtidliga ord och vackra gester. Jag har bett. Jag har lyssnat. Och månens öga tittar åt ett mycket specifikt håll ikväll.",
+    stil:"Höjtidlig ton. Håll blicken mot Månkyrkans medlemmar en sekund för länge.",
+  },
+  {
+    id:"mot_den_resande",
+    riktning:"Den Resande",
+    text:"En som kom i morse. Utan förklaring. Utan rötter. Alltid på rätt plats vid rätt tillfälle. Alltid med ett leende som sitter en halv sekund för länge. Jag frågar er – vem gör det? Vem kommer till en by på midsommarnatten utan ett skäl? Jag har rest mycket. Och jag vet hur den sortens människa ser ut.",
+    stil:"Luta dig mot Den Resande utan att peka. Låt tystnaden göra jobbet.",
+  },
+];
+
+// Slumpa ut 2 anklagelser vid spelstart, tilldela till spelare >40 år om möjligt
+function slumpaAnklagelser(fordel) {
+  const pool = [...ANKLAGELSE_POOL].sort(() => Math.random() - 0.5).slice(0, 2);
+  // Hitta spelare >40 år om möjligt, annars slumpa
+  const kandidater = fordel.filter(r => !r.barnroll && parseInt(r.spelarAlder||0) > 40);
+  const ovriga = fordel.filter(r => !r.barnroll && !kandidater.includes(r));
+  const tillgangliga = [...kandidater, ...ovriga];
+  return pool.map((ankl, i) => ({
+    ...ankl,
+    tilldeladRollId: tillgangliga[i]?.id || null,
+  }));
+}
+
 
 // ─── GILLESUPPDRAG ────────────────────────────────────────────────────────────
 const GILLESUPPDRAG = {
@@ -530,11 +561,23 @@ function blandaOchTilldela(antalBarn){
   const kandidatSlump=[...kandidater].sort(()=>Math.random()-0.5).slice(0,2);
   const ledareKandidater=kandidater.filter(id=>!kandidatSlump.includes(id));
   const kultledareId=ledareKandidater[Math.floor(Math.random()*ledareKandidater.length)];
-  return [...valdaVuxna,...valdaBarn].map(r=>{
+  // Tilldela anklagelser – prioritera spelare >40 år
+  const allaRoller=[...valdaVuxna,...valdaBarn];
+  const anklagelsePool=[...ANKLAGELSE_POOL].sort(()=>Math.random()-0.5).slice(0,2);
+  const kandidaterAlder=allaRoller.filter(r=>!r.barnroll&&parseInt(r.spelarAlder||0)>40);
+  const ovrigaRoller=allaRoller.filter(r=>!r.barnroll&&!kandidaterAlder.includes(r)).sort(()=>Math.random()-0.5);
+  const anklagelseTilldelning=anklagelsePool.map((a,i)=>({
+    rollId:[...kandidaterAlder,...ovrigaRoller][i]?.id||null,
+    anklagelse:a,
+  }));
+
+  return allaRoller.map(r=>{
     const mi=kandidatSlump.indexOf(r.id);
     let u={...r,kedjor};
     if(mi!==-1)u={...u,kultMarke:markeSlump[mi]};
     if(r.id===kultledareId)u={...u,erKultledare:true};
+    const minAnklagelse=anklagelseTilldelning.find(a=>a.rollId===r.id);
+    if(minAnklagelse)u={...u,anklagelse:minAnklagelse.anklagelse};
     return u;
   }).sort(()=>Math.random()-0.5);
 }
@@ -627,15 +670,16 @@ function DansSektion({roll,erKultledare}){
 function AnklagelseSektion({roll}){
   const [open,setOpen]=useState(false);
   if(roll.barnroll)return null;
-  const text=ANKLAGELSER[roll.id];
-  if(!text)return null;
+  if(!roll.anklagelse)return null;
   const ac=roll.gilleColor||T.guld;
-  return <ToggleBlock label="⚖️ Din förskrivna anklagelse" ac={ac} bg="#08080f" open={open} setOpen={setOpen}>
+  const ankl=roll.anklagelse;
+  return <ToggleBlock label={`⚖️ Din förskrivna anklagelse – mot ${ankl.riktning}`} ac={ac} bg="#08080f" open={open} setOpen={setOpen}>
     <div style={{background:"#080814",border:`1px solid ${ac}33`,borderRadius:3,padding:"14px",marginBottom:10}}>
       <div style={{fontSize:10,color:ac,letterSpacing:2,fontFamily:"'Cinzel',serif",marginBottom:8}}>LÄS HÖGT VID TINGET</div>
-      <p style={{fontSize:13,color:T.text,lineHeight:1.9,margin:0,fontStyle:"italic"}}>"{text}"</p>
+      <p style={{fontSize:13,color:T.text,lineHeight:1.9,margin:0,fontStyle:"italic"}}>"{ankl.text}"</p>
     </div>
-    <div style={{fontSize:11,color:"#ffcc66"}}>+15p för att framföra · +10p om majoriteten följer · +20-35p om korrekt</div>
+    <div style={{fontSize:11,color:T.textDim,fontStyle:"italic",marginBottom:8,lineHeight:1.5}}>{ankl.stil}</div>
+    <div style={{fontSize:11,color:"#ffcc66"}}>+15p för att framföra · +20-35p om det visar sig peka rätt vid Domen</div>
   </ToggleBlock>;
 }
 
@@ -1019,11 +1063,14 @@ function SpelledarVy({setVy,starta,tab,setTab,antalBarn,setAntalBarn,spelare,set
         <div style={{...Lbl,color:"#9999cc"}}>✓ Roller delade – {fordel.length} spelare</div>
         {fordel.map(r=>{
           const rollnamn=typeof r.rollnamn==="function"?r.rollnamn(""):r.rollnamn;
-          return <div key={r.id} style={{display:"flex",gap:8,padding:"3px 0",borderBottom:`1px solid ${T.kant2}`,fontSize:12}}>
-            <span>{r.icon}</span>
-            <span style={{color:r.gilleColor||T.guld,flex:1}}>{rollnamn}</span>
-            {r.erKultledare&&<span style={{color:"#cc3333",fontSize:10}}>LEDARE</span>}
-            {r.kultMarke&&!r.erKultledare&&<span style={{color:"#cc6666",fontSize:10}}>MÄRKT</span>}
+          return <div key={r.id} style={{marginBottom:4}}>
+            <div style={{display:"flex",gap:8,padding:"3px 0",borderBottom:`1px solid ${T.kant2}`,fontSize:12,alignItems:"center"}}>
+              <span>{r.icon}</span>
+              <span style={{color:r.gilleColor||T.guld,flex:1}}>{rollnamn}</span>
+              {r.erKultledare&&<span style={{color:"#cc3333",fontSize:10}}>LEDARE</span>}
+              {r.kultMarke&&!r.erKultledare&&<span style={{color:"#cc6666",fontSize:10}}>MÄRKT</span>}
+              <button style={{fontSize:10,background:"transparent",border:`1px solid ${r.gilleColor||T.kant}44`,color:r.gilleColor||T.guld,borderRadius:3,padding:"2px 8px",cursor:"pointer",fontFamily:"inherit"}} onClick={()=>setVy("rollkort_"+r.id)}>Visa →</button>
+            </div>
           </div>;
         })}
       </div>}
@@ -1214,6 +1261,9 @@ function RegelVy({setVy}){
         Läs igenom reglerna innan kvällen börjar.<br/>
         Din hemliga roll får du via appen när kvällen startar.
       </p>
+      <div style={{marginTop:10,fontSize:11,color:T.textDim}}>
+        Dela denna sida: <span style={{color:T.guld,fontSize:10}}>midsommarblot.vercel.app/#regler</span>
+      </div>
     </div>
     {REGLER.map((r,i)=><div key={i} style={{marginBottom:6}}>
       <button style={{width:"100%",background:open[i]?"#13100c":T.papper,border:`1px solid ${open[i]?"#c9a84c44":T.kant}`,borderRadius:open[i]?"4px 4px 0 0":"4px",padding:"12px 14px",fontSize:13,fontFamily:"'Cinzel',serif",cursor:"pointer",textAlign:"left",color:open[i]?T.guld:T.text,display:"flex",justifyContent:"space-between",alignItems:"center"}} onClick={()=>toggle(i)}>
@@ -1300,6 +1350,16 @@ function SpelarVy({rollData}){
 export default function App(){
   // Kolla om vi är i spelarläge (QR-länk)
   const hash=window.location.hash||"";
+  if(hash==="#regler"){
+    return <div style={{minHeight:"100vh",background:T.bg,color:T.text,fontFamily:"'IM Fell English',Georgia,serif"}}>
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=IM+Fell+English:ital@0;1&display=swap');*{box-sizing:border-box}body{margin:0;background:#0d0b08}`}</style>
+      <div style={{background:"#0a0800",borderBottom:`1px solid ${T.kant}`,padding:"10px 16px",textAlign:"center"}}>
+        <div style={{fontSize:9,letterSpacing:4,color:T.guldDim,fontFamily:"monospace"}}>MIDSOMMARBLOT · AUSÅS BLOTÄNGAR · 19 JUNI 2026</div>
+      </div>
+      <RegelVy setVy={()=>{}}/>
+    </div>;
+  }
+
   if(hash.startsWith("#roll=")&&hash.length>6){
     try{
       const enkodad=hash.slice(6);
@@ -1377,6 +1437,20 @@ export default function App(){
     {vy==="deltagare"&&<DeltagarVy setVy={setVy} kontaktlista={kontaktlista} setKontaktlista={setKontaktlista}/>}
     {vy==="drag"&&<DragVy fordel={fordel} idx={idx} roll={roll} avslojar={avslojar} bekr={bekr} klart={klart} alder={alder} setAlder={setAlder} kon={kon} setKon={setKon} alderKlar={alderKlar} bekraftaAlder={bekraftaAlder} setAvslojar={setAvslojar} setBekr={setBekr} nasta={nasta} setVy={setVy}/>}
     {vy==="guide"&&<GuideVy setVy={setVy}/>}
+    {vy.startsWith("rollkort_")&&fordel.length>0&&(()=>{
+      const rollId=vy.replace("rollkort_","");
+      const r=fordel.find(x=>x.id===rollId);
+      if(!r)return null;
+      return <div style={{minHeight:"100vh",background:T.bg,paddingBottom:60}}>
+        <div style={{padding:"12px 16px",borderBottom:`1px solid ${T.kant}`,display:"flex",alignItems:"center",gap:10}}>
+          <button style={Tillbaka} onClick={()=>setVy("spelledare")}>← Tillbaka</button>
+          <span style={{fontSize:11,color:T.textDim,fontStyle:"italic"}}>Spelledarvy – {typeof r.rollnamn==="function"?r.rollnamn(""):r.rollnamn}</span>
+          {r.erKultledare&&<span style={{fontSize:10,color:"#cc3333",padding:"2px 8px",border:"1px solid #cc333344",borderRadius:3}}>KULTLEDARE</span>}
+          {r.kultMarke&&!r.erKultledare&&<span style={{fontSize:10,color:"#cc6666",padding:"2px 8px",border:"1px solid #cc666644",borderRadius:3}}>KULTMÄRKT</span>}
+        </div>
+        <RollKort roll={r} onBekrafta={null} spelarKon={r.spelarKon||""} spelarAlder={r.spelarAlder||""}/>
+      </div>;
+    })()}
     {vy==="regler"&&<RegelVy setVy={setVy}/>}
     {vy==="poang"&&<PoangVy spelare={spelare} domAvslojad={domAvslojad} setDomAvslojad={setDomAvslojad} setVy={setVy}/>}
   </div>;
