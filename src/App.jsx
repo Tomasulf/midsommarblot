@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 // ─── TEMA & STILKONSTANTER ────────────────────────────────────────────────────
 const T = {
@@ -76,17 +76,20 @@ const ROLLER_MASTER=[
    fraser:[{fras:"Elden viskar för de som vet hur man lyssnar.",nyckelord:"elden viskar",svar:"Och vad säger elden dig ikväll?"}],
    tips:"Var aldrig first, aldrig last – alltid i mitten.",
    relationer:[{till:"Mästersmeden",typ:"förtroende",text:"Mästersmeden lyssnar på dina råd."},{till:"Soldaten",typ:"manipulation",text:"En viskning styr deras anklagelse dit du vill."},{till:"Högprästen",typ:"gammal allians",text:"Ni har delat hemligheter. Litar på varandra – till en viss gräns."}]},
-  {id:"hogprasten",gille:"mankyrkan",gilleColor:"#9999e0",icon:"🌙",barnroll:false,
+  {id:"hogprasten",gille:"månkyrkan",gilleColor:"#9999e0",icon:"🌙",barnroll:false,
    rollnamn:()=>"Högprästen",
    karaktar:"Högtidlig, teatralisk, van vid att folk lyssnar.",
    beskrivning:"Du är Månkyrkans röst. Den Resande bär en hemlighet om dig.",
    uppdrag:"Avge offentlig profetia under Fas 1. Samla 5+ i cirkelgång under Euphoria (+25p)!",
    foermaga:"🌙 Helgad Ritual: Samla alla – ingen kan anklagas under 3 min.",
    foermaga2:"📿 Absolution: Bekännelse i enrum = skydd 10 min.",
-   fraser:[{fras:"Månens öga sluter sig aldrig helt.",nyckelord:"sluter sig aldrig",svar:"Och vad ser månens öga ikväll?"}],
+   fraser:[
+     {fras:"Månens öga sluter sig aldrig helt.",nyckelord:"sluter sig aldrig",svar:"Och vad ser månens öga ikväll?"},
+     {fras:"Blotet kräver renhet – och renhet är sällsynt ikväll.",nyckelord:"renhet är sällsynt",svar:"Kanske är det orenheten som håller oss levande."},
+   ],
    tips:"Var dramatisk. Pauser, ögonkontakt, gester. Du sätter stämningen.",
    relationer:[{till:"Runläsaren",typ:"allians",text:"Ni delar kyrkans hemligheter. Starka – varandras svaghet."},{till:"Munken/Nunnan",typ:"frustration",text:"From nog men lite för förtjust i ölet. Lojal dock."},{till:"Den Resande",typ:"hot",text:"De vet något om dig. Det kan skada dig."}]},
-  {id:"runlaesaren",gille:"mankyrkan",gilleColor:"#9999e0",icon:"🔮",barnroll:false,
+  {id:"runlaesaren",gille:"månkyrkan",gilleColor:"#9999e0",icon:"🔮",barnroll:false,
    rollnamn:()=>"Runläsaren",
    karaktar:"Mystisk, aldrig rak, njuter av att folk aldrig vet vad du menar.",
    beskrivning:"Allt du säger kan tolkas åt två håll – och du väljer tolkningen i efterhand.",
@@ -96,7 +99,7 @@ const ROLLER_MASTER=[
    fraser:[{fras:"Stjärnorna har redan bestämt vad som ska hända ikväll.",nyckelord:"bestämt vad som ska",svar:"Då är frågan om vi är villiga att se det."}],
    tips:"En välplacerad tystnad är kraftfullare än ett svar.",
    relationer:[{till:"Högprästen",typ:"allians",text:"Ni delar kyrkans hemligheter."},{till:"Kloka Gumman/Gubben",typ:"gammal konflikt",text:"Ni kom till olika slutsatser. Kvällen kräver att ni talar ut."},{till:"Soldaten",typ:"irritation",text:"Soldaten kräver raka svar. Du ger dem aldrig."}]},
-  {id:"munken",gille:"mankyrkan",gilleColor:"#9999e0",icon:"🍺",barnroll:false,
+  {id:"munken",gille:"månkyrkan",gilleColor:"#9999e0",icon:"🍺",barnroll:false,
    rollnamn:(k)=>k==="tjej"?"Nunnan":"Munken",
    karaktar:"From på pappret, törstig i praktiken. Lågmäld tills tredje kannan.",
    beskrivning:"Du trivs bäst med en kanna i handen – och folk pratar friare med dig än de borde.",
@@ -136,7 +139,7 @@ const ROLLER_MASTER=[
    tips:"Ingen tror att du märker saker. Men du märker ALLT! 👀",
    fraser:[],
    relationer:[{till:"Mästersmeden",typ:"respekt",text:"Vill utmana dem i armbrytning. Gör det!"},{till:"Skogsvakten",typ:"bästa kompis",text:"Ni hittar på hyss tillsammans!"},{till:"Korsriddaren",typ:"kompis",text:"Ni tre är ett hemligt lag!"}]},
-  {id:"korsriddaren",gille:"mankyrkan",gilleColor:"#c8b8ff",icon:"⚔️",barnroll:true,
+  {id:"korsriddaren",gille:"månkyrkan",gilleColor:"#c8b8ff",icon:"⚔️",barnroll:true,
    rollnamn:()=>"Korsriddaren",
    karaktar:"Liten, modig och fullständigt övertygad om att rättvisa alltid segrar.",
    beskrivning:"Du är Månkyrkans tappre riddare! ⚔️\n\nHitta de andra barnrollerna DIREKT – ni känner igen varandra på att ni alla bär något GRÖNT.",
@@ -198,7 +201,7 @@ const DANSLATAR=[
   {id:"walking",   titel:"Walking on Sunshine",poang:5},
   {id:"euphoria",  titel:"Euphoria – Loreen",  poang:5},
   {id:"guld",      titel:"Guld och gröna skogar",gille:"ortagillet",poang:10},
-  {id:"only",      titel:"Only Time",           gille:"mankyrkan",poang:10},
+  {id:"only",      titel:"Only Time",           gille:"månkyrkan",poang:10},
   {id:"seven",     titel:"Seven Nation Army",   gille:"smederna",poang:10},
 ];
 
@@ -287,6 +290,126 @@ const ANKLAGELSER={
   munken:"Gud förlåter – men han behöver lite tid på sig. Och under den tid han tar på sig har jag lyssnat noga. Det jag hört om en viss person den här kvällen... det var faktiskt ganska mörkt.",
   den_resande:"Jag har sett det här förut – i en annan by, en annan natt. Det slutade inte väl. Mönstret är detsamma: ett gille, en person, ett syfte som inte stämmer med vad de säger.",
 };
+
+// ─── GILLESUPPDRAG ────────────────────────────────────────────────────────────
+const GILLESUPPDRAG = {
+  ortagillet: {
+    rubrik: "🌿 Örtagillets uppdrag",
+    gemensamt: [
+      "Genomför Örtceremonin inför minst 4 vittnen",
+      "Kloka Gumman/Gubben använder Helig Blick",
+      "Minst 2 av 3 bildar allians utanför gillet",
+      "Alla dansar Guld och gröna skogar – skuttar som orkar",
+    ],
+    bonus: "+30p till hela gillet om ALLA fyra är klara",
+  },
+  smederna: {
+    rubrik: "⚒ Smedernas uppdrag",
+    gemensamt: [
+      "Genomför Smedjeeden – avbryt en annan grupps samtal",
+      "Enas om gemensam anklagelse INNAN Tinget",
+      "Soldaten vinner sten-sax-påse mot 2 från andra gillen",
+      "Alla dansar Seven Nation Army – cirkulerar runt stången",
+    ],
+    bonus: "+30p till hela gillet om ALLA fyra är klara",
+  },
+  månkyrkan: {
+    rubrik: "☽ Månkyrkans uppdrag",
+    gemensamt: [
+      "Genomför Skuggprofetian utomhus inför vittnen",
+      "Högprästen avger profetia INNAN Fas 2",
+      "Runläsaren ger minst 2 orakel utanför kyrkan",
+      "Alla dansar Only Time – håller hand i ring",
+    ],
+    bonus: "+30p till hela gillet om ALLA fyra är klara",
+  },
+};
+
+// Individuella poänguppdrag per roll
+const ROLL_UPPGIFTER = {
+  kloka: [
+    {label:"Helig Blick använd", poang:15},
+    {label:"Kultmärkt identifierad", poang:30},
+    {label:"Allians bildad", poang:15},
+    {label:"Örtceremonin genomförd", poang:10},
+  ],
+  ortmastaren: [
+    {label:"Allians med Örtagillet", poang:10},
+    {label:"Allians med Smederna", poang:10},
+    {label:"Allians med Månkyrkan", poang:10},
+    {label:"Allians med Den Resande", poang:10},
+    {label:"Motgift-förmåga använd", poang:20},
+  ],
+  gronskan: [
+    {label:"Spaningsrapport till Vägaren", poang:10},
+    {label:"Skogens Dom använd", poang:15},
+    {label:"3 personer informerade om observation", poang:15},
+    {label:"Pentagram hittat", poang:10},
+  ],
+  mastersmeden: [
+    {label:"Gemensam anklagelse ledd", poang:20},
+    {label:"Ordningslag använd", poang:15},
+    {label:"Vittnesed använd vid anklagelse", poang:15},
+    {label:"Smedjeeden genomförd", poang:10},
+  ],
+  soldaten: [
+    {label:"Sten-sax-påse vunnen (1 person)", poang:5},
+    {label:"Sten-sax-påse vunnen mot 2+ utanför gillet", poang:20},
+    {label:"Stridsskri använd", poang:10},
+    {label:"Formell anklagelse framförd", poang:15},
+  ],
+  glodviskaren: [
+    {label:"Idé planterad (köpt av annan)", poang:15},
+    {label:"Glödviskning genomförd", poang:10},
+    {label:"Spegeln-förmåga använd", poang:10},
+    {label:"Rapport till Vägaren", poang:10},
+  ],
+  hogprasten: [
+    {label:"Profetia avgiven Fas 1", poang:20},
+    {label:"5+ i cirkelgång runt stången", poang:25},
+    {label:"Helgad Ritual genomförd", poang:15},
+    {label:"Absolution given", poang:10},
+  ],
+  runlaesaren: [
+    {label:"Runorakel givet (per person)", poang:10},
+    {label:"Runbindning använd", poang:15},
+    {label:"Profetia visade sig stämma", poang:20},
+  ],
+  munken: [
+    {label:"Hemlighet samlad (per st, max 3)", poang:10},
+    {label:"Rundan på huset genomförd", poang:15},
+    {label:"Skenbetagen-förmåga använd", poang:10},
+  ],
+  den_resande: [
+    {label:"Hemlighet samlad (per st)", poang:10},
+    {label:"Hemlighet bytt mot löfte", poang:15},
+    {label:"3+ uppbud under Cannelloni Macaroni", poang:15},
+    {label:"Sista budet använt", poang:10},
+  ],
+  skogsvakten: [
+    {label:"Hittade de andra barnrollerna", poang:15},
+    {label:"Spaningsrapport till Vägaren", poang:5},
+    {label:"JAG SÅG DIG-förmåga använd", poang:10},
+    {label:"Falskt rykte placerat", poang:10},
+    {label:"Vuxen övad att smaka löv", poang:10},
+    {label:"Smög bakom 3 vuxna ostört", poang:15},
+  ],
+  galningen: [
+    {label:"Hittade de andra barnrollerna", poang:15},
+    {label:"LYSSNA PÅ MIG! ropad (per gång)", poang:3},
+    {label:"PANG PANG PANG använd", poang:10},
+    {label:"Vunnit tävling mot vuxen", poang:10},
+    {label:"3 vuxna övertygade att dansa konstigt", poang:15},
+  ],
+  korsriddaren: [
+    {label:"Hittade de andra barnrollerna", poang:15},
+    {label:"Äreduel vunnen (per duell)", poang:5},
+    {label:"Riddarlöftet använt", poang:10},
+    {label:"Vaktat stången 5 min", poang:15},
+    {label:"Misstänkt vuxen rapporterad", poang:10},
+  ],
+};
+
 
 const JULIA_UPPDRAG={
   trigger:{kon:"tjej",alder:41},
@@ -386,7 +509,7 @@ const GILLE_INFO={
 
 // ─── TILLDELNING ──────────────────────────────────────────────────────────────
 function blandaOchTilldela(antalBarn){
-  const gilles=["ortagillet","smederna","mankyrkan"];
+  const gilles=["ortagillet","smederna","månkyrkan"];
   let valdaVuxna=[];
   gilles.forEach(g=>{
     const gr=ROLLER_MASTER.filter(r=>!r.barnroll&&r.gille===g).sort(()=>Math.random()-0.5);
@@ -528,6 +651,40 @@ function JuliaSektion({spelarKon,spelarAlder}){
   </ToggleBlock>;
 }
 
+// ─── GILLESUPPDRAG-SEKTION ────────────────────────────────────────────────────
+function GillesuppdragSektion({roll}){
+  const [open,setOpen]=useState(false);
+  const gille=roll.gille;
+  const data=GILLESUPPDRAG[gille];
+  if(!data)return null;
+  const ac=roll.barnroll?"#ffb3c6":roll.gilleColor||T.guld;
+  return <ToggleBlock label={data.rubrik} ac={ac} bg="#060e06" open={open} setOpen={setOpen}>
+    <div style={{fontSize:11,color:T.textDim,fontStyle:"italic",marginBottom:10,lineHeight:1.5}}>Alla i gillet måste bidra för gillebonus!</div>
+    {data.gemensamt.map((u,i)=><div key={i} style={{display:"flex",gap:8,padding:"5px 0",borderBottom:`1px solid ${T.kant2}`}}>
+      <span style={{fontSize:13,color:ac,flexShrink:0}}>•</span>
+      <span style={{fontSize:12,color:T.text,lineHeight:1.5}}>{u}</span>
+    </div>)}
+    <div style={{marginTop:10,padding:"8px 10px",background:ac+"15",borderRadius:3,fontSize:12,color:ac,fontStyle:"italic"}}>{data.bonus}</div>
+  </ToggleBlock>;
+}
+
+// ─── ROLL-POÄNG-SEKTION ───────────────────────────────────────────────────────
+function RollPoangSektion({roll}){
+  const [open,setOpen]=useState(false);
+  const uppg=ROLL_UPPGIFTER[roll.id];
+  if(!uppg||!uppg.length)return null;
+  const ac=roll.barnroll?"#ffb3c6":roll.gilleColor||T.guld;
+  const maxMojligt=uppg.reduce((a,u)=>a+u.poang,0);
+  return <ToggleBlock label={`💰 Dina poänguppdrag (max ~${maxMojligt}p)`} ac={ac} bg="#080a06" open={open} setOpen={setOpen}>
+    {uppg.map((u,i)=><div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"6px 0",borderBottom:`1px solid ${T.kant2}`}}>
+      <span style={{fontSize:12,color:T.text,flex:1,lineHeight:1.4}}>{u.label}</span>
+      <span style={{fontSize:13,color:"#a8d5a2",fontWeight:700,marginLeft:12,fontFamily:"'Cinzel',serif"}}>+{u.poang}p</span>
+    </div>)}
+    <div style={{marginTop:8,fontSize:11,color:T.textDim,fontStyle:"italic"}}>Plus dans (+5-10p), anklagelse (+15p), dom (+20-40p) och sidebonus (+30-50p)</div>
+  </ToggleBlock>;
+}
+
+
 // ─── ROLLKORT ─────────────────────────────────────────────────────────────────
 function RollKort({roll,onBekrafta,spelarKon,spelarAlder}){
   const [visNamn,setVisNamn]=useState(false);
@@ -554,6 +711,8 @@ function RollKort({roll,onBekrafta,spelarKon,spelarAlder}){
     <Sek label="✦ Karaktär" ac={ac}><p style={RT}><em>{roll.karaktar}</em></p></Sek>
     <Sek label="📖 Bakgrund" ac={ac}><p style={{...RT,whiteSpace:"pre-line"}}>{roll.beskrivning}</p></Sek>
     <Sek label="⚔ Ditt uppdrag" ac={ac} hi><p style={RT}>{roll.uppdrag}</p></Sek>
+    <GillesuppdragSektion roll={roll}/>
+    <RollPoangSektion roll={roll}/>
     <Sek label="✦ Förmåga I" ac={ac}><p style={RT}>{roll.foermaga}</p></Sek>
     {roll.foermaga2&&<Sek label="✦ Förmåga II" ac={ac}><p style={RT}>{roll.foermaga2}</p></Sek>}
 
@@ -588,7 +747,7 @@ function RollKort({roll,onBekrafta,spelarKon,spelarAlder}){
 
     <Sek label="💡 Tips" ac={T.guldDim}><p style={RT}>{roll.tips}</p></Sek>
     <p style={{fontSize:11,color:T.textDim,textAlign:"center",marginTop:10}}>Memorera · Visa ingen · Lycka till</p>
-    <button style={{...BtnH,width:"100%",marginTop:10}} onClick={onBekrafta}>Jag har läst min roll ✓</button>
+    {onBekrafta!==null&&<button style={{...BtnH,width:"100%",marginTop:10}} onClick={onBekrafta}>Jag har läst min roll ✓</button>}
     <div style={{height:32}}/>
   </div>;
 }
@@ -598,7 +757,12 @@ function PoangAdmin({spelare,setSpelare}){
   const [vald,setVald]=useState(null);
   const [subTab,setSubTab]=useState(0);
 
+  const [sistaHandling,setSistaHandling]=useState(null);
+
   function addPoang(id,uppgId){
+    const u=UPPGIFTER.find(x=>x.id===uppgId);
+    if(!u)return;
+    setSistaHandling({id,uppgId,poang:u.poang});
     const u=UPPGIFTER.find(x=>x.id===uppgId);
     if(!u)return;
     setSpelare(prev=>prev.map(s=>{
@@ -611,6 +775,13 @@ function PoangAdmin({spelare,setSpelare}){
       if(s.id===id)return {...s,poang:Math.max(0,s.poang+u.poang)};
       return s;
     }));
+  }
+
+  function angraHandling(){
+    if(!sistaHandling)return;
+    const {id,poang}=sistaHandling;
+    setSpelare(prev=>prev.map(s=>s.id===id?{...s,poang:Math.max(0,s.poang-poang)}:s));
+    setSistaHandling(null);
   }
 
   function losIn(id,inlId){
@@ -651,7 +822,10 @@ function PoangAdmin({spelare,setSpelare}){
       {valdSp&&<div style={Kort}>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
           <span style={{fontFamily:"'Cinzel',serif",fontSize:14,color:T.guld}}>{valdSp.icon} {valdSp.rollnamn}</span>
-          <span style={{fontFamily:"'Cinzel',serif",fontSize:22,color:T.guld}}>{valdSp.poang}p</span>
+          <div style={{display:"flex",alignItems:"center",gap:8}}>
+            {sistaHandling&&sistaHandling.id===valdSp.id&&<button style={{fontSize:11,background:"#1a0808",border:"1px solid #8b1a1a",borderRadius:3,padding:"4px 10px",color:"#cc6666",cursor:"pointer",fontFamily:"inherit"}} onClick={angraHandling}>↩ Ångra {sistaHandling.poang>0?"+":""}{sistaHandling.poang}p</button>}
+            <span style={{fontFamily:"'Cinzel',serif",fontSize:22,color:T.guld}}>{valdSp.poang}p</span>
+          </div>
         </div>
         {[{kat:"dans",lbl:"🎵 Dans"},{kat:"uppdrag",lbl:"⚔ Uppdrag"},{kat:"special",lbl:"🌪 Special"},{kat:"ting",lbl:"⚖️ Tinget"},{kat:"dom",lbl:"🗳️ Domen"},{kat:"gille",lbl:"🏅 Gille"}].map(({kat,lbl})=>{
           const uppg=UPPGIFTER.filter(u=>u.kat===kat&&(u.rollId==="*"||u.rollId.includes(valdSp.id)));
@@ -927,10 +1101,30 @@ function DragVy({fordel,idx,roll,avslojar,bekr,klart,alder,setAlder,kon,setKon,a
     <p style={{fontSize:15,lineHeight:1.8,color:T.text}}>Ausås Blotängar är redo.<br/>Solståndsnatten börjar nu.</p>
     <button style={{...BtnH,marginTop:32}} onClick={()=>setVy("start")}>← Tillbaka</button>
   </div>;
-  if(bekr)return <div style={C}>
-    <p style={{fontSize:15,lineHeight:1.8,color:T.text}}>Du har din roll.<br/>Ge telefonen vidare.</p>
-    <button style={{...BtnH,marginTop:24}} onClick={nasta}>Nästa spelare →</button>
-  </div>;
+  if(bekr&&roll){
+    // Spara roll i localStorage med unik nyckel
+    const kod=Math.random().toString(36).substr(2,8);
+    const url=window.location.origin+window.location.pathname+"#spelare="+kod;
+    try{
+      localStorage.setItem("mb_roll_"+kod, JSON.stringify({
+        ...roll,
+        spelarKon:kon,
+        spelarAlder:alder,
+      }));
+    }catch(e){}
+    return <div style={{...C,padding:"20px"}}>
+      <div style={{fontFamily:"'Cinzel',serif",fontSize:16,color:T.guld,marginBottom:4,textAlign:"center"}}>
+        {typeof roll.rollnamn==="function"?roll.rollnamn(kon||""):roll.rollnamn}
+      </div>
+      <p style={{fontSize:12,color:T.textDim,textAlign:"center",marginBottom:16}}>Scanna QR-koden med din telefon för att spara din roll</p>
+      <div style={{background:"#1a1510",border:`1px solid ${T.kant}`,borderRadius:8,padding:"16px",marginBottom:16,display:"flex",justifyContent:"center"}}>
+        <QRKod url={url}/>
+      </div>
+      <p style={{fontSize:11,color:T.textDim,textAlign:"center",marginBottom:4}}>Eller öppna länken:</p>
+      <div style={{background:"#0a0a00",border:`1px solid ${T.kant}`,borderRadius:3,padding:"8px",marginBottom:20,fontSize:10,color:T.guld,wordBreak:"break-all",textAlign:"center"}}>{url}</div>
+      <button style={{...BtnH,width:"100%"}} onClick={nasta}>Nästa spelare →</button>
+    </div>;
+  }
   if(avslojar&&roll)return <RollKort roll={roll} onBekrafta={()=>setBekr(true)} spelarKon={kon} spelarAlder={alder}/>;
   if(alderKlar&&roll)return <div style={C}>
     <div style={{fontSize:64,marginBottom:10}}>{roll.icon}</div>
@@ -986,7 +1180,136 @@ function GuideVy({setVy}){
 }
 
 // ─── APP ──────────────────────────────────────────────────────────────────────
+// ─── QR-KOD KOMPONENT ────────────────────────────────────────────────────────
+function QRKod({url}){
+  const ref=useRef(null);
+  useEffect(()=>{
+    if(!ref.current||!url)return;
+    ref.current.innerHTML="";
+    try{
+      new window.QRCode(ref.current,{
+        text:url,width:200,height:200,
+        colorDark:"#c9a84c",colorLight:"#0d0b08",
+        correctLevel:window.QRCode?.CorrectLevel?.H||2
+      });
+    }catch(e){
+      // Fallback om QRCode inte laddat
+      ref.current.innerHTML=`<div style="color:#c9a84c;font-size:11px;word-break:break-all;padding:10px">${url}</div>`;
+    }
+  },[url]);
+  return <div ref={ref} style={{display:"flex",justifyContent:"center",margin:"0 auto"}}/>;
+}
+
+// ─── SPELARVY (öppnas via QR-länk) ───────────────────────────────────────────
+function SpelarVy({rollData}){
+  const [tab,setTab]=useState(0);
+  if(!rollData)return <div style={{...Sida,textAlign:"center",paddingTop:60}}>
+    <div style={{fontSize:40,marginBottom:16}}>🌑</div>
+    <p style={{color:T.textDim,fontSize:14}}>Ingen roll hittad.<br/>Be spelledaren skicka din länk igen.</p>
+  </div>;
+
+  const roll=rollData;
+  const ac=roll.barnroll?"#ffb3c6":roll.gilleColor||T.guld;
+  const gilleData=GILLESUPPDRAG[roll.gille];
+  const rollnamn=typeof roll.rollnamn==="function"?roll.rollnamn(roll.spelarKon||""):roll.rollnamn;
+
+  const tabs=["🎭 Min roll","🌿 Mitt gille","📜 Regler"];
+
+  return <div style={{minHeight:"100vh",background:T.bg,color:T.text,fontFamily:"'IM Fell English',Georgia,serif",paddingBottom:60}}>
+    <style>{`@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=IM+Fell+English:ital@0;1&display=swap');*{box-sizing:border-box}body{margin:0;background:#0d0b08}`}</style>
+    
+    {/* Header */}
+    <div style={{background:"#0a0800",borderBottom:`1px solid ${T.kant}`,padding:"10px 16px",textAlign:"center"}}>
+      <div style={{fontSize:9,letterSpacing:4,color:T.guldDim,fontFamily:"monospace"}}>MIDSOMMARBLOT · AUSÅS BLOTÄNGAR</div>
+    </div>
+
+    {/* Tab-navigation */}
+    <div style={{display:"flex",background:T.papper,borderBottom:`1px solid ${T.kant}`}}>
+      {tabs.map((t,i)=><button key={t} style={{flex:1,padding:"10px 4px",border:"none",borderBottom:tab===i?`2px solid ${ac}`:"2px solid transparent",background:"transparent",color:tab===i?ac:T.textDim,fontSize:11,fontFamily:"'Cinzel',serif",cursor:"pointer",letterSpacing:0.5}} onClick={()=>setTab(i)}>{t}</button>)}
+    </div>
+
+    {/* MIN ROLL */}
+    {tab===0&&<RollKort roll={roll} onBekrafta={null} spelarKon={roll.spelarKon} spelarAlder={roll.spelarAlder} visaBekrafta={false}/>}
+
+    {/* MITT GILLE */}
+    {tab===1&&<div style={Sida}>
+      <div style={{textAlign:"center",padding:"20px 0 16px"}}>
+        <div style={{fontSize:11,color:ac,letterSpacing:3,fontFamily:"'Cinzel',serif",marginBottom:4}}>{roll.gille?.toUpperCase()}</div>
+        <div style={{fontFamily:"'Cinzel',serif",fontSize:22,color:ac,marginBottom:4}}>{roll.gille==="ortagillet"?"🌿 Örtagillet":roll.gille==="smederna"?"⚒ Smedjans Brödraskap":roll.gille==="månkyrkan"?"☽ Månkyrkan":"🎲 Fri"}</div>
+      </div>
+      {gilleData&&<>
+        <div style={Kort}>
+          <div style={{...Lbl,color:ac}}>{gilleData.rubrik}</div>
+          {gilleData.gemensamt.map((u,i)=><div key={i} style={{display:"flex",gap:8,padding:"6px 0",borderBottom:`1px solid ${T.kant2}`}}>
+            <span style={{color:ac}}>•</span>
+            <span style={{fontSize:13,color:T.text,lineHeight:1.5}}>{u}</span>
+          </div>)}
+          <div style={{marginTop:10,padding:"8px",background:ac+"15",borderRadius:3,fontSize:12,color:ac,fontStyle:"italic"}}>{gilleData.bonus}</div>
+        </div>
+      </>}
+      <div style={Kort}>
+        <div style={{...Lbl,color:ac}}>Ditt kännetecken</div>
+        <p style={{fontSize:13,color:T.text,margin:0}}>
+          {roll.gille==="ortagillet"?"🌸 Blomma bakom höger öra":
+           roll.gille==="smederna"?"🪨 Liten sten i vänster hand":
+           roll.gille==="månkyrkan"?"🤍 Vitt snöre om vänster handled":
+           "🎲 Inget – du tillhör inget gille"}
+        </p>
+      </div>
+      <div style={{...Kort,borderColor:"#cc333344",background:"#120808"}}>
+        <div style={{...Lbl,color:"#cc6666"}}>🩸 Kultens kännetecken</div>
+        <p style={{fontSize:12,color:"#cc9999",lineHeight:1.6,margin:0}}>Kultmedlemmar bär INGET kännetecken. De döljer sig bland er.<br/><br/>Om någon säger <em>"Mörkret hälsar"</em> – svara <em>"och natten är lång"</em> om du är kultmärkt.</p>
+      </div>
+    </div>}
+
+    {/* REGLER */}
+    {tab===2&&<div style={Sida}>
+      <h2 style={SRubrik}>📜 Spelregler</h2>
+      {[
+        {fas:"🕐 16.00 – Ankomst",text:"Alla drar en hemlig roll via appen. Ingen annan ser din roll. Memorera den!"},
+        {fas:"🤫 Fas 1 – Allianser",text:"Mingla, bilda allianser, dela hemligheter. Genomför dina uppdrag. Dans vid 17.00."},
+        {fas:"⚖️ Fas 2 – Tinget",text:"Formella anklagelser framförs. Den anklagade försvarar sig i 90 sekunder. Fria anklagelser tillåts."},
+        {fas:"🕯 Fas 3 – Ritualen",text:"Dans kring midsommarstången. Levan Polkka – alla går runt huset. Håll koll på stången!"},
+        {fas:"🗳️ Fas 4 – Domen",text:"Alla pekar på den de tror är Kultledaren. Vägaren avslöjar rollerna – kultmärkta först, Kultledaren sist."},
+      ].map((f,i)=><div key={i} style={{...Kort,marginBottom:8}}>
+        <div style={{fontFamily:"'Cinzel',serif",fontSize:12,color:T.guld,marginBottom:6}}>{f.fas}</div>
+        <p style={{fontSize:12,color:T.textDim,lineHeight:1.6,margin:0}}>{f.text}</p>
+      </div>)}
+      <div style={{...Kort,borderColor:"#a8d5a244"}}>
+        <div style={{...Lbl,color:"#a8d5a2"}}>🌿 Byn vinner om…</div>
+        <p style={{fontSize:12,color:T.textDim,margin:0}}>Kultledaren pekas ut vid Domen.</p>
+      </div>
+      <div style={{...Kort,borderColor:"#cc333344",background:"#120808"}}>
+        <div style={{...Lbl,color:"#cc6666"}}>🩸 Kulten vinner om…</div>
+        <p style={{fontSize:12,color:"#cc9999",margin:0}}>Kultledaren överlever Domen oavslöjad – eller aktiverar Välsignelsen (30 sek vid stången).</p>
+      </div>
+      <div style={Kort}>
+        <div style={Lbl}>💰 Poäng</div>
+        <p style={{fontSize:12,color:T.textDim,lineHeight:1.7,margin:0}}>
+          Du tävlar på tre nivåer: <strong style={{color:T.guld}}>individuellt</strong> (dina uppdrag), <strong style={{color:T.guld}}>gillet</strong> (gemensamma uppdrag +30p) och <strong style={{color:T.guld}}>sidan</strong> (By vs Kult +30/50p).<br/><br/>
+          Check in med Vägaren för att registrera poäng. Resultaten avslöjas vid Domen.
+        </p>
+      </div>
+    </div>}
+  </div>;
+}
+
+
 export default function App(){
+  // Kolla om vi är i spelarläge (QR-länk)
+  const hash=window.location.hash;
+  const spelarkod=hash.startsWith("#spelare=") ? hash.replace("#spelare=","") : null;
+  if(spelarkod){
+    try{
+      const data=localStorage.getItem("mb_roll_"+spelarkod);
+      if(data){
+        const rollData=JSON.parse(data);
+        return <SpelarVy rollData={rollData}/>;
+      }
+    }catch(e){}
+    return <SpelarVy rollData={null}/>;
+  }
+
   const [vy,setVy]=useState("start");
   const [sTab,setSTab]=useState(0);
   const [antalBarn,setAntalBarn]=useState(2);
