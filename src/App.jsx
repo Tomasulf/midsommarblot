@@ -52,7 +52,7 @@ const ROLLER_MASTER=[
    beskrivning:"Du leder smedernas brödraskap. Folk lyssnar för att du sällan pratar utan att ha något viktigt att säga.",
    uppdrag:"Samla smederna och enas om en gemensam anklagelse INNAN Tinget.",
    foermaga:"⚒ Vittnesed: Din anklagelse räknas dubbelt med konkret skäl.",
-   foermaga2:"🔒 Ordningslag: En gång – alla lyssnar på EN person i 2 min.",
+   foermaga2:"⚒ Ordningslag: Peka på vem som helst och säg 'Lärling.' De är din personlige assistent i 5 minuter – hämtar, bär, levererar meddelanden. De får inte neka. En gång.",
    fraser:[{fras:"Järnet ljuger aldrig – det är smeden som kan.",nyckelord:"järnet ljuger",svar:"Och det är gnistor som avslöjar lögnen."}],
    tips:"Var skepsisen i rummet. Koordinera gillets anklagelse i tid.",
    relationer:[{till:"Soldaten",typ:"lojalitet",text:"Soldaten är din närmaste – men agerar utan att tänka."},{till:"Glödviskaren",typ:"förtroende",text:"Glödviskaren råder dig. Du lyssnar – men de berättar aldrig allt."},{till:"Den Resande",typ:"misstanke",text:"Den Resande dök upp utan förklaring. Du gillar inte det."}]},
@@ -903,12 +903,12 @@ function TabBar({tabs,active,onChange}){
 
 function KedjeStegSandare({s,ac}){
   const [open,setOpen]=useState(false);
-  return <ToggleBlock label="🗣 Du bär en dialogmening – hitta rätt person" ac={ac} bg="#080f08" open={open} setOpen={setOpen}>
+  return <ToggleBlock label="🗣 Du bär en meddelande – hitta rätt person" ac={ac} bg="#080f08" open={open} setOpen={setOpen}>
     <p style={{fontSize:12,color:T.textDim,lineHeight:1.6,margin:"0 0 12px"}}>
-      Du bär en mening som du ska fälla naturligt i samtal. Rebussamlaren känner igen den och svarar. Då ger du dem din fragsbit.
+      Du bär ett meddelande som du ska fälla naturligt i samtal. Rebussamlaren känner igen den och svarar. Då ger du dem din fragsbit.
     </p>
     <div style={{background:"#000a00",border:`1px solid ${ac}`,borderRadius:4,padding:"14px",marginBottom:10,textAlign:"center"}}>
-      <div style={{fontSize:10,color:ac,letterSpacing:2,marginBottom:8,fontFamily:"'Cinzel',serif"}}>DIN MENING – FÄLL DEN NATURLIGT I SAMTAL</div>
+      <div style={{fontSize:10,color:ac,letterSpacing:2,marginBottom:8,fontFamily:"'Cinzel',serif"}}>DITT MEDDELANDE – FÄll DET NATURLIGT I SAMTAL</div>
       <div style={{fontSize:16,color:"#d0ffd0",fontStyle:"italic",lineHeight:1.8}}>"{s.fras}"</div>
     </div>
     <div style={{background:"#0a0a00",border:`1px solid ${ac}44`,borderRadius:4,padding:"12px",marginBottom:10}}>
@@ -925,16 +925,16 @@ function KedjeStegSandare({s,ac}){
 
 function KedjeStegMott({s,ac}){
   const [open,setOpen]=useState(false);
-  return <ToggleBlock label="👂 Du är rebussamlaren – lyssna efter din mening" ac={ac} bg="#0a0f08" open={open} setOpen={setOpen}>
+  return <ToggleBlock label="👂 Du är rebussamlaren – lyssna efter meddelanden" ac={ac} bg="#0a0f08" open={open} setOpen={setOpen}>
     <p style={{fontSize:12,color:T.textDim,lineHeight:1.6,margin:"0 0 12px"}}>
-      Någon bär en mening och kommer att fälla den naturligt i samtal med dig. När du hör den – svara med din mening. Då får du en fragsbit av dem.
+      Någon bär ett meddelande och kommer att dela det naturligt i samtal med dig. När du hör den – svara med din mening. Då får du en fragsbit av dem.
     </p>
     {s.fras&&<div style={{background:"#0a0a00",border:`1px solid ${ac}44`,borderRadius:4,padding:"12px",marginBottom:8}}>
-      <div style={{fontSize:10,color:ac,letterSpacing:2,marginBottom:6,fontFamily:"'Cinzel',serif"}}>DE KAN SÄGA NÅGOT I STIL MED:</div>
+      <div style={{fontSize:10,color:ac,letterSpacing:2,marginBottom:6,fontFamily:"'Cinzel',serif"}}>MEDDELANDET DU LETAR EFTER:</div>
       <div style={{fontSize:13,color:ac,fontStyle:"italic",textAlign:"center",lineHeight:1.7}}>"{s.fras}"</div>
     </div>}
     {s.svarslösenord&&<div style={{background:"#000a00",border:`2px solid ${ac}`,borderRadius:4,padding:"14px",marginBottom:10,textAlign:"center"}}>
-      <div style={{fontSize:10,color:ac,letterSpacing:2,marginBottom:8,fontFamily:"'Cinzel',serif"}}>SVARA MED DENNA MENING:</div>
+      <div style={{fontSize:10,color:ac,letterSpacing:2,marginBottom:8,fontFamily:"'Cinzel',serif"}}>SVARA MED:</div>
       <div style={{fontSize:16,color:"#ffeebb",fontStyle:"italic",lineHeight:1.8}}>"{s.svarslösenord}"</div>
     </div>}
     {s.pusselbit&&<div style={{background:"#080814",border:`2px solid ${ac}`,borderRadius:4,padding:"14px",textAlign:"center"}}>
@@ -956,7 +956,7 @@ function KedjeStegMottAlla({steg,ac}){
       Fyra olika spelare bär varsin mening. De söker upp dig och säger sin mening. Du svarar – och de ger dig sin fragsbit. Samla alla fyra innan Fas 3!
     </p>
     {steg.map((s,i)=><div key={i} style={{marginBottom:12,padding:"12px",background:"#0a0800",border:`2px solid ${s.farg||ac}`,borderRadius:4}}>
-      <div style={{fontSize:10,color:s.farg||ac,letterSpacing:2,marginBottom:8,fontFamily:"'Cinzel',serif"}}>FRAGSBIT {s.bit} – NÄR DU HÖR:</div>
+      <div style={{fontSize:10,color:s.farg||ac,letterSpacing:2,marginBottom:8,fontFamily:"'Cinzel',serif"}}>FRAGSBIT {s.bit} – NÄR NÅGON SÄGER:</div>
       <div style={{background:"#000a00",borderRadius:3,padding:"10px",marginBottom:8,textAlign:"center"}}>
         <div style={{fontSize:13,color:"#ccffcc",fontStyle:"italic",lineHeight:1.7}}>"{s.fras}"</div>
       </div>
