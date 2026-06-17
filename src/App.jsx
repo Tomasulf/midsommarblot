@@ -168,10 +168,10 @@ const ROLLER_MASTER=[
 
 // ─── DYNAMISK KEDJE-BYGGARE ───────────────────────────────────────────────────
 const PUSSELBIT={
-  "I":  "REBUSDEL I: »Solstångsnattens mörker binds av ett gammalt löfte…«",
-  "II": "REBUSDEL II: »…välsignat av ljuset och natten…«",
-  "III":"REBUSDEL III: »…som bryts av tre röster vid nattens hjärta…«",
-  "IV": "REBUSDEL IV: »…som ropar tre gånger det gamla ordet.«",
+  "I":  "»Solstångsnattens mörker binds av ett gammalt löfte…«",
+  "II": "»…välsignat av ljuset och natten…«",
+  "III":"»…som bryts av tre röster vid nattens hjärta…«",
+  "IV": "»…som ropar tre gånger det gamla ordet.«",
 };
 
 const REBUS_RAMSA = "Solstångsnattens mörker binds av ett gammalt löfte – välsignat av ljuset och natten – som bryts av tre röster vid nattens hjärta – som ropar tre gånger det gamla ordet.";
@@ -858,35 +858,46 @@ function TabBar({tabs,active,onChange}){
 
 function KedjeStegSandare({s,ac}){
   const [open,setOpen]=useState(false);
-  return <ToggleBlock label={`🗣 Din fras – ${s.kedjaNamn}`} ac={ac} bg="#080f08" open={open} setOpen={setOpen}>
-    <div style={{fontSize:10,color:ac,letterSpacing:2,marginBottom:8,fontFamily:"'Cinzel',serif"}}>SÅ HÄR STARTAR DU SAMTALET</div>
-    <div style={{background:"#000a00",border:`1px solid ${ac}44`,borderRadius:3,padding:"12px",marginBottom:6}}>
-      <div style={{fontSize:10,color:ac,marginBottom:4,letterSpacing:1}}>DU SÄGER:</div>
-      <div style={{fontSize:14,color:"#d0ffd0",fontStyle:"italic",lineHeight:1.7}}>"{s.fras}"</div>
+  return <ToggleBlock label="🗣 Du bär en dialogmening – hitta rätt person" ac={ac} bg="#080f08" open={open} setOpen={setOpen}>
+    <p style={{fontSize:12,color:T.textDim,lineHeight:1.6,margin:"0 0 12px"}}>
+      Du bär en mening som du ska fälla naturligt i samtal. Rebussamlaren känner igen den och svarar. Då ger du dem din fragsbit.
+    </p>
+    <div style={{background:"#000a00",border:`1px solid ${ac}`,borderRadius:4,padding:"14px",marginBottom:10,textAlign:"center"}}>
+      <div style={{fontSize:10,color:ac,letterSpacing:2,marginBottom:8,fontFamily:"'Cinzel',serif"}}>DIN MENING – FÄLL DEN NATURLIGT I SAMTAL</div>
+      <div style={{fontSize:16,color:"#d0ffd0",fontStyle:"italic",lineHeight:1.8}}>"{s.fras}"</div>
     </div>
-    <div style={{background:"#0a0800",border:`1px solid ${ac}33`,borderRadius:3,padding:"12px",marginBottom:6}}>
-      <div style={{fontSize:10,color:ac,marginBottom:4,letterSpacing:1}}>OM DE SVARAR MED NÅGOT SOM INNEHÅLLER:</div>
-      <div style={{fontSize:13,color:ac,fontWeight:700}}>"{s.triggerOrd}"</div>
+    <div style={{background:"#0a0a00",border:`1px solid ${ac}44`,borderRadius:4,padding:"12px",marginBottom:10}}>
+      <div style={{fontSize:10,color:ac,letterSpacing:2,marginBottom:6,fontFamily:"'Cinzel',serif"}}>OM DE SVARAR MED:</div>
+      <div style={{fontSize:14,color:ac,fontWeight:700,textAlign:"center"}}>"{s.triggerOrd}"</div>
+      <div style={{fontSize:11,color:T.textDim,marginTop:6,fontStyle:"italic"}}>...har du hittat rätt person. Dra dem åt sidan och viska frasbiten.</div>
     </div>
-    <div style={{background:"#080808",border:`1px solid ${ac}55`,borderRadius:3,padding:"12px"}}>
-      <div style={{fontSize:10,color:ac,marginBottom:4,letterSpacing:1}}>VISKA DENNA PUSSELBIT TILL DEM:</div>
-      <div style={{fontSize:13,color:"#e0e0ff",lineHeight:1.7,fontStyle:"italic"}}>{s.pusselbit}</div>
+    <div style={{background:"#080814",border:`2px solid ${ac}`,borderRadius:4,padding:"14px",textAlign:"center"}}>
+      <div style={{fontSize:10,color:ac,letterSpacing:2,marginBottom:8,fontFamily:"'Cinzel',serif"}}>VISKA DETTA TILL DEM:</div>
+      <div style={{fontSize:14,color:"#e0e0ff",lineHeight:1.9,fontStyle:"italic"}}>{s.pusselbit}</div>
     </div>
   </ToggleBlock>;
 }
 
 function KedjeStegMott({s,ac}){
   const [open,setOpen]=useState(false);
-  return <ToggleBlock label={`👂 Lyssna efter – ${s.kedjaNamn}`} ac={ac} bg="#0a0f08" open={open} setOpen={setOpen}>
-    <div style={{fontSize:10,color:ac,letterSpacing:2,marginBottom:8,fontFamily:"'Cinzel',serif"}}>SÅ HÄR FUNGERAR DET NÄR NÅGON HITTAR DIG</div>
-    {s.triggerOrd&&<div style={{background:"#000a00",border:`1px solid ${ac}44`,borderRadius:3,padding:"12px",marginBottom:6}}>
-      <div style={{fontSize:10,color:ac,marginBottom:4,letterSpacing:1}}>DE SÄGER SIN FRAS. DU SVARAR:</div>
-      <div style={{fontSize:14,color:"#ffeebb",fontStyle:"italic",lineHeight:1.7}}>"{s.svarslösenord}"</div>
+  return <ToggleBlock label="👂 Du är rebussamlaren – lyssna efter din mening" ac={ac} bg="#0a0f08" open={open} setOpen={setOpen}>
+    <p style={{fontSize:12,color:T.textDim,lineHeight:1.6,margin:"0 0 12px"}}>
+      Någon bär en mening och kommer att fälla den naturligt i samtal med dig. När du hör den – svara med din mening. Då får du en fragsbit av dem.
+    </p>
+    {s.fras&&<div style={{background:"#0a0a00",border:`1px solid ${ac}44`,borderRadius:4,padding:"12px",marginBottom:8}}>
+      <div style={{fontSize:10,color:ac,letterSpacing:2,marginBottom:6,fontFamily:"'Cinzel',serif"}}>DE KAN SÄGA NÅGOT I STIL MED:</div>
+      <div style={{fontSize:13,color:ac,fontStyle:"italic",textAlign:"center",lineHeight:1.7}}>"{s.fras}"</div>
     </div>}
-    {s.pusselbit&&<div style={{background:"#080808",border:`1px solid ${ac}55`,borderRadius:3,padding:"12px"}}>
-      <div style={{fontSize:10,color:ac,marginBottom:4,letterSpacing:1}}>DE VISKAR DÅ DENNA PUSSELBIT TILL DIG:</div>
-      <div style={{fontSize:13,color:"#e0e0ff",lineHeight:1.7,fontStyle:"italic"}}>{s.pusselbit}</div>
-      <div style={{fontSize:11,color:"#ffcc66",marginTop:8}}>Notera detta – du behöver ALLA fyra bitar för att lösa rebusen!</div>
+    {s.svarslösenord&&<div style={{background:"#000a00",border:`2px solid ${ac}`,borderRadius:4,padding:"14px",marginBottom:10,textAlign:"center"}}>
+      <div style={{fontSize:10,color:ac,letterSpacing:2,marginBottom:8,fontFamily:"'Cinzel',serif"}}>SVARA MED DENNA MENING:</div>
+      <div style={{fontSize:16,color:"#ffeebb",fontStyle:"italic",lineHeight:1.8}}>"{s.svarslösenord}"</div>
+    </div>}
+    {s.pusselbit&&<div style={{background:"#080814",border:`2px solid ${ac}`,borderRadius:4,padding:"14px",textAlign:"center"}}>
+      <div style={{fontSize:10,color:ac,letterSpacing:2,marginBottom:8,fontFamily:"'Cinzel',serif"}}>DU FÅR DÅ DENNA FRAGSBIT – NOTERA DEN!</div>
+      <div style={{fontSize:14,color:"#e0e0ff",lineHeight:1.9,fontStyle:"italic",marginBottom:10}}>{s.pusselbit}</div>
+      <div style={{background:"#ffcc4422",borderRadius:3,padding:"6px 10px",display:"inline-block"}}>
+        <span style={{fontSize:11,color:"#ffcc44",fontWeight:700}}>Samla ALLA fyra bitar → sätt ihop ramsan → lämna till Vägaren INNAN Fas 3</span>
+      </div>
     </div>}
   </ToggleBlock>;
 }
@@ -899,8 +910,10 @@ function KedjeSektion({roll}){
   if(!steg.length)return null;
   const ac=roll.barnroll?"#ffb3c6":roll.gilleColor||T.guld;
   return <div style={{marginBottom:8}}>
+    {/* Sändare - bär en mening och ger fragsbit */}
     {steg.filter(s=>s.typ==="sandare").map((s,i)=><KedjeStegSandare key={i} s={s} ac={ac}/>)}
-    {steg.filter(s=>s.typ==="mottagare"||s.typ==="mottagare_sandare").map((s,i)=><KedjeStegMott key={i} s={s} ac={ac}/>)}
+    {/* Mottagare/rebussamlare - lyssnar och samlar fragsbit */}
+    {steg.filter(s=>s.typ==="mottagare"||s.typ==="mottagare_sandare").map((s,i)=><KedjeStegMott key={i} s={{...s, fras:s.fras}} ac={ac}/>)}
   </div>;
 }
 
