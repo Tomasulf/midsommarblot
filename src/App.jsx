@@ -184,37 +184,64 @@ const REBUS_MENING_KOMPLETT = REBUS_RAMSA;
 const REBUS_SAMLAREPRIO = ["runlaesaren","kloka","den_resande"];
 
 
-const K1=[["kloka","den_resande","ortmastaren"],["kloka","den_resande","gronskan"],["kloka","ortmastaren","gronskan"],["ortmastaren","den_resande","gronskan"],["ortmastaren","kloka","gronskan"],["kloka","hogprasten","ortmastaren"],["kloka","munken","ortmastaren"],["gronskan","den_resande","ortmastaren"],["kloka","soldaten","ortmastaren"],["kloka","runlaesaren","ortmastaren"],["kloka","glodviskaren","ortmastaren"],["ortmastaren","munken","gronskan"],["kloka","mastersmeden","ortmastaren"],["den_resande","ortmastaren","munken"],["kloka","runlaesaren","gronskan"],["kloka","munken","gronskan"],["kloka","hogprasten","gronskan"],["ortmastaren","runlaesaren","gronskan"],["ortmastaren","hogprasten","gronskan"],["kloka","soldaten","gronskan"],["kloka","glodviskaren","gronskan"],["runlaesaren","ortmastaren","munken"],["hogprasten","ortmastaren","munken"],["gronskan","runlaesaren","munken"],["gronskan","mastersmeden","munken"],["gronskan","hogprasten","munken"],["gronskan","soldaten","munken"],["gronskan","glodviskaren","munken"],["gronskan","den_resande","munken"]];
-const K2=[["runlaesaren","mastersmeden","hogprasten"],["runlaesaren","glodviskaren","hogprasten"],["hogprasten","mastersmeden","runlaesaren"],["runlaesaren","soldaten","hogprasten"],["munken","mastersmeden","hogprasten"],["runlaesaren","munken","hogprasten"],["hogprasten","glodviskaren","runlaesaren"],["munken","soldaten","hogprasten"],["runlaesaren","den_resande","hogprasten"],["hogprasten","ortmastaren","runlaesaren"],["hogprasten","kloka","runlaesaren"],["munken","den_resande","hogprasten"],["runlaesaren","gronskan","hogprasten"],["hogprasten","soldaten","munken"],["runlaesaren","kloka","hogprasten"],["munken","kloka","hogprasten"],["runlaesaren","ortmastaren","hogprasten"],["munken","ortmastaren","hogprasten"],["hogprasten","den_resande","runlaesaren"],["hogprasten","den_resande","munken"],["runlaesaren","munken","mastersmeden"],["runlaesaren","munken","soldaten"],["runlaesaren","munken","den_resande"],["runlaesaren","munken","glodviskaren"],["runlaesaren","munken","kloka"],["runlaesaren","munken","ortmastaren"],["runlaesaren","munken","gronskan"],["munken","mastersmeden","soldaten"],["munken","mastersmeden","den_resande"],["munken","soldaten","den_resande"],["runlaesaren","mastersmeden","soldaten"],["runlaesaren","mastersmeden","den_resande"],["hogprasten","glodviskaren","mastersmeden"],["hogprasten","glodviskaren","soldaten"],["hogprasten","mastersmeden","soldaten"],["hogprasten","glodviskaren","den_resande"],["hogprasten","mastersmeden","den_resande"]];
-const K3=[["soldaten","galningen","korsriddaren"],["glodviskaren","galningen","korsriddaren"],["mastersmeden","galningen","korsriddaren"],["soldaten","skogsvakten","korsriddaren"],["soldaten","galningen","skogsvakten"],["glodviskaren","skogsvakten","korsriddaren"],["soldaten","glodviskaren","mastersmeden"],["glodviskaren","soldaten","den_resande"],["mastersmeden","soldaten","gronskan"],["soldaten","munken","mastersmeden"],["glodviskaren","munken","soldaten"],["mastersmeden","gronskan","den_resande"],["soldaten","ortmastaren","gronskan"],["glodviskaren","gronskan","den_resande"],["mastersmeden","munken","glodviskaren"],["soldaten","mastersmeden","den_resande"],["glodviskaren","mastersmeden","den_resande"],["soldaten","kloka","mastersmeden"],["mastersmeden","kloka","den_resande"],["munken","gronskan","den_resande"],["runlaesaren","soldaten","mastersmeden"],["hogprasten","soldaten","mastersmeden"],["ortmastaren","soldaten","mastersmeden"],["kloka","soldaten","mastersmeden"],["runlaesaren","glodviskaren","mastersmeden"],["hogprasten","glodviskaren","mastersmeden"],["kloka","glodviskaren","mastersmeden"],["ortmastaren","glodviskaren","mastersmeden"]];
+
+
 
 function byggKedjor(ids, kultIds=[]){
-  // Kultister får aldrig ingå i kedjor
-  const harOchInteKult=id=>ids.includes(id)&&!kultIds.includes(id);
-  const har=harOchInteKult;
-  return [
-    {id:"k1",namn:"Skogens röst",farg:"#a8d5a2",delar:["I","III"],kombos:K1},
-    {id:"k2",namn:"Månens öga",farg:"#9999e0",delar:["II","IV"],kombos:K2},
-    {id:"k3",namn:"Eldens vakt",farg:"#d4956a",delar:["sab1","sab2"],kombos:K3},
-  ].map(m=>{
-    const v=m.kombos.find(k=>k.every(id=>har(id)));
-    if(!v)return null;
-    const [s,mid,t]=v;
-    const sF=ROLLER_MASTER.find(r=>r.id===s)?.fraser?.[0];
-    const mF=ROLLER_MASTER.find(r=>r.id===mid)?.fraser?.[1]||ROLLER_MASTER.find(r=>r.id===mid)?.fraser?.[0];
-    return {id:m.id,namn:m.namn,farg:m.farg,steg:[
-      {fran:s,till:mid,typ:"sandare",fras:sF?.fras,triggerOrd:sF?.nyckelord,svarslösenord:sF?.svar,pusselbit:PUSSELBIT[m.delar[0]]},
-      {fran:mid,till:t,typ:"mottagare_sandare",fras:mF?.fras,triggerOrd:mF?.nyckelord,svarslösenord:mF?.svar,pusselbit:PUSSELBIT[m.delar[1]]},
-      {fran:t,typ:"mottagare"},
-    ]};
-  }).filter(Boolean);
+  const harBra=id=>ids.includes(id)&&!kultIds.includes(id);
+  
+  // Hitta rebussamlare (prioritet: runlaesaren > kloka > den_resande)
+  const samlarePrio=["runlaesaren","kloka","den_resande","hogprasten","ortmastaren","gronskan"];
+  const samlareId=samlarePrio.find(id=>harBra(id))||null;
+  if(!samlareId) return [];
+
+  // Hitta sändare för varje bit - en unik sändare per bit, aldrig samlaren själv
+  const bits=["I","II","III","IV"];
+  const anvandaSandare=new Set([samlareId]);
+  
+  const sandare=bits.map(bit=>{
+    const kandidater=REBUS_SENDARE_KANDIDATER.filter(k=>
+      k.bit===bit && harBra(k.rollId) && !anvandaSandare.has(k.rollId)
+    );
+    const vald=kandidater[0]||null;
+    if(vald) anvandaSandare.add(vald.rollId);
+    return vald?{...vald, samlareId}:null;
+  });
+
+  // Bygg kedjor - en per bit
+  const rebusFarg={"I":"#a8d5a2","II":"#9999e0","III":"#d4956a","IV":"#c9a84c"};
+  const rebusKedjor=sandare.filter(Boolean).map((s,i)=>({
+    id:"rebus_"+s.bit,
+    namn:"Rebus "+s.bit,
+    farg:rebusFarg[s.bit],
+    steg:[
+      {
+        fran:s.rollId, till:samlareId, typ:"sandare",
+        fras:s.fras, triggerOrd:s.nyckel,
+        svarslösenord:REBUS_SVAR[s.bit],
+        pusselbit:PUSSELBIT[s.bit],
+        bit:s.bit,
+      },
+      {
+        fran:samlareId, typ:"mottagare",
+        fras:s.fras, triggerOrd:s.nyckel,
+        svarslösenord:REBUS_SVAR[s.bit],
+        pusselbit:PUSSELBIT[s.bit],
+        bit:s.bit,
+      },
+    ],
+  }));
+
+  return rebusKedjor;
 }
 
 function hittaKedjesteg(rollId,kedjor){
   const res=[];
   (kedjor||[]).forEach(k=>{
     k.steg.forEach(s=>{
-      if(s.fran===rollId||s.till===rollId) res.push({...s,kedjaId:k.id,kedjaNamn:k.namn,farg:k.farg});
+      if(s.fran===rollId) res.push({...s,kedjaId:k.id,kedjaNamn:k.namn,farg:k.farg,erSandare:true});
+      else if(s.till===rollId||(!s.till&&s.typ==="mottagare"&&k.steg[0].till===rollId))
+        res.push({...s,kedjaId:k.id,kedjaNamn:k.namn,farg:k.farg,erSandare:false});
     });
   });
   return res;
@@ -904,16 +931,44 @@ function KedjeStegMott({s,ac}){
 
 
 // ─── ROLLKORT-SEKTIONER ───────────────────────────────────────────────────────
+function KedjeStegMottAlla({steg,ac}){
+  const [open,setOpen]=useState(false);
+  return <ToggleBlock label={`🧩 Du är rebussamlaren – ${steg.length} fragsdelar att samla`} ac="#c9a84c" bg="#0a0800" open={open} setOpen={setOpen}>
+    <p style={{fontSize:12,color:T.textDim,lineHeight:1.6,margin:"0 0 12px"}}>
+      Fyra olika spelare bär varsin mening. De söker upp dig och säger sin mening. Du svarar – och de ger dig sin fragsbit. Samla alla fyra innan Fas 3!
+    </p>
+    {steg.map((s,i)=><div key={i} style={{marginBottom:12,padding:"12px",background:"#0a0800",border:`2px solid ${s.farg||ac}`,borderRadius:4}}>
+      <div style={{fontSize:10,color:s.farg||ac,letterSpacing:2,marginBottom:8,fontFamily:"'Cinzel',serif"}}>FRAGSBIT {s.bit} – NÄR DU HÖR:</div>
+      <div style={{background:"#000a00",borderRadius:3,padding:"10px",marginBottom:8,textAlign:"center"}}>
+        <div style={{fontSize:13,color:"#ccffcc",fontStyle:"italic",lineHeight:1.7}}>"{s.fras}"</div>
+      </div>
+      <div style={{fontSize:10,color:s.farg||ac,letterSpacing:2,marginBottom:6,fontFamily:"'Cinzel',serif"}}>SVARA MED:</div>
+      <div style={{background:"#000a00",borderRadius:3,padding:"10px",marginBottom:8,textAlign:"center",border:`1px solid ${s.farg||ac}`}}>
+        <div style={{fontSize:14,color:"#ffeebb",fontStyle:"italic",fontWeight:500}}>"{s.svarslösenord}"</div>
+      </div>
+      <div style={{fontSize:10,color:s.farg||ac,letterSpacing:2,marginBottom:6,fontFamily:"'Cinzel',serif"}}>DU FÅR FRAGSBIT:</div>
+      <div style={{background:"#080814",borderRadius:3,padding:"10px",textAlign:"center"}}>
+        <div style={{fontSize:13,color:"#e0e0ff",fontStyle:"italic"}}>{s.pusselbit}</div>
+      </div>
+    </div>)}
+    <div style={{background:"#ffcc4422",borderRadius:4,padding:"10px",textAlign:"center",marginTop:4}}>
+      <div style={{fontSize:12,color:"#ffcc44",fontWeight:700}}>Sätt ihop alla fyra bitar → framför ramsan för Vägaren INNAN Fas 3</div>
+      <div style={{fontSize:11,color:"#ffcc6688",marginTop:4}}>+20p om du lyckas!</div>
+    </div>
+  </ToggleBlock>;
+}
+
+
 function KedjeSektion({roll}){
   const kedjor=roll.kedjor||[];
   const steg=hittaKedjesteg(roll.id,kedjor);
   if(!steg.length)return null;
   const ac=roll.barnroll?"#ffb3c6":roll.gilleColor||T.guld;
+  const sandare=steg.filter(s=>s.erSandare);
+  const mottagare=steg.filter(s=>!s.erSandare);
   return <div style={{marginBottom:8}}>
-    {/* Sändare - bär en mening och ger fragsbit */}
-    {steg.filter(s=>s.typ==="sandare").map((s,i)=><KedjeStegSandare key={i} s={s} ac={ac}/>)}
-    {/* Mottagare/rebussamlare - lyssnar och samlar fragsbit */}
-    {steg.filter(s=>s.typ==="mottagare"||s.typ==="mottagare_sandare").map((s,i)=><KedjeStegMott key={i} s={{...s, fras:s.fras}} ac={ac}/>)}
+    {sandare.map((s,i)=><KedjeStegSandare key={i} s={s} ac={s.farg||ac}/>)}
+    {mottagare.length>0&&<KedjeStegMottAlla steg={mottagare} ac={ac}/>}
   </div>;
 }
 
@@ -1003,13 +1058,24 @@ function RollPoangSektion({roll}){
   const uppg=ROLL_UPPGIFTER[roll.id];
   if(!uppg||!uppg.length)return null;
   const ac=roll.barnroll?"#ffb3c6":roll.gilleColor||T.guld;
+  const rollSpecDans=UPPGIFTER.filter(u=>u.kat==="dans"&&u.rollId!=="*"&&u.rollId?.includes(roll.id));
   const maxMojligt=uppg.reduce((a,u)=>a+u.poang,0);
   return <ToggleBlock label={`💰 Dina poänguppdrag (max ~${maxMojligt}p)`} ac={ac} bg="#080a06" open={open} setOpen={setOpen}>
+    {/* Dans-bonusar för denna roll */}
+    {rollSpecDans.length>0&&<>
+      <div style={{fontSize:10,color:ac,letterSpacing:2,marginBottom:6,fontFamily:"'Cinzel',serif"}}>🎵 SPECIALDANS</div>
+      {rollSpecDans.map((u,i)=><div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"6px 0",borderBottom:`1px solid ${T.kant2}`,marginBottom:4}}>
+        <span style={{fontSize:12,color:"#ccccff",flex:1}}>{u.label}</span>
+        <span style={{fontSize:13,color:"#a8d5a2",fontWeight:700,marginLeft:12}}>+{u.poang}p</span>
+      </div>)}
+      <div style={{height:1,background:T.kant,margin:"8px 0"}}/>
+    </>}
+    {/* Rollspecifika uppdrag */}
     {uppg.map((u,i)=><div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"6px 0",borderBottom:`1px solid ${T.kant2}`}}>
       <span style={{fontSize:12,color:T.text,flex:1,lineHeight:1.4}}>{u.label}</span>
-      <span style={{fontSize:13,color:"#a8d5a2",fontWeight:700,marginLeft:12,fontFamily:"'Cinzel',serif"}}>+{u.poang}p</span>
+      <span style={{fontSize:13,color:u.poang<0?"#cc6666":"#a8d5a2",fontWeight:700,marginLeft:12,fontFamily:"'Cinzel',serif"}}>{u.poang>0?"+":""}{u.poang}p</span>
     </div>)}
-    <div style={{marginTop:8,fontSize:11,color:T.textDim,fontStyle:"italic"}}>Plus dans (+5-10p), anklagelse (+15p), dom (+20-40p) och sidebonus (+30-50p)</div>
+    <div style={{marginTop:8,fontSize:11,color:T.textDim,fontStyle:"italic"}}>Plus dans (+5-10p), anklagelse (+5-15p), dom (+20-40p) och sidebonus (+30-50p)</div>
   </ToggleBlock>;
 }
 
