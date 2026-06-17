@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
 // ─── TEMA & STILKONSTANTER ────────────────────────────────────────────────────
 const T = {
@@ -1193,39 +1193,14 @@ function GuideVy({setVy}){
 // ─── APP ──────────────────────────────────────────────────────────────────────
 // ─── QR-KOD KOMPONENT ────────────────────────────────────────────────────────
 function QRKod({url}){
-  const ref=useRef(null);
-  const [qrSkapad,setQrSkapad]=useState(false);
-  
-  useEffect(()=>{
-    if(!ref.current||!url)return;
-    
-    function skapaQR(){
-      if(window.QRCode){
-        ref.current.innerHTML="";
-        try{
-          new window.QRCode(ref.current,{
-            text:url,width:220,height:220,
-            colorDark:"#c9a84c",colorLight:"#0d0b08",
-            correctLevel:window.QRCode.CorrectLevel?.H||2
-          });
-          setQrSkapad(true);
-        }catch(e){setQrSkapad(false);}
-      } else {
-        // Försök igen om 500ms
-        setTimeout(skapaQR,500);
-      }
-    }
-    setTimeout(skapaQR,300);
-  },[url]);
-  
-  return <div>
-    <div ref={ref} style={{display:"flex",justifyContent:"center",margin:"0 auto",minHeight:220}}/>
-    {!qrSkapad&&<div style={{textAlign:"center",padding:"10px 0"}}>
-      <div style={{fontSize:11,color:T.textDim,marginBottom:8}}>Laddar QR-kod...</div>
-    </div>}
-    <div style={{fontSize:10,color:T.textDim,textAlign:"center",marginTop:8,wordBreak:"break-all",padding:"0 10px",display:qrSkapad?"none":"block"}}>{url}</div>
+  const encoded=encodeURIComponent(url);
+  const qrUrl=`https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encoded}&bgcolor=0d0b08&color=c9a84c&margin=10`;
+  return <div style={{textAlign:"center"}}>
+    <img src={qrUrl} alt="QR-kod" style={{width:220,height:220,borderRadius:4,border:`1px solid ${T.kant}`}} onError={e=>{e.target.style.display="none";e.target.nextSibling.style.display="block";}}/>
+    <div style={{display:"none",fontSize:10,color:T.textDim,wordBreak:"break-all",padding:"8px",marginTop:8,background:T.papper,borderRadius:4,border:`1px solid ${T.kant}`}}>{url}</div>
   </div>;
 }
+
 
 // ─── SPELARVY (öppnas via QR-länk) ───────────────────────────────────────────
 function SpelarVy({rollData}){
