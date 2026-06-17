@@ -417,6 +417,10 @@ const GILLESUPPDRAG = {
       "Minst 2 av 3 bildar allians utanför gillet",
       "Alla dansar Guld och gröna skogar – skuttar som orkar",
     ],
+    ceremoni: {
+      namn:"🌿 Örtceremonin",
+      beskrivning:"Kloka Gumman/Gubben samlar hela gillet under ett träd eller buske. Alla lägger en hand på varandras axlar i en kedja. Kloka Gumman/Gubben uttalar tre ord som gillet väljer tillsammans – sedan bryter alla kedjan samtidigt. Måste ske inför minst 4 vittnen utanför gillet.",
+    },
     bonus: "+30p till hela gillet om ALLA fyra är klara",
   },
   smederna: {
@@ -427,6 +431,10 @@ const GILLESUPPDRAG = {
       "Soldaten vinner sten-sax-påse mot 2 från andra gillen",
       "Alla dansar Seven Nation Army – cirkulerar runt stången",
     ],
+    ceremoni: {
+      namn:"⚒ Smedjeeden",
+      beskrivning:"Hela Smederna marscherar gemensamt fram till en annan grupp som pratar och avbryter dem med tre stampningar i marken. Mästersmeden ropar: 'Smedernas ed är slagen!' Gruppen de avbryter måste tystna i minst 10 sekunder.",
+    },
     bonus: "+30p till hela gillet om ALLA fyra är klara",
   },
   månkyrkan: {
@@ -437,6 +445,10 @@ const GILLESUPPDRAG = {
       "Runläsaren ger minst 2 orakel utanför kyrkan",
       "Alla dansar Only Time – håller hand i ring",
     ],
+    ceremoni: {
+      namn:"🌙 Skuggprofetian",
+      beskrivning:"Hela Månkyrkan samlas utomhus i en cirkel. Högprästen uttalar en profetia om kvällens utgång – fri formulering, minst tre meningar. Runläsaren bekräftar med ett orakel. Måste ske inför vittnen och INNAN Tinget öppnar.",
+    },
     bonus: "+30p till hela gillet om ALLA fyra är klara",
   },
 };
@@ -1066,6 +1078,10 @@ function GillesuppdragSektion({roll}){
       <span style={{fontSize:13,color:ac,flexShrink:0}}>•</span>
       <span style={{fontSize:12,color:T.text,lineHeight:1.5}}>{u}</span>
     </div>)}
+    {data.ceremoni&&<div style={{marginTop:12,background:"#0a0a00",border:`2px solid ${ac}`,borderRadius:4,padding:"14px"}}>
+      <div style={{fontSize:10,color:ac,letterSpacing:2,fontFamily:"'Cinzel',serif",marginBottom:8}}>{data.ceremoni.namn}</div>
+      <p style={{fontSize:13,color:T.text,lineHeight:1.8,margin:0}}>{data.ceremoni.beskrivning}</p>
+    </div>}
     <div style={{marginTop:10,padding:"8px 10px",background:ac+"15",borderRadius:3,fontSize:12,color:ac,fontStyle:"italic"}}>{data.bonus}</div>
   </ToggleBlock>;
 }
@@ -1541,8 +1557,6 @@ function PoangAdmin({spelare,setSpelare,fordel=[]}){
         {/* Generella uppdrag */}
         {[
           {kat:"uppdrag",lbl:"🗝 Generellt"},
-          {kat:"ting",lbl:"⚖️ Tinget"},
-          {kat:"dom",lbl:"🗳️ Domen"},
           {kat:"kult",lbl:"🩸 Kult"},
           {kat:"special",lbl:"🌪 Special"},
         ].map(({kat,lbl})=>{
@@ -1586,6 +1600,34 @@ function PoangAdmin({spelare,setSpelare,fordel=[]}){
         </div>
       </div>}
 
+      {/* TINGET - gemensam sektion */}
+      <div style={{...Kort,borderColor:"#9999e044",background:"#08080f"}}>
+        <div style={{...Lbl,color:"#9999e0"}}>⚖️ Tinget – klicka på spelare för att ge poäng</div>
+        {[
+          {id:"anklagelse",label:"Anklagelse framförd",poang:5,farg:"#9999e0"},
+          {id:"anklagelse_ratt_gille",label:"Rätt gille",poang:10,farg:"#a8d5a2"},
+          {id:"anklagelse_fel_gille",label:"Fel gille",poang:-5,farg:"#cc6666"},
+          {id:"anklagelse_markt",label:"Träffade rätt – kultmärkt",poang:20,farg:"#a8d5a2"},
+          {id:"anklagelse_ledare",label:"Träffade rätt – Kultledaren!",poang:35,farg:"#ffcc44"},
+          {id:"anklagelse_fel",label:"Fel anklagelse",poang:-5,farg:"#cc6666"},
+        ].map(ting=><div key={ting.id} style={{marginBottom:8,padding:"8px 10px",background:"#060610",borderRadius:4,border:"1px solid #9999e022"}}>
+          <div style={{display:"flex",justifyContent:"space-between",marginBottom:6}}>
+            <span style={{fontSize:12,color:ting.farg}}>{ting.label}</span>
+            <span style={{fontSize:11,color:ting.farg}}>{ting.poang>0?"+":""}{ting.poang}p</span>
+          </div>
+          <div style={{display:"flex",flexWrap:"wrap",gap:3}}>
+            {spelare.map(s=>{
+              const g=Object.values(GILLE_INFO).find(x=>x.ids.includes(s.id));
+              const ac=g?.farg||T.guld;
+              return <div key={s.id} style={{display:"flex",gap:0,marginBottom:2}}>
+                <button title={`${ting.poang>0?"+":""}${ting.poang}p till ${s.rollnamn}`} style={{fontSize:10,background:ac+"22",color:ac,border:`1px solid ${ac}44`,borderRadius:"3px 0 0 3px",padding:"3px 6px",cursor:"pointer",fontFamily:"inherit"}} onClick={()=>addPoang(s.id,ting.id)}>{s.icon}+</button>
+                <button title={`Ångra för ${s.rollnamn}`} style={{fontSize:10,background:"#1a000022",color:"#cc6666",border:"1px solid #cc666633",borderRadius:"0 3px 3px 0",padding:"3px 5px",cursor:"pointer",fontFamily:"inherit"}} onClick={()=>{setSistaHandling({id:s.id,uppgId:ting.id,poang:-ting.poang});setSpelare(prev=>prev.map(x=>x.id===s.id?{...x,poang:Math.max(0,x.poang-ting.poang)}:x));}}> −</button>
+              </div>;
+            })}
+          </div>
+        </div>)}
+      </div>
+
       {/* DANS - gemensam sektion */}
       <div style={{...Kort,borderColor:"#9999cc44"}}>
         <div style={{...Lbl,color:"#9999cc"}}>🎵 Dans – klicka på spelare för att ge poäng</div>
@@ -1616,6 +1658,34 @@ function PoangAdmin({spelare,setSpelare,fordel=[]}){
           <button style={{flex:1,background:"#08080f",border:"1px solid #9999cc22",borderRadius:3,padding:"5px",fontSize:10,color:"#9999cc",cursor:"pointer",fontFamily:"inherit"}} onClick={()=>addPoang("den_resande","dans_uppbud")}>🧳 Den Resande 3+ uppbud +15p</button>
           <button style={{flex:1,background:"#08080f",border:"1px solid #9999cc22",borderRadius:3,padding:"5px",fontSize:10,color:"#9999cc",cursor:"pointer",fontFamily:"inherit"}} onClick={()=>addPoang("hogprasten","dans_cirkel")}>🌙 Högprästen cirkel +15p</button>
         </div>
+      </div>
+
+      {/* DOMEN - gemensam sektion */}
+      <div style={{...Kort,borderColor:"#cc333344",background:"#120808"}}>
+        <div style={{...Lbl,color:"#cc6666"}}>🗳️ Domen – klicka på spelare för att ge poäng</div>
+        {[
+          {id:"dom_ledare",label:"Pekade rätt – Kultledaren",poang:40,farg:"#a8d5a2"},
+          {id:"dom_markt",label:"Pekade rätt – kultmärkt",poang:20,farg:"#a8d5a2"},
+          {id:"dom_fel",label:"Pekade fel",poang:-5,farg:"#cc6666"},
+          {id:"sido_byn",label:"Sidebonus – Byn vann",poang:30,farg:"#a8d5a2"},
+          {id:"sido_kult",label:"Sidebonus – Kulten vann",poang:50,farg:"#cc9966"},
+          {id:"barn_dom",label:"Barnroll – pekade rätt på Kultledaren",poang:30,farg:"#a8d5a2"},
+        ].map(dom=><div key={dom.id} style={{marginBottom:8,padding:"8px 10px",background:"#0a0000",borderRadius:4,border:"1px solid #cc333322"}}>
+          <div style={{display:"flex",justifyContent:"space-between",marginBottom:6}}>
+            <span style={{fontSize:12,color:dom.farg}}>{dom.label}</span>
+            <span style={{fontSize:11,color:dom.farg}}>{dom.poang>0?"+":""}{dom.poang}p</span>
+          </div>
+          <div style={{display:"flex",flexWrap:"wrap",gap:3}}>
+            {spelare.map(s=>{
+              const g=Object.values(GILLE_INFO).find(x=>x.ids.includes(s.id));
+              const ac=g?.farg||T.guld;
+              return <div key={s.id} style={{display:"flex",gap:0,marginBottom:2}}>
+                <button title={`${dom.poang>0?"+":""}${dom.poang}p till ${s.rollnamn}`} style={{fontSize:10,background:ac+"22",color:ac,border:`1px solid ${ac}44`,borderRadius:"3px 0 0 3px",padding:"3px 6px",cursor:"pointer",fontFamily:"inherit"}} onClick={()=>addPoang(s.id,dom.id)}>{s.icon}+</button>
+                <button title={`Ångra för ${s.rollnamn}`} style={{fontSize:10,background:"#1a000022",color:"#cc6666",border:"1px solid #cc666633",borderRadius:"0 3px 3px 0",padding:"3px 5px",cursor:"pointer",fontFamily:"inherit"}} onClick={()=>{setSistaHandling({id:s.id,uppgId:dom.id,poang:-dom.poang});setSpelare(prev=>prev.map(x=>x.id===s.id?{...x,poang:Math.max(0,x.poang-dom.poang)}:x));}}> −</button>
+              </div>;
+            })}
+          </div>
+        </div>)}
       </div>
     </>}
 
