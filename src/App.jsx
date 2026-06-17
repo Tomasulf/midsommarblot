@@ -1107,7 +1107,7 @@ function DragVy({fordel,idx,roll,avslojar,bekr,klart,alder,setAlder,kon,setKon,a
       gilleColor:roll.gilleColor,
       icon:roll.icon,
       barnroll:roll.barnroll,
-      rollnamn:roll.rollnamn?.toString()||"",
+      rollnamn:typeof roll.rollnamn==="function"?roll.rollnamn(kon||""):roll.rollnamn,
       karaktar:roll.karaktar,
       beskrivning:roll.beskrivning,
       uppdrag:roll.uppdrag,
@@ -1194,21 +1194,37 @@ function GuideVy({setVy}){
 // ─── QR-KOD KOMPONENT ────────────────────────────────────────────────────────
 function QRKod({url}){
   const ref=useRef(null);
+  const [qrSkapad,setQrSkapad]=useState(false);
+  
   useEffect(()=>{
     if(!ref.current||!url)return;
-    ref.current.innerHTML="";
-    try{
-      new window.QRCode(ref.current,{
-        text:url,width:200,height:200,
-        colorDark:"#c9a84c",colorLight:"#0d0b08",
-        correctLevel:window.QRCode?.CorrectLevel?.H||2
-      });
-    }catch(e){
-      // Fallback om QRCode inte laddat
-      ref.current.innerHTML=`<div style="color:#c9a84c;font-size:11px;word-break:break-all;padding:10px">${url}</div>`;
+    
+    function skapaQR(){
+      if(window.QRCode){
+        ref.current.innerHTML="";
+        try{
+          new window.QRCode(ref.current,{
+            text:url,width:220,height:220,
+            colorDark:"#c9a84c",colorLight:"#0d0b08",
+            correctLevel:window.QRCode.CorrectLevel?.H||2
+          });
+          setQrSkapad(true);
+        }catch(e){setQrSkapad(false);}
+      } else {
+        // Försök igen om 500ms
+        setTimeout(skapaQR,500);
+      }
     }
+    setTimeout(skapaQR,300);
   },[url]);
-  return <div ref={ref} style={{display:"flex",justifyContent:"center",margin:"0 auto"}}/>;
+  
+  return <div>
+    <div ref={ref} style={{display:"flex",justifyContent:"center",margin:"0 auto",minHeight:220}}/>
+    {!qrSkapad&&<div style={{textAlign:"center",padding:"10px 0"}}>
+      <div style={{fontSize:11,color:T.textDim,marginBottom:8}}>Laddar QR-kod...</div>
+    </div>}
+    <div style={{fontSize:10,color:T.textDim,textAlign:"center",marginTop:8,wordBreak:"break-all",padding:"0 10px",display:qrSkapad?"none":"block"}}>{url}</div>
+  </div>;
 }
 
 // ─── SPELARVY (öppnas via QR-länk) ───────────────────────────────────────────
@@ -1222,7 +1238,7 @@ function SpelarVy({rollData}){
   const roll=rollData;
   const ac=roll.barnroll?"#ffb3c6":roll.gilleColor||T.guld;
   const gilleData=GILLESUPPDRAG[roll.gille];
-  const rollnamn=typeof roll.rollnamn==="function"?roll.rollnamn(roll.spelarKon||""):roll.rollnamn;
+  const rollnamn=roll.rollnamn||"";
 
   const tabs=["🎭 Min roll","🌿 Mitt gille","📜 Regler"];
 
