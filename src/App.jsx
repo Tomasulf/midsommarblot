@@ -723,11 +723,25 @@ function blandaOchTilldela(antalBarn){
 
   // ── Steg 7: Anklagelser (inga barn) ──────────────────────────────────────
   const anklagelsePool=[...ANKLAGELSE_POOL].sort(()=>Math.random()-0.5).slice(0,2);
+  // Anklagelser ska aldrig riktas mot eget gille
+  // Matcha spelare med anklagelse mot annat gille
   const vuxnaRoller=allaRoller.filter(r=>!r.barnroll).sort(()=>Math.random()-0.5);
-  const anklagelseTilldelning=anklagelsePool.map((a,i)=>({
-    rollId:vuxnaRoller[i]?.id||null,
-    anklagelse:a,
-  }));
+  const anklagelseTilldelning=anklagelsePool.map((a,i)=>{
+    // Hitta en spelare vars gille inte matchar anklagelsens riktning
+    const gilleMap={
+      mot_ortagillet:"ortagillet",
+      mot_smederna:"smederna",
+      mot_mankyrkan:"månkyrkan",
+      mot_den_resande:"fri",
+    };
+    const anklGille=gilleMap[a.id]||"";
+    // Välj kandidat som inte tillhör det anklagade gillet
+    const kandidat=vuxnaRoller.find(r=>r.gille!==anklGille);
+    return {
+      rollId:kandidat?.id||vuxnaRoller[i]?.id||null,
+      anklagelse:a,
+    };
+  });
 
   // ── Steg 8: Bygg fullständiga roller och blanda ───────────────────────────
   return allaRoller.map(r=>{
@@ -948,8 +962,8 @@ function RebusSektion({roll}){
       <p style={{...RT,color:"#ccccff",lineHeight:1.8}}>Sätt ihop ramsan och framför den till Vägaren INNAN Fas 3 börjar. Vägaren berättar då vad ramsan betyder – och vad byborna kan göra med kunskapen.</p>
     </div>
     <div style={{background:"#080814",border:"1px solid #9999cc44",borderRadius:3,padding:"12px",marginBottom:10}}>
-      <div style={{fontSize:10,color:"#9999cc",letterSpacing:2,fontFamily:"'Cinzel',serif",marginBottom:8}}>RAMSAN – SÅ HÄR SKA DEN LÅTA</div>
-      <p style={{fontSize:13,color:"#ffe8b0",fontStyle:"italic",lineHeight:2,margin:0}}>"{REBUS_RAMSA}"</p>
+      <div style={{fontSize:10,color:"#9999cc",letterSpacing:2,fontFamily:"'Cinzel',serif",marginBottom:8}}>PUSSELBITARNA</div>
+      <p style={{fontSize:12,color:"#ccccff",lineHeight:1.8,margin:0}}>Du samlar fyra fragment via kedjorna. Varje fragment börjar med "REBUSDEL". När du har alla fyra – sätt ihop meningen och framför den till Vägaren INNAN Fas 3.</p>
     </div>
     <div style={{background:"#ffcc4415",border:"1px solid #ffcc4444",borderRadius:3,padding:"10px"}}>
       <div style={{fontSize:11,color:"#ffcc44",fontWeight:700}}>💰 Lyckas du lämna ramsan till Vägaren i tid: +20p</div>
@@ -1287,7 +1301,16 @@ function PoangAdmin({spelare,setSpelare,fordel=[]}){
           </div>
         </div>
         {[{kat:"dans",lbl:"🎵 Dans"},{kat:"uppdrag",lbl:"⚔ Uppdrag"},{kat:"special",lbl:"🌪 Special"},{kat:"ting",lbl:"⚖️ Tinget"},{kat:"dom",lbl:"🗳️ Domen"},{kat:"gille",lbl:"🏅 Gille"}].map(({kat,lbl})=>{
-          const uppg=UPPGIFTER.filter(u=>u.kat===kat&&(u.rollId==="*"||u.rollId.includes(valdSp.id)));
+          // Filtrera bort irrelevanta uppgifter
+          const erKult=fordel.find(r=>r.id===valdSp.id&&(r.erKultledare||r.kultMarke));
+          const uppg=UPPGIFTER.filter(u=>{
+            if(u.kat==="kult"&&!erKult) return false; // Dölj kultuppgifter för bybor
+            if(u.id==="sido_kult"&&!erKult) return false; // Dölj kultens sidbonus för bybor
+            if(u.id==="sido_byn"&&erKult) return false; // Dölj byns sidbonus för kultister
+            // Julia-uppgifter visas alltid av Vägaren (kan registreras manuellt)
+            if(u.rollId!=="*"&&!u.rollId.includes(valdSp.id)) return false;
+            return true;
+          });
           if(!uppg.length)return null;
           return <div key={kat} style={{marginBottom:10}}>
             <div style={{fontSize:10,color:T.guldDim,letterSpacing:2,marginBottom:5,fontFamily:"'Cinzel',serif"}}>{lbl}</div>
