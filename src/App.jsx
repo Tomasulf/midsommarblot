@@ -1338,18 +1338,92 @@ function SpelledarVy({setVy,starta,tab,setTab,antalBarn,setAntalBarn,spelare,set
         <div style={{fontSize:11,color:T.textDim,fontStyle:"italic"}}>Tingets röst · Rättvisans väktare · Utan parti</div>
       </div>
       <div style={Kort}>
-        <div style={Lbl}>Fasintroduktioner</div>
+        <div style={Lbl}>📜 Spelarledarens manus</div>
         {[
-          {fas:"Öppning","txt":"Välkommen till Ausås Blotängar. Det är Solståndsnatten – natten då mörkrets krafter är som mest desperata."},
-          {fas:"Fas 1","txt":"Solståndsnatten har börjat. Mingla, lyssna, bilda allianser. Tinget öppnar om trettio minuter."},
-          {fas:"Fas 2","txt":"BYBOR! Tinget är öppnat! Vem bär mörkrets märke? Träd fram och tala!"},
-          {fas:"Fas 3","txt":"Ritualen och dansen. Midsommarstången kallar. Alla reser sig."},
-          {fas:"Fas 4","txt":"Dansen är slut. Vägaren kräver nu sin dom. Alla pekar – tre, två, ett – PEK!"},
-        ].map((f,i)=><div key={i} style={{marginBottom:10,paddingBottom:10,borderBottom:`1px solid ${T.kant2}`}}>
-          <div style={{fontSize:10,color:T.guld,letterSpacing:2,marginBottom:4,fontFamily:"'Cinzel',serif"}}>{f.fas.toUpperCase()}</div>
-          <p style={{fontSize:12,color:"#aac0ff",fontStyle:"italic",lineHeight:1.7,margin:0}}>"{f.txt}"</p>
-        </div>)}
-        <p style={{fontSize:11,color:T.textDim,fontStyle:"italic",margin:0}}>Avslutar alltid: "Jag har vägt skuld mot oskuld. Vågen har talat."</p>
+          {fas:"INLEDNING",farg:"#c9a84c",
+           rader:[
+             "Välkommen till Ausås Blotängar. Det är Solståndsnatten – natten då mörkrets krafter är som mest desperata.",
+           ],
+           tips:"Alla samlade. Tyst. Ögonkontakt med gruppen innan du börjar."},
+          {fas:"INSTRUKTIONER",farg:"#c9a84c",
+           rader:[
+             "Ni spelar var sin hemlig roll ikväll. Ni har uppdrag, förmågor och hemligheter. Ni vet vad ni ska göra – det står i era rollkort.",
+             "Tre saker att komma ihåg:",
+             "Ett – lita inte på någon.",
+             "Två – allt ni gör kan ge poäng. Kom och checka in med mig.",
+             "Tre – om ni vill använda en förmåga, köpa en ledtråd eller rapportera något – kom till mig diskret.",
+             "Jag är Vägaren. Jag är neutral. Jag dömer. Jag vet allt.",
+           ],
+           tips:"Paus efter varje punkt. Låt det sjunka in."},
+          {fas:"ROLLUTDELNING",farg:"#9999e0",
+           rader:[
+             "Nu delar vi ut rollerna. En i taget. Räck telefonen vidare.",
+           ],
+           tips:"Starta rollutdelningen i appen. Vänta tills alla dragit sin roll."},
+          {fas:"FAS 1 – ALLIANSER",farg:"#a8d5a2",
+           rader:[
+             "Solståndsnatten har börjat. Ni har ungefär en timme på er.",
+             "Mingla. Bilda allianser. Dela hemligheter – men välj noga vem ni delar dem med.",
+             "Ute på tomten har jag gömt fem artefakter. Babushkan, Flaskskeppet, den Heliga boken, Draklådan och Månkyrkans spegel. Den som hittar en artefakt och lämnar den till mig får femton poäng.",
+             "Någon av er bär på en hemlig uppgift – att samla fyra bitar av en gammal ramsa. Om den ramsan når mig innan kvällen är slut kan den förändra allt.",
+             "Håll utkik. Lyssna noga. Var uppmärksam på vem som rör sig var – och varför.",
+             "Kom och checka in med mig när ni gjort något poängvärt. Jag belönar också god stämning, hjälpsamhet och den som ser till att Vägaren aldrig har tomt i glaset.",
+             "Musiken sätts på när ert gille begär det. Ni vet vad ni ska göra när den spelas.",
+             "Lycka till – ni kommer att behöva det.",
+           ],
+           tips:"Sätt igång musiken om ett gille ber om det. Håll koll på checkins."},
+          {fas:"10 MIN KVAR – FAS 1",farg:"#d4956a",
+           rader:[
+             "Bybor – tio minuter kvar av Fas ett. Den som har pusseldelar av ramsan – lämna dem till mig nu.",
+             "Den som inte hunnit checka in – gör det snart.",
+           ],
+           tips:"Påminn om rebusen. Ta emot sista checkins."},
+          {fas:"FAS 2 – TINGET",farg:"#9999e0",
+           rader:[
+             "BYBOR! Tinget är öppnat!",
+             "Ställ er i en halvcirkel. Tinget kräver ordning.",
+             "Vi har anklagelser att behandla. Den som bär en förskriven anklagelse – det är nu den ska framföras.",
+             "Den anklagade har sextio sekunder att försvara sig. Sedan har anklagaren trettio sekunder att svara.",
+             "Förmågor kan aktiveras under Tinget. Kom till mig diskret.",
+             "Tinget är till för misstanke – inte dom. Domen kommer senare.",
+           ],
+           tips:"Ge ordet till den som har förskriven anklagelse. Håll tiden. Max 2 fria anklagelser efter."},
+          {fas:"FAS 3 – RITUALEN",farg:"#d4956a",
+           rader:[
+             "Tinget är stängt. Vägaren har hört vad som sagts.",
+             "Midsommarstången kallar. Alla reser sig.",
+             "Det är dags för dans och ritual. Gillen – ni vet vad ni ska göra.",
+             "Håll ögonen öppna. Håll öronen öppna. Allt ni ser ikväll kan få betydelse vid Domen.",
+           ],
+           tips:"Spela gilledanserna. Levan Polkka minst en gång. Håll koll på stången."},
+          {fas:"FAS 4 – DOMEN",farg:"#cc3333",
+           rader:[
+             "Dansen är slut. Solståndsnatten lider mot sitt slut.",
+             "Vägaren kräver nu sin dom.",
+             "Ni har sett och hört. Ni har dansat och viskat. Ni har anklagat och försvarats.",
+             "Nu ska ni peka.",
+             "På min räkning pekar ni alla – samtidigt – på den person ni tror bär mörkrets ledarskap.",
+             "Tre... två... ett... PEK!",
+           ],
+           tips:"Räkna långsamt. Dramatisk paus. Avslöja kultmärkta först – sedan kultledaren sist."},
+          {fas:"AVSLUTNING",farg:"#c9a84c",
+           rader:[
+             "Jag har vägt skuld mot oskuld. Vågen har talat.",
+           ],
+           tips:"Avslöja roller dramatiskt. Presentera poängresultaten sist."},
+        ].map((f,i)=>{
+          const [open,setOpen]=useState(false);
+          return <div key={i} style={{marginBottom:6}}>
+            <button style={{width:"100%",background:open?"#13100c":T.papper,border:`1px solid ${open?f.farg+"44":T.kant}`,borderRadius:open?"4px 4px 0 0":"4px",padding:"10px 12px",cursor:"pointer",textAlign:"left",fontFamily:"inherit",display:"flex",justifyContent:"space-between",alignItems:"center"}} onClick={()=>setOpen(v=>!v)}>
+              <span style={{fontSize:12,color:f.farg,fontFamily:"'Cinzel',serif",letterSpacing:1}}>{f.fas}</span>
+              <span style={{fontSize:10,color:T.textDim}}>{open?"▲":"▼"}</span>
+            </button>
+            {open&&<div style={{background:"#0a0800",border:`1px solid ${f.farg}33`,borderTop:"none",borderRadius:"0 0 4px 4px",padding:"14px"}}>
+              {f.rader.map((r,j)=><p key={j} style={{fontSize:13,color:"#e8e0c8",lineHeight:1.9,margin:"0 0 6px",fontStyle:"italic"}}>"{r}"</p>)}
+              {f.tips&&<div style={{marginTop:10,padding:"8px 10px",background:f.farg+"15",borderRadius:3,fontSize:11,color:f.farg}}>{f.tips}</div>}
+            </div>}
+          </div>;
+        })}
       </div>
       <div style={{...Kort,borderColor:"#9999cc44",background:"#080814"}}>
         <div style={{...Lbl,color:"#9999cc"}}>🧩 Rebuslösningen</div>
