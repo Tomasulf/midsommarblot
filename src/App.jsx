@@ -1101,27 +1101,15 @@ function DragVy({fordel,idx,roll,avslojar,bekr,klart,alder,setAlder,kon,setKon,a
   </div>;
   if(bekr&&roll){
     // Spara roll i localStorage med unik nyckel
-    const rollData={
+    // Spara bara rollId + kultinfo + kon/alder i URL - resten slås upp från ROLLER_MASTER
+    const miniData={
       id:roll.id,
-      gille:roll.gille,
-      gilleColor:roll.gilleColor,
-      icon:roll.icon,
-      barnroll:roll.barnroll,
-      rollnamn:typeof roll.rollnamn==="function"?roll.rollnamn(kon||""):roll.rollnamn,
-      karaktar:roll.karaktar,
-      beskrivning:roll.beskrivning,
-      uppdrag:roll.uppdrag,
-      foermaga:roll.foermaga,
-      foermaga2:roll.foermaga2,
-      tips:roll.tips,
-      relationer:roll.relationer,
-      fraser:roll.fraser,
-      erKultledare:!!roll.erKultledare,
-      kultMarke:roll.kultMarke||null,
-      spelarKon:kon,
-      spelarAlder:alder,
+      kon:kon||"",
+      alder:alder||"",
+      erk:roll.erKultledare?1:0,
+      km:roll.kultMarke?.id||"",
     };
-    const enkodad=btoa(unescape(encodeURIComponent(JSON.stringify(rollData))));
+    const enkodad=btoa(JSON.stringify(miniData));
     const url="https://midsommarblot-xi.vercel.app/#roll="+enkodad;
     return <div style={{...C,padding:"20px"}}>
       <div style={{fontFamily:"'Cinzel',serif",fontSize:16,color:T.guld,marginBottom:4,textAlign:"center"}}>
@@ -1303,13 +1291,29 @@ export default function App(){
   if(hash.startsWith("#roll=")&&hash.length>6){
     try{
       const enkodad=hash.slice(6);
-      const rollData=JSON.parse(decodeURIComponent(escape(atob(enkodad))));
-      if(rollData&&rollData.id){
-        return <SpelarVy rollData={rollData}/>;
+      const mini=JSON.parse(atob(enkodad));
+      if(mini&&mini.id){
+        // Slå upp full rolldata från ROLLER_MASTER
+        const basRoll=ROLLER_MASTER.find(r=>r.id===mini.id);
+        if(basRoll){
+          const kultmarken_alla=[
+            {id:"mk1",namn:"Skuggviskaren",direktiv:"Skydda Runläsaren från anklagelse under Tinget.",hur:"Spela din byboroll fullt ut.",risk:"Om du avslöjas spelar du vidare som vanlig bybo."},
+            {id:"mk2",namn:"Mörkrets Spegel",direktiv:"Håll folk borta från midsommarstången under dansen.",hur:"Skapa distraktioner naturligt.",risk:"Om du avslöjas spelar du vidare som vanlig bybo."},
+            {id:"mk3",namn:"Tystnadens Väktare",direktiv:"Om Mästersmeden eller Örtmästaren verkar nära att avslöja något – avbryt dem.",hur:"Var social och råka avbryta folk lite för ofta.",risk:"Om du avslöjas spelar du vidare som vanlig bybo."},
+          ];
+          const rollData={
+            ...basRoll,
+            rollnamn:typeof basRoll.rollnamn==="function"?basRoll.rollnamn(mini.kon):basRoll.rollnamn,
+            erKultledare:mini.erk===1,
+            kultMarke:mini.km?kultmarken_alla.find(k=>k.id===mini.km)||null:null,
+            spelarKon:mini.kon,
+            spelarAlder:mini.alder,
+          };
+          return <SpelarVy rollData={rollData}/>;
+        }
       }
-    }catch(e){
-      return <SpelarVy rollData={null}/>;
-    }
+    }catch(e){}
+    return <SpelarVy rollData={null}/>;
   }
 
   const [vy,setVy]=useState("start");
