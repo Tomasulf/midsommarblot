@@ -121,34 +121,49 @@ const ROLLER_MASTER=[
    relationer:[{till:"Mästersmeden",typ:"misstänkt",text:"Misstänker dig med rätta. Ge precis nog för att hålla dem lugna."},{till:"Högprästen",typ:"hemlighet",text:"Du vet något om Högprästen. Ditt bästa trumfkort."},{till:"Runläsaren",typ:"avtal",text:"Ni delar info – aldrig mot varandra. Avtalet krackelerar."}]},
   {id:"skogsvakten",gille:"ortagillet",gilleColor:"#ffb3c6",icon:"🌲",barnroll:true,
    rollnamn:()=>"Skogsvakten",
-   karaktar:"Snabb, nyfiken, expert på att smyga.",
-   beskrivning:"Du ser ALLT! 🌲 Du springer tyst som en räv. Vuxna tror att du leker – i själva verket spionerar du!\n\nHitta de andra barnrollerna DIREKT – ni känner igen varandra på att ni alla bär något GRÖNT.",
-   uppdrag:"Spana på EN vuxen under kvällen. Rapportera till Vägaren!",
-   foermaga:"🌲 JAG SÅG DIG: Smyg fram och ropa – personen berättar vad de gör inför alla!",
-   foermaga2:"🍃 Falskt Rykte: Be Vägaren om en hemlig lapp och lägg nära en konstig vuxen!",
-   tips:"Ingen misstänker Skogsvakten. Det är din superkraft! 🦊",
+   karaktar:"SNABB, NYFIKEN OCH EXPERT PÅ ATT SMYGA!",
+   beskrivning:"DU SER ALLT! 🌲\n\nDU SPRINGER TYST SOM EN RÄV. ANDRA SPELARE TROR ATT DU LEKER – I SJÄLVA VERKET SPIONERAR DU!\n\nHITTA DEN ANDRA BARNROLLEN DIREKT – NI KÄNNER IGEN VARANDRA PÅ ATT NI BÄR NÅGOT GRÖNT!",
+   uppdrag:"SPANA PÅ EN SPELARE UNDER KVÄLLEN – RAPPORTERA TILL VÄGAREN!",
+   foermaga:"🌲 DITT HYS: Smyg upp bakom en spelare och viska: 'JAG VET VAD DU GJORT' – spring sedan iväg så fort du kan!",
+   foermaga2:"🌲 DITT HYS 2: Övertala en spelare att följa med till ett träd och 'välsigna' det tillsammans med dig. Om de frågar varför – säg att det är MYCKET viktigt.",
+   tips:"INGEN MISSTÄNKER SKOGSVAKTEN. DET ÄR DIN SUPERKRAFT! 🦊",
    fraser:[],
-   relationer:[{till:"Grönskans Väktare",typ:"mentor",text:"Rapportera vad du ser till dem."},{till:"Galningen med Grytan",typ:"bästa kompis",text:"Ni hittar på hyss tillsammans!"},{till:"Korsriddaren",typ:"kompis",text:"Ni tre barnroller är ett hemligt lag!"}]},
+   barnHyss:[
+     "SMYG upp bakom en spelare och viska 'JAG VET VAD DU GJORT' – spring sedan iväg!",
+     "ÖVERTALA en spelare att följa med och välsigna ett träd tillsammans",
+     "BERÄTTA högt för alla: 'JAG VET VEM KULTLEDAREN ÄR – DET ÄR [välj vem som helst]!'",
+   ],
+   relationer:[{till:"Galningen med Grytan",typ:"bästa kompis",text:"NI ÄR ETT HEMLIGT LAG! Hitta varandra direkt!"},{till:"Korsriddaren",typ:"kompis",text:"NI ÄR ETT HEMLIGT LAG! Hitta varandra direkt!"}]},
   {id:"galningen",gille:"smederna",gilleColor:"#ffcc88",icon:"🥁",barnroll:true,
    rollnamn:()=>"Galningen med Grytan",
-   karaktar:"Bullrig, energisk och totalt omöjlig att ignorera.",
-   beskrivning:"Du är byns OFFICIELLA ljudmakare! 🥁\n\nHitta de andra barnrollerna DIREKT – ni känner igen varandra på att ni alla bär något GRÖNT.",
-   uppdrag:"Slå på grytan och ropa 'LYSSNA PÅ MIG!' minst 3 gånger. Utmana EN vuxen till tävling!",
-   foermaga:"🥁 PANG PANG PANG: Alla stannar 30 sek – du ställer EN fråga!",
-   foermaga2:"💪 Utmaning: Den som förlorar svarar ärligt på EN fråga!",
-   tips:"Ingen tror att du märker saker. Men du märker ALLT! 👀",
+   karaktar:"BULLRIG, ENERGISK OCH TOTALT OMÖJLIG ATT IGNORERA!",
+   beskrivning:"DU ÄR BYNS OFFICIELLA LJUDMAKARE! 🥁\n\nHITTA DEN ANDRA BARNROLLEN DIREKT – NI KÄNNER IGEN VARANDRA PÅ ATT NI BÄR NÅGOT GRÖNT!",
+   uppdrag:"SLÅ PÅ GRYTAN OCH ROPA 'LYSSNA PÅ MIG!' MINST 3 GÅNGER UNDER KVÄLLEN!",
+   foermaga:"🥁 DITT HYS: Marschera tre varv runt midsommarstången medan du slår på grytan och sjunger 'VI ÄR KULTEN, VI ÄR KULTEN!' Så högt du kan!",
+   foermaga2:"🥁 DITT HYS 2: Avbryt Högprästens allvarligaste stund med tre HÖGA slag på grytan – PANG PANG PANG!",
+   tips:"INGEN TROR ATT DU MÄRKER SAKER. MEN DU MÄRKER ALLT! 👀",
    fraser:[],
-   relationer:[{till:"Mästersmeden",typ:"respekt",text:"Vill utmana dem i armbrytning. Gör det!"},{till:"Skogsvakten",typ:"bästa kompis",text:"Ni hittar på hyss tillsammans!"},{till:"Korsriddaren",typ:"kompis",text:"Ni tre är ett hemligt lag!"}]},
+   barnHyss:[
+     "MARSCHERA tre varv runt stången och sjung 'VI ÄR KULTEN, VI ÄR KULTEN!' så högt du kan!",
+     "AVBRYT Högprästens allvarligaste stund med tre höga slag – PANG PANG PANG!",
+     "UTMANA en spelare till sten-sax-påse. Den som förlorar måste svara ärligt på EN fråga!",
+   ],
+   relationer:[{till:"Skogsvakten",typ:"bästa kompis",text:"NI ÄR ETT HEMLIGT LAG! Hitta varandra direkt!"},{till:"Korsriddaren",typ:"kompis",text:"NI ÄR ETT HEMLIGT LAG! Hitta varandra direkt!"}]},
   {id:"korsriddaren",gille:"månkyrkan",gilleColor:"#c8b8ff",icon:"⚔️",barnroll:true,
    rollnamn:()=>"Korsriddaren",
-   karaktar:"Liten, modig och fullständigt övertygad om att rättvisa alltid segrar.",
-   beskrivning:"Du är Månkyrkans tappre riddare! ⚔️\n\nHitta de andra barnrollerna DIREKT – ni känner igen varandra på att ni alla bär något GRÖNT.",
-   uppdrag:"Utmana EN vuxen till äreduel. Vakta midsommarstången!",
-   foermaga:"⚔️ Riddarlöftet: 'JAG VITTNAR FÖR DENNES OSKULD!' Alla lyssnar!",
-   foermaga2:"🛡 Stångens Väktare: Se någon vid stången – spring dit!",
-   tips:"Barn ser saker vuxna är för smarta för att märka! 👀",
+   karaktar:"LITEN, MODIG OCH FULLSTÄNDIGT ÖVERTYGAD OM ATT RÄTTVISA ALLTID SEGRAR!",
+   beskrivning:"DU ÄR MÅNKYRKANS TAPPRE RIDDARE! ⚔️\n\nHITTA DEN ANDRA BARNROLLEN DIREKT – NI KÄNNER IGEN VARANDRA PÅ ATT NI BÄR NÅGOT GRÖNT!",
+   uppdrag:"UTMANA EN SPELARE TILL STEN-SAX-PÅSE! VAKTA MIDSOMMARSTÅNGEN!",
+   foermaga:"⚔️ DITT HYS: Säg högt inför alla spelare: 'JAG VET VEM KULTLEDAREN ÄR – DET ÄR [peka på vem som helst]!' Håll dig inte för skratt!",
+   foermaga2:"⚔️ DITT HYS 2: Vakta midsommarstången i 5 minuter och säg NEJ till ALLA spelare som försöker komma nära!",
+   tips:"BARN SER SAKER SOM ANDRA SPELARE ÄR FÖR SMARTA FÖR ATT MÄRKA! 👀",
    fraser:[],
-   relationer:[{till:"Högprästen",typ:"lojalitet",text:"Din befälhavare – men bara om det verkar rättvist."},{till:"Skogsvakten",typ:"kompis",text:"Ni tre är ett hemligt lag!"},{till:"Galningen med Grytan",typ:"kompis",text:"Ni hittar på hyss tillsammans!"}]},
+   barnHyss:[
+     "SÄG högt: 'JAG VET VEM KULTLEDAREN ÄR – DET ÄR [peka på vem som helst]!'",
+     "VAKTA stången i 5 minuter – säg NEJ till alla som kommer nära!",
+     "UTMANA en spelare till sten-sax-påse. Den som förlorar svarar på EN fråga!",
+   ],
+   relationer:[{till:"Skogsvakten",typ:"kompis",text:"NI ÄR ETT HEMLIGT LAG! Hitta varandra direkt!"},{till:"Galningen med Grytan",typ:"kompis",text:"NI ÄR ETT HEMLIGT LAG! Hitta varandra direkt!"}]},
 ];
 
 // ─── DYNAMISK KEDJE-BYGGARE ───────────────────────────────────────────────────
@@ -297,7 +312,7 @@ const ANKLAGELSE_POOL = [
   {
     id:"mot_mankyrkan",
     riktning:"Månkyrkan",
-    text:"Kyrkan talar om månens öga och renhet. Men renheten i Månkyrkan ikväll – den luktar lite konstigt, om ni frågar mig. Som något som försöker dölja sig bakom högtidliga ord och vackra gester. Jag har bett. Jag har lyssnat. Och månens öga tittar åt ett mycket specifikt håll ikväll.",
+    text:"Kyrkan talar om månens öga och renhet. Men renheten i Månkyrkan ikväll – den luktar lite konstigt, om ni frågar mig. Som något som försöker dölja sig bakom högtidliga ord.",
     stil:"Höjtidlig ton. Håll blicken mot Månkyrkans medlemmar en sekund för länge.",
   },
   {
@@ -442,6 +457,29 @@ const ROLL_UPPGIFTER = {
 };
 
 
+// ─── GEMENSAMMA BARNUPPDRAG ───────────────────────────────────────────────────
+const BARN_GEMENSAMMA = [
+  {
+    nr:1,
+    titel:"PARADEN 🥁🌲",
+    uppdrag:"MARSCHERA TILLSAMMANS runt hela huset! En av er slår takten, den andre leder. Minst 3 andra spelare måste titta på!",
+    poang:"+20p var om ni lyckas!",
+  },
+  {
+    nr:2,
+    titel:"DET HEMLIGA RÅDET 🤫",
+    uppdrag:"Sätt er ihop på ett hemligt ställe. Bestäm TILLSAMMANS vilken spelare som är mest misstänksam. Gå sedan till Vägaren och rapportera ert val!",
+    poang:"+15p var om ni rapporterar!",
+  },
+  {
+    nr:3,
+    titel:"STÖRNINGSMANÖVERN ⚡",
+    uppdrag:"Under Tinget – avbryt BÅDA på samma gång! En slår på grytan eller ropar något, den andre gör något annat galet. Vägaren avgör om det lyckades!",
+    poang:"+25p var om ni lyckas störa Tinget!",
+  },
+];
+
+
 const JULIA_UPPDRAG={
   trigger:{kon:"tjej",alder:41},
   uppdrag:"Någon gång under kvällen – du väljer när – ska du framföra 'Fångad av en stormvind' med full övertygelse. Du behöver inte förklara varför. Du gör det bara.",
@@ -454,7 +492,8 @@ const KULTMARKEN=[
    kultInfo:"Du tjänar Mörkblotets Kult. En hemlig ledare finns bland er – men du vet inte vem.",
    direktiv:"Skydda Runläsaren från anklagelse under Tinget. Avled uppmärksamheten diskret.",
    hur:"Spela din byboroll fullt ut. Kultuppdraget är ett extra lager.",
-   risk:"Om du avslöjas spelar du vidare som vanlig bybo."},
+   risk:"Om kultledaren avsätter dig – ta emot det med värdighet och spela vidare som bybo.",
+   pentagram:"Placera ut 2 pentagram diskret på tomten utan att bli påkommen. +20p om båda placeras utan att du avslöjas."},
   {id:"mk2",namn:"Mörkrets Spegel",
    kultInfo:"Du tjänar Mörkblotets Kult. En hemlig ledare finns bland er – men du vet inte vem.",
    direktiv:"Håll folk borta från midsommarstången under dansen. Skapa distraktioner.",
@@ -472,9 +511,10 @@ const KULTLEDARE_INFO={
   uppdrag:"Överlev Domen oavslöjad. Det är allt som krävs för kultens seger.",
   valssignelsen:"Håll handen på stången ostört i 30 sekunder under dansen i Fas 3.",
   foermaga:"🩸 Blodsband: Skicka hemligt tecken till kultmärkt (bestäm tecken med Vägaren).",
-  foermaga2:"🕯 Avrätta: Presentera en kultmärkts namn för Vägaren om de håller på att avslöja dig.",
+  foermaga2:"🕯 Avsättning: Om en kultmärkt håller på att avslöjas – kontakta Vägaren diskret och namnge dem. De avsätts och spelar vidare som vanlig bybo. Du är skyddad.",
   igenkanning:"Säg 'Mörkret hälsar' till en spelare. Om de är märkt svarar de 'och natten är lång'.",
   tips:"Spela din byboroll fullt ut. Den bäste kultledaren verkar aldrig misstänkt.",
+  pentagram:"Placera ut 3 pentagram diskret på tomten utan att bli påkommen. +30p om alla placeras. +20p extra om alla kultisternas pentagram placeras utan att bli påkomna.",
 };
 
 const KULTMARKE_KANDIDATER=["mastersmeden","lakemedlaren","soldaten","hogprasten","runlaesaren","den_resande","glodviskaren","munken"];
@@ -503,8 +543,19 @@ const UPPGIFTER=[
   {id:"kedja",label:"Kedja slutförd",poang:10,kat:"uppdrag",rollId:"*"},
   {id:"formaga",label:"Förmåga använd rätt",poang:20,kat:"uppdrag",rollId:"*"},
   {id:"pentagram_hitta",label:"Pentagram hittat",poang:10,kat:"uppdrag",rollId:"*"},
-  {id:"anklagelse",label:"Anklagelse framförd",poang:15,kat:"ting",rollId:"*"},
-  {id:"anklagelse_dom",label:"Anklagelse ledde till dom",poang:10,kat:"ting",rollId:"*"},
+  // Kultisternas pentagram-uppdrag
+  {id:"pentagram_markt_klart",label:"Kultmärkt – alla pentagram placerade",poang:20,kat:"kult",rollId:"*"},
+  {id:"pentagram_ledare_klart",label:"Kultledaren – alla pentagram placerade",poang:30,kat:"kult",rollId:"*"},
+  {id:"pentagram_alla_klart",label:"Alla kultister – pentagram klara",poang:20,kat:"kult",rollId:"*"},
+  // Artefakter
+  {id:"artefakt_babushka",label:"Artefakt: Babushka hittad",poang:15,kat:"uppdrag",rollId:"*"},
+  {id:"artefakt_flaskskepp",label:"Artefakt: Flaskskepp hittat",poang:15,kat:"uppdrag",rollId:"*"},
+  {id:"artefakt_heligbok",label:"Artefakt: Helig bok hittad",poang:15,kat:"uppdrag",rollId:"*"},
+  {id:"artefakt_draklada",label:"Artefakt: Draklåda hittad",poang:15,kat:"uppdrag",rollId:"*"},
+  {id:"artefakt_spegel",label:"Artefakt: Månkyrkans spegel hittad",poang:15,kat:"uppdrag",rollId:"*"},
+  {id:"anklagelse",label:"Anklagelse framförd",poang:5,kat:"ting",rollId:"*"},
+  {id:"anklagelse_ratt_gille",label:"Anklagelse – rätt gille",poang:10,kat:"ting",rollId:"*"},
+  {id:"anklagelse_fel_gille",label:"Anklagelse – fel gille",poang:-5,kat:"ting",rollId:"*"},
   {id:"anklagelse_markt",label:"Rätt – kultmärkt",poang:20,kat:"ting",rollId:"*"},
   {id:"anklagelse_ledare",label:"Rätt – Kultledaren!",poang:35,kat:"ting",rollId:"*"},
   {id:"anklagelse_fel",label:"Fel anklagelse",poang:-5,kat:"ting",rollId:"*"},
@@ -661,7 +712,7 @@ function DansSektion({roll,erKultledare}){
         <span style={{fontSize:11,color:T.textDim,width:60}}>Omgång {p.omgang}:</span>
         <span style={{fontSize:13,fontFamily:"'Cinzel',serif",fontWeight:700,color:erKultledare?"#cc3333":T.guld}}>{erKultledare?p.ledare:p.bybo}</span>
       </div>)}
-      {!erKultledare&&<p style={{fontSize:11,color:T.textDim,marginTop:4,fontStyle:"italic"}}>Kultledaren går alltid åt ANNAT håll – vem märker det?</p>}
+
       {erKultledare&&<p style={{fontSize:11,color:"#cc9999",marginTop:4,fontStyle:"italic"}}>Gå moturs när alla andra går medurs. Var naturlig.</p>}
     </div>
   </ToggleBlock>;
@@ -679,7 +730,7 @@ function AnklagelseSektion({roll}){
       <p style={{fontSize:13,color:T.text,lineHeight:1.9,margin:0,fontStyle:"italic"}}>"{ankl.text}"</p>
     </div>
     <div style={{fontSize:11,color:T.textDim,fontStyle:"italic",marginBottom:8,lineHeight:1.5}}>{ankl.stil}</div>
-    <div style={{fontSize:11,color:"#ffcc66"}}>+15p för att framföra · +20-35p om det visar sig peka rätt vid Domen</div>
+    <div style={{fontSize:11,color:"#ffcc66"}}>+5p för att framföra · +10p om rätt gille · -5p om fel gille → totalt 15p eller 0p</div>
   </ToggleBlock>;
 }
 
@@ -729,6 +780,22 @@ function RollPoangSektion({roll}){
 }
 
 
+// ─── BARN-SEKTION ─────────────────────────────────────────────────────────────
+function BarnSektion({roll}){
+  const [open,setOpen]=useState(false);
+  if(!roll.barnroll)return null;
+  const ac="#ffb3c6";
+  return <ToggleBlock label="🤝 GEMENSAMMA UPPDRAG MED DIN KOMPIS" ac={ac} bg="#1a0a10" open={open} setOpen={setOpen}>
+    <p style={{fontSize:12,color:"#ffb3c6",lineHeight:1.6,marginBottom:12,fontWeight:700}}>NI ÄR ETT LAG! HÄR ÄR VAD NI SKA GÖRA TILLSAMMANS:</p>
+    {BARN_GEMENSAMMA.map((u,i)=><div key={i} style={{marginBottom:14,paddingBottom:14,borderBottom:i<2?`1px solid #ffb3c633`:"none"}}>
+      <div style={{fontSize:12,color:"#ffb3c6",fontFamily:"'Cinzel',serif",fontWeight:700,marginBottom:6}}>{u.titel}</div>
+      <p style={{fontSize:13,color:"#ffe8f0",lineHeight:1.7,margin:"0 0 6px"}}>{u.uppdrag}</p>
+      <div style={{fontSize:11,color:"#ffcc44",fontWeight:700}}>{u.poang}</div>
+    </div>)}
+  </ToggleBlock>;
+}
+
+
 // ─── ROLLKORT ─────────────────────────────────────────────────────────────────
 function RollKort({roll,onBekrafta,spelarKon,spelarAlder}){
   const [visNamn,setVisNamn]=useState(false);
@@ -770,6 +837,7 @@ function RollKort({roll,onBekrafta,spelarKon,spelarAlder}){
     <AnklagelseSektion roll={roll}/>
     <KedjeSektion roll={roll}/>
     <DansSektion roll={roll} erKultledare={roll.erKultledare}/>
+    <BarnSektion roll={roll}/>
     <JuliaSektion spelarKon={spelarKon} spelarAlder={spelarAlder}/>
 
     {roll.erKultledare&&<ToggleBlock label="🩸 HEMLIGT – Du är Kultledaren" ac="#cc3333" bg="#1a0000" open={visMarke} setOpen={setVisMarke}>
@@ -779,14 +847,23 @@ function RollKort({roll,onBekrafta,spelarKon,spelarAlder}){
       <p style={{...RT,color:"#cc9999",marginBottom:10}}><strong style={{color:"#cc3333"}}>Igenkänning:</strong> {KULTLEDARE_INFO.igenkanning}</p>
       <p style={{...RT,color:"#cc9999",marginBottom:6}}>{KULTLEDARE_INFO.foermaga}</p>
       <p style={{...RT,color:"#cc9999",marginBottom:10}}>{KULTLEDARE_INFO.foermaga2}</p>
-      <p style={{...RT,color:"#cc9999"}}>{KULTLEDARE_INFO.tips}</p>
+      <p style={{...RT,color:"#cc9999",marginBottom:10}}>{KULTLEDARE_INFO.tips}</p>
+      <div style={{height:1,background:"#cc3333",margin:"8px 0"}}/>
+      <div style={{fontSize:10,color:"#cc3333",letterSpacing:2,fontFamily:"'Cinzel',serif",marginBottom:6}}>🔺 PENTAGRAM-UPPDRAG</div>
+      <p style={{...RT,color:"#cc9999"}}>{KULTLEDARE_INFO.pentagram}</p>
     </ToggleBlock>}
 
     {roll.kultMarke&&!roll.erKultledare&&<ToggleBlock label={`🩸 Hemligt kultmärke – ${roll.kultMarke.namn}`} ac="#cc6666" bg="#140303" open={visMarke} setOpen={setVisMarke}>
       <div style={{background:"#0a0000",border:"1px solid #8b1a1a",borderRadius:3,padding:"10px",marginBottom:10,fontSize:12,color:"#cc6666",textAlign:"center"}}>Du tjänar kulten. Du vet inte vem ledaren är.</div>
       <p style={{...RT,color:"#cc9999",marginBottom:10}}>{roll.kultMarke.direktiv}</p>
       <p style={{...RT,color:"#cc9999",marginBottom:10}}>{roll.kultMarke.hur}</p>
-      <p style={{...RT,color:"#cc9999"}}>{roll.kultMarke.risk}</p>
+      <p style={{...RT,color:"#cc9999",marginBottom:10}}>{roll.kultMarke.risk}</p>
+      {roll.kultMarke.pentagram&&<>
+        <div style={{height:1,background:"#8b1a1a",margin:"8px 0"}}/>
+        <div style={{fontSize:10,color:"#cc6666",letterSpacing:2,fontFamily:"'Cinzel',serif",marginBottom:6}}>🔺 PENTAGRAM-UPPDRAG</div>
+        <p style={{...RT,color:"#cc9999",marginBottom:6}}>{roll.kultMarke.pentagram}</p>
+        <p style={{fontSize:11,color:"#cc6666"}}>Om du blir påkommen med ett pentagram – +0p. Håll det hemligt!</p>
+      </>}
     </ToggleBlock>}
 
     <Sek label="💡 Tips" ac={T.guldDim}><p style={RT}>{roll.tips}</p></Sek>
@@ -1074,6 +1151,15 @@ function SpelledarVy({setVy,starta,tab,setTab,antalBarn,setAntalBarn,spelare,set
           </div>;
         })}
       </div>}
+      <div style={{...Kort,borderColor:"#c9a84c44"}}>
+        <div style={Lbl}>🏺 Artefakter att placera ut</div>
+        <p style={{fontSize:11,color:T.textDim,marginBottom:8,lineHeight:1.6}}>Placera ut dessa på tomten innan spelet startar. Deltagare som hittar dem får +15p var.</p>
+        {["🪆 Babushka","⛵ Flaskskepp","📖 Helig bok","🐉 Draklåda","🪞 Månkyrkans spegel"].map((a,i)=><div key={i} style={{fontSize:12,color:T.guld,padding:"4px 0",borderBottom:`1px solid ${T.kant2}`}}>{a}</div>)}
+      </div>
+      <div style={{...Kort,borderColor:"#cc333344",background:"#120808"}}>
+        <div style={{...Lbl,color:"#cc6666"}}>🔺 Kultisternas pentagram</div>
+        <p style={{fontSize:11,color:"#cc9999",lineHeight:1.6,margin:0}}>Kultledaren får 3 pentagram · Kultmärkta får 2 var.<br/>Placeras diskret på tomten under spelet.<br/>Bybor som hittar dem: +10p · Kultister som placerar alla ostört: +20-30p</p>
+      </div>
       <button style={{...BtnH,width:"100%"}} onClick={starta}>Starta – Dela ut roller →</button>
     </>}
 
