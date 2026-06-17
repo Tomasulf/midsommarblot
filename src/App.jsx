@@ -659,49 +659,86 @@ const GILLE_INFO={
 
 // ─── TILLDELNING ──────────────────────────────────────────────────────────────
 function blandaOchTilldela(antalBarn){
+  // ── Steg 1: Välj barnroller från 2 OLIKA gillen ──────────────────────────
   const gilles=["ortagillet","smederna","månkyrkan"];
+  const allaBarnRoller=ROLLER_MASTER.filter(r=>r.barnroll);
+  
+  // Slumpa barnroller från 2 olika gillen
+  let barnGillen=[];
+  let valdaBarn=[];
+  if(antalBarn>=2){
+    const shuffledBarn=[...allaBarnRoller].sort(()=>Math.random()-0.5);
+    const barn1=shuffledBarn[0];
+    const barn2=shuffledBarn.find(b=>b.gille!==barn1.gille);
+    if(barn1&&barn2){
+      valdaBarn=[barn1,barn2];
+      barnGillen=[barn1.gille,barn2.gille];
+    }
+  } else if(antalBarn===1){
+    valdaBarn=[allaBarnRoller[Math.floor(Math.random()*allaBarnRoller.length)]];
+    barnGillen=[valdaBarn[0].gille];
+  }
+
+  // ── Steg 2: Välj vuxna per gille ─────────────────────────────────────────
+  // Gillen MED barn: 2 vuxna
+  // Gillet UTAN barn: 3 vuxna
   let valdaVuxna=[];
   gilles.forEach(g=>{
+    const harBarn=barnGillen.includes(g);
+    const antalVuxna=harBarn?2:3;
     const gr=ROLLER_MASTER.filter(r=>!r.barnroll&&r.gille===g).sort(()=>Math.random()-0.5);
-    valdaVuxna.push(...gr.slice(0,2));
+    valdaVuxna.push(...gr.slice(0,antalVuxna));
   });
+
+  // Lägg till Den Resande (alltid med)
   const denResande=ROLLER_MASTER.find(r=>r.id==="den_resande");
-  if(denResande)valdaVuxna.push(denResande);
-  const allaBarn=ROLLER_MASTER.filter(r=>r.barnroll).sort(()=>Math.random()-0.5);
-  let valdaBarn=allaBarn.slice(0,Math.min(antalBarn,3));
-  if(valdaBarn.length>=2&&valdaBarn[0].gille===valdaBarn[1].gille){
-    const sw=allaBarn.find(b=>b.gille!==valdaBarn[0].gille);
-    if(sw)valdaBarn[1]=sw;
-  }
-  const aktivaIds=[...valdaVuxna,...valdaBarn].map(r=>r.id);
-  const kandidater=valdaVuxna.filter(r=>r.gille!=="fri").map(r=>r.id);
+  if(denResande) valdaVuxna.push(denResande);
+
+  // ── Steg 3: Verifiera inga dubletter ─────────────────────────────────────
+  const allaIds=new Set();
+  const allaRoller=[...valdaVuxna,...valdaBarn].filter(r=>{
+    if(allaIds.has(r.id)) return false;
+    allaIds.add(r.id);
+    return true;
+  });
+  const aktivaIds=allaRoller.map(r=>r.id);
+  
+  console.log("Roller:",allaRoller.map(r=>r.id).join(", "));
+  console.log("Totalt:",allaRoller.length,"roller");
+  console.log("Gille utan barn:",gilles.find(g=>!barnGillen.includes(g)));
+
+  // ── Steg 4: Tilldela kultister (BARA bland vuxna, aldrig barn) ────────────
+  const vuxnaKandidater=valdaVuxna.map(r=>r.id);
   const markeSlump=[...KULTMARKEN].sort(()=>Math.random()-0.5).slice(0,2);
-  const kandidatSlump=[...kandidater].sort(()=>Math.random()-0.5).slice(0,2);
-  const ledareKandidater=kandidater.filter(id=>!kandidatSlump.includes(id));
+  const kandidatSlump=[...vuxnaKandidater].sort(()=>Math.random()-0.5).slice(0,2);
+  const ledareKandidater=vuxnaKandidater.filter(id=>!kandidatSlump.includes(id));
   const kultledareId=ledareKandidater[Math.floor(Math.random()*ledareKandidater.length)];
-  const kultIds=[...kandidatSlump, kultledareId].filter(Boolean);
-  const kedjor=byggKedjor(aktivaIds, kultIds);
-  // Tilldela rebussamlare – första i prioritetslistan som inte är kultist
+  const kultIds=[...kandidatSlump,kultledareId].filter(Boolean);
+
+  // ── Steg 5: Bygg kedjor (aldrig kultister) ───────────────────────────────
+  const kedjor=byggKedjor(aktivaIds,kultIds);
+
+  // ── Steg 6: Rebussamlare ─────────────────────────────────────────────────
   const rebussamlareId=REBUS_SAMLAREPRIO.find(id=>aktivaIds.includes(id)&&!kultIds.includes(id))||null;
-  // Tilldela anklagelser – prioritera spelare >40 år
-  const allaRoller=[...valdaVuxna,...valdaBarn];
+
+  // ── Steg 7: Anklagelser (inga barn) ──────────────────────────────────────
   const anklagelsePool=[...ANKLAGELSE_POOL].sort(()=>Math.random()-0.5).slice(0,2);
-  const kandidaterAlder=allaRoller.filter(r=>!r.barnroll&&parseInt(r.spelarAlder||0)>40);
-  const ovrigaRoller=allaRoller.filter(r=>!r.barnroll&&!kandidaterAlder.includes(r)).sort(()=>Math.random()-0.5);
+  const vuxnaRoller=allaRoller.filter(r=>!r.barnroll).sort(()=>Math.random()-0.5);
   const anklagelseTilldelning=anklagelsePool.map((a,i)=>({
-    rollId:[...kandidaterAlder,...ovrigaRoller][i]?.id||null,
+    rollId:vuxnaRoller[i]?.id||null,
     anklagelse:a,
   }));
 
+  // ── Steg 8: Bygg fullständiga roller och blanda ───────────────────────────
   return allaRoller.map(r=>{
     const mi=kandidatSlump.indexOf(r.id);
     const polkkaDir=r.id===kultledareId?POLKKA_LEDARE:slumpaPolkka();
     const erRebussamlare=r.id===rebussamlareId;
     let u={...r,kedjor,aktivaIds,polkkaDir,erRebussamlare};
-    if(mi!==-1)u={...u,kultMarke:markeSlump[mi]};
-    if(r.id===kultledareId)u={...u,erKultledare:true};
+    if(mi!==-1&&!r.barnroll) u={...u,kultMarke:markeSlump[mi]};
+    if(r.id===kultledareId&&!r.barnroll) u={...u,erKultledare:true};
     const minAnklagelse=anklagelseTilldelning.find(a=>a.rollId===r.id);
-    if(minAnklagelse)u={...u,anklagelse:minAnklagelse.anklagelse};
+    if(minAnklagelse) u={...u,anklagelse:minAnklagelse.anklagelse};
     return u;
   }).sort(()=>Math.random()-0.5);
 }
@@ -1916,24 +1953,22 @@ export default function App(){
     const a=parseInt(alder);
     if(!alder||isNaN(a)||a<1||a>120||!kon)return;
     setAlderKlar(true);
-    
-    // Hitta nästa lediga roll baserat på ålder
-    // Barn <10: hitta nästa barnroll som inte används
-    // Vuxen ≥10: hitta nästa vuxenroll som inte används
-    const anvandaIds=fordel.slice(0,idx).map(r=>r.id);
-    
+
+    // Hitta redan använda roller (de som visats för tidigare spelare)
+    const anvandaIds=fordel.filter(r=>r._använd).map(r=>r.id);
+
     let tilldelad;
     if(a<10){
-      // Hitta nästa oanvänd barnroll
+      // Barn: ge nästa oanvänd barnroll
       const ledigBarn=fordel.find(r=>r.barnroll&&!anvandaIds.includes(r.id));
-      tilldelad=ledigBarn||fordel[idx];
+      tilldelad=ledigBarn||fordel.find(r=>r.barnroll)||fordel[idx];
     } else {
-      // Hitta nästa oanvänd vuxenroll
+      // Vuxen: ge nästa oanvänd vuxenroll
       const ledigVuxen=fordel.find(r=>!r.barnroll&&!anvandaIds.includes(r.id));
-      tilldelad=ledigVuxen||fordel.find(r=>!r.barnroll)||fordel[idx];
+      tilldelad=ledigVuxen||fordel[idx];
     }
-    
-    // Märk rollen som använd genom att uppdatera fordel
+
+    // Märk som använd
     setFordel(prev=>prev.map(r=>r.id===tilldelad.id?{...r,_använd:true}:r));
     setRoll(tilldelad);
     setAvslojar(false);setBekr(false);
