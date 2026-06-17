@@ -1063,26 +1063,77 @@ function RollKort({roll,onBekrafta,spelarKon,spelarAlder}){
 }
 
 // ─── STÅNGENS VÅG ─────────────────────────────────────────────────────────────
-function StangensVag({spelare,gilleData}){
-  // Beräkna by vs kult-poäng
-  // Kultister identifieras via gilleColor (vi har inte direkt tillgång till erKultledare här)
-  // Använd poängen för att visa relativ styrka
-  const totalPoang = spelare.reduce((a,s)=>a+s.poang,0)||1;
+function StangensVag({spelare,gilleData,bynProcent=50,kultProcent=50,bynPoang=0,kultPoang=0,kultisterIds=[]}){
+  const gilleSort=[...gilleData].sort((a,b)=>b.total-a.total);
+  const maxGille=Math.max(...gilleData.map(g=>g.total),1);
+  const topSpelare=[...spelare].sort((a,b)=>b.poang-a.poang).slice(0,3);
   
-  // Gillepoäng för topplista
-  const gilleSort = [...gilleData].sort((a,b)=>b.total-a.total);
-  const maxGille = Math.max(...gilleData.map(g=>g.total),1);
-  
-  // Individuell topplista
-  const topSpelare = [...spelare].sort((a,b)=>b.poang-a.poang).slice(0,3);
-  
+  // Våg-lutning: 50% = balans, >50% byn = lutar vänster
+  const lutning=bynProcent-50; // -50 till +50
+  const bynLeder=bynProcent>kultProcent;
+
   return <div>
-    {/* Gilletävlingen */}
+    {/* STÅNGENS VÅG */}
+    <div style={{...Kort,borderColor:"#c9a84c44",background:"#080a06",marginBottom:8}}>
+      <div style={{fontSize:10,color:"#c9a84c",letterSpacing:2,fontFamily:"'Cinzel',serif",marginBottom:4,textAlign:"center"}}>⚖️ STÅNGENS VÅG</div>
+      <div style={{fontSize:10,color:"#8a7a5a",textAlign:"center",marginBottom:16,fontStyle:"italic"}}>Kultens poäng viktas ×3 · Bara synlig för Vägaren</div>
+
+      {/* Visuell balansvåg */}
+      <div style={{position:"relative",marginBottom:16}}>
+        {/* Mittenstång */}
+        <div style={{position:"absolute",left:"50%",top:0,width:3,height:90,background:"#c9a84c",borderRadius:2,transform:"translateX(-50%)"}}/>
+        
+        {/* BYN - vänster skål */}
+        <div style={{
+          position:"absolute",left:0,top:bynLeder?20:40,
+          width:"44%",transition:"top 0.8s",
+          textAlign:"center"
+        }}>
+          <div style={{background:"#0a1a0a",border:"2px solid #a8d5a2",borderRadius:8,padding:"10px 6px"}}>
+            <div style={{fontSize:28,marginBottom:2}}>🌿</div>
+            <div style={{fontSize:13,color:"#a8d5a2",fontFamily:"'Cinzel',serif",fontWeight:700}}>BYN</div>
+            <div style={{fontSize:16,color:"#a8d5a2",fontWeight:700}}>{bynProcent}%</div>
+            <div style={{fontSize:10,color:"#5a8a5a"}}>{bynPoang}p råpoäng</div>
+          </div>
+          {bynLeder&&<div style={{fontSize:11,color:"#a8d5a2",marginTop:4,fontWeight:700}}>◄ LEDER</div>}
+        </div>
+
+        {/* KULTEN - höger skål */}
+        <div style={{
+          position:"absolute",right:0,top:bynLeder?40:20,
+          width:"44%",transition:"top 0.8s",
+          textAlign:"center"
+        }}>
+          <div style={{background:"#1a0808",border:"2px solid #cc6666",borderRadius:8,padding:"10px 6px"}}>
+            <div style={{fontSize:28,marginBottom:2}}>🩸</div>
+            <div style={{fontSize:13,color:"#cc6666",fontFamily:"'Cinzel',serif",fontWeight:700}}>KULTEN</div>
+            <div style={{fontSize:16,color:"#cc6666",fontWeight:700}}>{kultProcent}%</div>
+            <div style={{fontSize:10,color:"#8a5a5a"}}>{Math.round(kultPoang/3)}p råpoäng ×3</div>
+          </div>
+          {!bynLeder&&<div style={{fontSize:11,color:"#cc6666",marginTop:4,fontWeight:700}}>LEDER ►</div>}
+        </div>
+
+        {/* Spacer */}
+        <div style={{height:110}}/>
+      </div>
+
+      {/* Fördelningsbar */}
+      <div style={{height:12,background:"#1a1510",borderRadius:6,overflow:"hidden",marginBottom:6,display:"flex"}}>
+        <div style={{width:`${bynProcent}%`,background:"linear-gradient(to right,#3d6b3a,#a8d5a2)",transition:"width 0.8s",borderRadius:"6px 0 0 6px"}}/>
+        <div style={{flex:1,background:"linear-gradient(to right,#8b1a1a,#cc6666)",borderRadius:"0 6px 6px 0"}}/>
+      </div>
+      <div style={{display:"flex",justifyContent:"space-between",fontSize:10,color:"#8a7a5a"}}>
+        <span>🌿 {bynProcent}%</span>
+        <span>{kultProcent}% 🩸</span>
+      </div>
+    </div>
+
+    {/* GILLETÄVLINGEN */}
     <div style={{...Kort,borderColor:"#c9a84c44",marginBottom:8}}>
       <div style={{fontSize:10,color:"#c9a84c",letterSpacing:2,fontFamily:"'Cinzel',serif",marginBottom:12,textAlign:"center"}}>🏆 GILLETÄVLINGEN</div>
-      {gilleSort.filter(g=>g.gid!=="fri").map((g,i)=><div key={g.gid} style={{marginBottom:10}}>
+      {gilleSort.map((g,i)=><div key={g.gid} style={{marginBottom:10}}>
         <div style={{display:"flex",justifyContent:"space-between",marginBottom:4}}>
-          <span style={{fontSize:13,color:g.farg,fontFamily:"'Cinzel',serif"}}>{i===0?"👑 ":""}{g.ikon} {g.namn}</span>
+          <span style={{fontSize:13,color:g.farg,fontFamily:"'Cinzel',serif"}}>{i===0?"👑 ":""}{g.ikon} {g.namn}{g.multiplier>1?<span style={{fontSize:10,color:"#8a7a5a"}}> ×{g.multiplier}</span>:""}</span>
           <span style={{fontSize:14,color:g.farg,fontWeight:700}}>{g.total}p</span>
         </div>
         <div style={{height:8,background:"#1a1510",borderRadius:4,overflow:"hidden"}}>
@@ -1091,64 +1142,28 @@ function StangensVag({spelare,gilleData}){
       </div>)}
     </div>
 
-    {/* Individuell topplista */}
-    <div style={{...Kort,borderColor:"#c9a84c44",marginBottom:8}}>
+    {/* INDIVIDUELL TOPP 3 */}
+    <div style={{...Kort,borderColor:"#c9a84c44"}}>
       <div style={{fontSize:10,color:"#c9a84c",letterSpacing:2,fontFamily:"'Cinzel',serif",marginBottom:12,textAlign:"center"}}>⭐ INDIVIDUELL TOPP 3</div>
       {topSpelare.map((s,i)=>{
         const g=Object.values(GILLE_INFO).find(x=>x.ids.includes(s.id));
         const ac=g?.farg||"#c9a84c";
-        const medalj=["🥇","🥈","🥉"][i];
-        return <div key={s.id} style={{display:"flex",alignItems:"center",gap:10,padding:"6px 0",borderBottom:`1px solid #1e1810`}}>
-          <span style={{fontSize:18}}>{medalj}</span>
-          <span style={{fontSize:14}}>{s.icon}</span>
+        const erKult=kultisterIds.includes(s.id);
+        return <div key={s.id} style={{display:"flex",alignItems:"center",gap:10,padding:"7px 0",borderBottom:`1px solid #1e1810`}}>
+          <span style={{fontSize:18}}>{["🥇","🥈","🥉"][i]}</span>
+          <span style={{fontSize:16}}>{s.icon}</span>
           <span style={{flex:1,fontSize:13,color:ac,fontFamily:"'Cinzel',serif"}}>{s.rollnamn}</span>
+          {erKult&&<span style={{fontSize:9,color:"#cc6666",border:"1px solid #cc666644",borderRadius:2,padding:"1px 4px"}}>KULT</span>}
           <span style={{fontSize:16,fontWeight:700,color:ac}}>{s.poang}p</span>
         </div>;
       })}
-    </div>
-
-    {/* Stångens våg - By vs Kult-stämning */}
-    <div style={{...Kort,borderColor:"#c9a84c44",marginBottom:8}}>
-      <div style={{fontSize:10,color:"#c9a84c",letterSpacing:2,fontFamily:"'Cinzel',serif",marginBottom:12,textAlign:"center"}}>⚖️ STÅNGENS VÅG</div>
-      <p style={{fontSize:11,color:"#8a7a5a",textAlign:"center",margin:"0 0 12px",fontStyle:"italic"}}>Känslotempen för By vs Kult – inte exakt, men vägledande</p>
-      
-      {/* Visuell våg */}
-      <div style={{position:"relative",height:60,marginBottom:12}}>
-        {/* Stången */}
-        <div style={{position:"absolute",left:"50%",top:0,width:2,height:60,background:"#c9a84c",transform:"translateX(-50%)"}}/>
-        {/* Byn - vänster */}
-        <div style={{position:"absolute",left:0,top:"50%",transform:"translateY(-50%)",textAlign:"center",width:"45%"}}>
-          <div style={{fontSize:22}}>🌿</div>
-          <div style={{fontSize:11,color:"#a8d5a2",fontFamily:"'Cinzel',serif"}}>BYN</div>
-        </div>
-        {/* Kulten - höger */}
-        <div style={{position:"absolute",right:0,top:"50%",transform:"translateY(-50%)",textAlign:"center",width:"45%"}}>
-          <div style={{fontSize:22}}>🩸</div>
-          <div style={{fontSize:11,color:"#cc6666",fontFamily:"'Cinzel',serif"}}>KULTEN</div>
-        </div>
-      </div>
-
-      {/* Staplar */}
-      <div style={{display:"flex",gap:6,alignItems:"flex-end",height:80,marginBottom:8}}>
-        {spelare.map(s=>{
-          const g=Object.values(GILLE_INFO).find(x=>x.ids.includes(s.id));
-          const ac=g?.farg||"#c9a84c";
-          const hojd=Math.max(8,Math.round(s.poang/Math.max(...spelare.map(x=>x.poang),1)*70));
-          return <div key={s.id} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",gap:2}}>
-            <div style={{fontSize:10,color:ac,textAlign:"center"}}>{s.poang}p</div>
-            <div style={{width:"100%",height:hojd,background:`linear-gradient(to top,${ac}88,${ac})`,borderRadius:"2px 2px 0 0",minHeight:4}}/>
-            <div style={{fontSize:14,textAlign:"center"}}>{s.icon}</div>
-          </div>;
-        })}
-      </div>
-      <p style={{fontSize:10,color:"#8a7a5a",textAlign:"center",margin:0,fontStyle:"italic"}}>Vägaren vet vem som tillhör vilken sida – hemligheten avslöjas vid Domen</p>
     </div>
   </div>;
 }
 
 
 // ─── POÄNG-ADMIN ──────────────────────────────────────────────────────────────
-function PoangAdmin({spelare,setSpelare}){
+function PoangAdmin({spelare,setSpelare,fordel=[]}){
   const [vald,setVald]=useState(null);
   const [subTab,setSubTab]=useState(0);
 
@@ -1190,11 +1205,25 @@ function PoangAdmin({spelare,setSpelare}){
 
   const valdSp=spelare.find(s=>s.id===vald);
   const maxP=Math.max(...spelare.map(s=>s.poang),1);
+  // Kultister från fordel (för vågen)
+  const kultisterIds=fordel.filter(r=>r.erKultledare||r.kultMarke).map(r=>r.id);
+  const byborIds=spelare.map(s=>s.id).filter(id=>!kultisterIds.includes(id));
+
   const gilleData=Object.entries(GILLE_INFO).map(([gid,g])=>({
     ...g,gid,
     spelare:spelare.filter(s=>g.ids.includes(s.id)),
-    total:spelare.filter(s=>g.ids.includes(s.id)).reduce((a,s)=>a+s.poang,0),
+    total:gid==="fri"
+      ? spelare.filter(s=>g.ids.includes(s.id)).reduce((a,s)=>a+s.poang,0)*3
+      : spelare.filter(s=>g.ids.includes(s.id)).reduce((a,s)=>a+s.poang,0),
+    multiplier:gid==="fri"?3:1,
   }));
+
+  // Våg-beräkning: kultens poäng ×3 för balans
+  const bynPoang=spelare.filter(s=>byborIds.includes(s.id)).reduce((a,s)=>a+s.poang,0);
+  const kultPoang=spelare.filter(s=>kultisterIds.includes(s.id)).reduce((a,s)=>a+s.poang,0)*3;
+  const vagTotal=bynPoang+kultPoang||1;
+  const bynProcent=Math.round(bynPoang/vagTotal*100);
+  const kultProcent=100-bynProcent;
 
   return <div>
     <TabBar tabs={["Check-in","Fasöversikt","Gillen & Våg"]} active={subTab} onChange={setSubTab}/>
@@ -1271,13 +1300,13 @@ function PoangAdmin({spelare,setSpelare}){
         <div style={Lbl}>🏅 Gillepoäng</div>
         {gilleData.map(g=><div key={g.gid} style={{display:"flex",alignItems:"center",gap:10,padding:"6px 0",borderBottom:`1px solid ${T.kant2}`}}>
           <span style={{fontSize:16}}>{g.ikon}</span>
-          <span style={{flex:1,fontSize:13,color:g.farg,fontFamily:"'Cinzel',serif"}}>{g.namn}</span>
+          <span style={{flex:1,fontSize:13,color:g.farg,fontFamily:"'Cinzel',serif"}}>{g.namn}{g.multiplier>1?<span style={{fontSize:10,color:T.guldDim}}> ×{g.multiplier}</span>:""}</span>
           <span style={{fontSize:16,fontFamily:"'Cinzel',serif",fontWeight:700,color:T.guld}}>{g.total}p</span>
         </div>)}
       </div>
     </>}
 
-    {subTab===2&&<StangensVag spelare={spelare} gilleData={gilleData}/>}
+    {subTab===2&&<StangensVag spelare={spelare} gilleData={gilleData} bynProcent={bynProcent} kultProcent={kultProcent} bynPoang={bynPoang} kultPoang={kultPoang} kultisterIds={kultisterIds}/>}
     {subTab===2&&gilleData.map(g=><div key={g.gid} style={{...Kort,borderColor:g.farg+"44",marginBottom:8}}>
       <div style={{display:"flex",justifyContent:"space-between",marginBottom:8}}>
         <span style={{fontFamily:"'Cinzel',serif",fontSize:13,color:g.farg}}>{g.ikon} {g.namn}</span>
@@ -1565,7 +1594,7 @@ function SpelledarVy({setVy,starta,tab,setTab,antalBarn,setAntalBarn,spelare,set
       </div>
     </div>}
 
-    {tab===3&&<PoangAdmin spelare={spelare} setSpelare={setSpelare}/>}
+    {tab===3&&<PoangAdmin spelare={spelare} setSpelare={setSpelare} fordel={fordel}/>}
   </div>;
 }
 
