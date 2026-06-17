@@ -169,12 +169,20 @@ const ROLLER_MASTER=[
 // ─── DYNAMISK KEDJE-BYGGARE ───────────────────────────────────────────────────
 const PUSSELBIT={
   "I":  "REBUSDEL I: »Solstångsnattens mörker binds av ett gammalt löfte…«",
+  "II": "REBUSDEL II: »…välsignat av ljuset och natten…«",
   "III":"REBUSDEL III: »…som bryts av tre röster vid nattens hjärta…«",
-  "II": "REBUSDEL II: »…välsignade av ljuset och natten…«",
   "IV": "REBUSDEL IV: »…som ropar tre gånger det gamla ordet.«",
-  "sab1":"SABOTAGE DEL 1: Kultledarens ritual kräver 30 sek ostört vid stången. Ställ dig bredvid – ritualen avbryts.",
-  "sab2":"SABOTAGE DEL 2: Du behöver INTE veta att de är Kultledare. Din närvaro vid stången räcker.",
 };
+
+const REBUS_RAMSA = "Solstångsnattens mörker binds av ett gammalt löfte – välsignat av ljuset och natten – som bryts av tre röster vid nattens hjärta – som ropar tre gånger det gamla ordet.";
+
+const REBUS_LOSNING = "Kultens förtrollning bryts om tre välsignade röster vid stången ropar tre gånger: LJUSET SEGRAR, LJUSET SEGRAR, LJUSET SEGRAR!";
+
+const REBUS_MENING_KOMPLETT = REBUS_RAMSA;
+
+// Prioritetsordning för vem som får samlingsuppdraget
+const REBUS_SAMLAREPRIO = ["runlaesaren","kloka","den_resande"];
+
 
 // Rebuslösningen – avslöjas av Vägaren om byborna löser den i tid
 const REBUS_LOSNING = "Kultens förtrollning bryts om tre välsignade röster vid stången ropar tre gånger: LJUSET SEGRAR, LJUSET SEGRAR, LJUSET SEGRAR!";
@@ -655,6 +663,8 @@ function blandaOchTilldela(antalBarn){
   const kultledareId=ledareKandidater[Math.floor(Math.random()*ledareKandidater.length)];
   const kultIds=[...kandidatSlump, kultledareId].filter(Boolean);
   const kedjor=byggKedjor(aktivaIds, kultIds);
+  // Tilldela rebussamlare – första i prioritetslistan som inte är kultist
+  const rebussamlareId=REBUS_SAMLAREPRIO.find(id=>aktivaIds.includes(id)&&!kultIds.includes(id))||null;
   // Tilldela anklagelser – prioritera spelare >40 år
   const allaRoller=[...valdaVuxna,...valdaBarn];
   const anklagelsePool=[...ANKLAGELSE_POOL].sort(()=>Math.random()-0.5).slice(0,2);
@@ -668,7 +678,8 @@ function blandaOchTilldela(antalBarn){
   return allaRoller.map(r=>{
     const mi=kandidatSlump.indexOf(r.id);
     const polkkaDir=r.id===kultledareId?POLKKA_LEDARE:slumpaPolkka();
-    let u={...r,kedjor,aktivaIds,polkkaDir};
+    const erRebussamlare=r.id===rebussamlareId;
+    let u={...r,kedjor,aktivaIds,polkkaDir,erRebussamlare};
     if(mi!==-1)u={...u,kultMarke:markeSlump[mi]};
     if(r.id===kultledareId)u={...u,erKultledare:true};
     const minAnklagelse=anklagelseTilldelning.find(a=>a.rollId===r.id);
@@ -862,6 +873,32 @@ function BarnSektion({roll}){
 }
 
 
+// ─── REBUS-SEKTION ────────────────────────────────────────────────────────────
+function RebusSektion({roll}){
+  const [open,setOpen]=useState(false);
+  if(!roll.erRebussamlare)return null;
+  const ac=roll.gilleColor||T.guld;
+  return <ToggleBlock label="🧩 Hemligt samlingsuppdrag – Rebusen" ac="#9999e0" bg="#08080f" open={open} setOpen={setOpen}>
+    <div style={{background:"#080814",border:"1px solid #9999cc44",borderRadius:3,padding:"12px",marginBottom:10}}>
+      <div style={{fontSize:10,color:"#9999cc",letterSpacing:2,fontFamily:"'Cinzel',serif",marginBottom:8}}>DITT HEMLIGA UPPDRAG</div>
+      <p style={{...RT,color:"#ccccff",lineHeight:1.8}}>Du har fått ett unikt och hemligt uppdrag: samla alla fyra pusseldelar av den gamla ramsan under kvällen. Pusseldelarna når dig via kedjorna – lyssna noga när spelare säger frasen till dig.</p>
+    </div>
+    <div style={{background:"#060810",border:"1px solid #9999cc33",borderRadius:3,padding:"12px",marginBottom:10}}>
+      <div style={{fontSize:10,color:"#9999cc",letterSpacing:2,fontFamily:"'Cinzel',serif",marginBottom:8}}>NÄR DU HAR ALLA FYRA DELAR</div>
+      <p style={{...RT,color:"#ccccff",lineHeight:1.8}}>Sätt ihop ramsan och framför den till Vägaren INNAN Fas 3 börjar. Vägaren berättar då vad ramsan betyder – och vad byborna kan göra med kunskapen.</p>
+    </div>
+    <div style={{background:"#080814",border:"1px solid #9999cc44",borderRadius:3,padding:"12px",marginBottom:10}}>
+      <div style={{fontSize:10,color:"#9999cc",letterSpacing:2,fontFamily:"'Cinzel',serif",marginBottom:8}}>RAMSAN – SÅ HÄR SKA DEN LÅTA</div>
+      <p style={{fontSize:13,color:"#ffe8b0",fontStyle:"italic",lineHeight:2,margin:0}}>"{REBUS_RAMSA}"</p>
+    </div>
+    <div style={{background:"#ffcc4415",border:"1px solid #ffcc4444",borderRadius:3,padding:"10px"}}>
+      <div style={{fontSize:11,color:"#ffcc44",fontWeight:700}}>💰 Lyckas du lämna ramsan till Vägaren i tid: +20p</div>
+      <div style={{fontSize:11,color:"#ffcc44",fontWeight:700,marginTop:4}}>💰 Om byborna sedan aktiverar sabotaget: +15p extra</div>
+    </div>
+  </ToggleBlock>;
+}
+
+
 // ─── ROLLKORT ─────────────────────────────────────────────────────────────────
 function RollKort({roll,onBekrafta,spelarKon,spelarAlder}){
   const [visNamn,setVisNamn]=useState(false);
@@ -943,6 +980,7 @@ function RollKort({roll,onBekrafta,spelarKon,spelarAlder}){
     })()}
 
     <AnklagelseSektion roll={roll}/>
+    <RebusSektion roll={roll}/>
     {!roll.barnroll&&<KedjeSektion roll={roll}/>}
     <DansSektion roll={roll} erKultledare={roll.erKultledare}/>
     <BarnSektion roll={roll}/>
@@ -1326,8 +1364,12 @@ function SpelledarVy({setVy,starta,tab,setTab,antalBarn,setAntalBarn,spelare,set
           <p style={{fontSize:13,color:"#ccccff",lineHeight:1.8,margin:0,fontStyle:"italic"}}>"{REBUS_LOSNING}"</p>
         </div>
         <div style={{background:"#080814",border:"1px solid #9999cc22",borderRadius:4,padding:"10px"}}>
-          <div style={{fontSize:10,color:"#9999cc",letterSpacing:2,marginBottom:6}}>DEN KOMPLETTA MENINGEN (byborna måste para ihop)</div>
-          <p style={{fontSize:12,color:T.textDim,lineHeight:1.7,margin:0,fontStyle:"italic"}}>"{REBUS_MENING_KOMPLETT}"</p>
+          <div style={{fontSize:10,color:"#9999cc",letterSpacing:2,marginBottom:6}}>RAMSAN (samlas via kedjorna av rebussamlaren)</div>
+          <p style={{fontSize:12,color:"#ffe8b0",lineHeight:1.7,margin:0,fontStyle:"italic"}}>"{REBUS_RAMSA}"</p>
+        </div>
+        <div style={{background:"#080814",border:"1px solid #9999cc22",borderRadius:4,padding:"10px",marginTop:8}}>
+          <div style={{fontSize:10,color:"#9999cc",letterSpacing:2,marginBottom:6}}>REBUSSAMLAREN (första bybo i prioritetslistan)</div>
+          <p style={{fontSize:12,color:T.textDim,lineHeight:1.7,margin:0}}>Prioritet: Runläsaren → Kloka Gumman/Gubben → Den Resande. Första som inte är kultist får uppdraget.
         </div>
       </div>
       <div style={{...Kort,borderColor:"#cc333344",background:"#120808"}}>
@@ -1386,6 +1428,7 @@ function DragVy({fordel,idx,roll,avslojar,bekr,klart,alder,setAlder,kon,setKon,a
       alder:alder||"",
       erk:roll.erKultledare?1:0,
       km:roll.kultMarke?.id||"",
+      rb:roll.erRebussamlare?1:0,
       pd:roll.polkkaDir||null,
     };
     const enkodad=btoa(JSON.stringify(miniData));
@@ -1612,6 +1655,7 @@ export default function App(){
             spelarKon:mini.kon,
             spelarAlder:mini.alder,
             polkkaDir:mini.pd||null,
+            erRebussamlare:mini.rb===1,
           };
           return <SpelarVy rollData={rollData}/>;
         }
