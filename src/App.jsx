@@ -736,10 +736,14 @@ function blandaOchTilldela(antalBarn, fordeltaBarnIds=[]){
   let barnGillen=[];
   let valdaBarn=[];
 
-  if(fordeltaBarnIds.length>0){
-    // Använd fördelade barnroller (skickade till barn i förväg)
-    valdaBarn=allaBarnRoller.filter(r=>fordeltaBarnIds.includes(r.id));
-    barnGillen=valdaBarn.map(r=>r.gille);
+  const barnFordelade=fordeltaBarnIds.length>0; // Barn har fått roller i förväg
+
+  if(barnFordelade){
+    // Barn har fått roller i förväg - de ska INTE vara med i kvällens dragning
+    // Men vi behöver veta deras gillen för att räkna vuxna rätt
+    const fordeltaBarnRoller=allaBarnRoller.filter(r=>fordeltaBarnIds.includes(r.id));
+    barnGillen=fordeltaBarnRoller.map(r=>r.gille);
+    valdaBarn=[]; // Inga barn i kvällens dragning
   } else if(antalBarn>=2){
     const shuffledBarn=[...allaBarnRoller].sort(()=>Math.random()-0.5);
     const barn1=shuffledBarn[0];
