@@ -1294,7 +1294,8 @@ function SpelarVy({rollData}){
 
     {/* REGLER */}
     {tab===2&&<RegelVy setVy={()=>{}}/>}
-
+  </div>;
+}
 
 export default function App(){
   // Kolla om vi är i spelarläge (QR-länk)
