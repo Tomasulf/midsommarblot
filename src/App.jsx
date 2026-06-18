@@ -655,21 +655,21 @@ const KULTMARKEN=[
    hur:"Spela din byboroll fullt ut. Kultuppdraget är ett hemligt extra lager som ingen annan känner till.",
    risk:"Kultledaren kan när som helst välja att avsätta dig om du riskerar att avslöjas. Du spelar då vidare som vanlig bybo – berätta inget om vad du visste.",
    pentagram:"Placera ut 2 pentagram diskret på tomten under kvällen utan att bli påkommen. Rapportera till Vägaren när du är klar.",
-   poang:"Direktiv utfört hela kvällen: +30p · Båda pentagram placerade ostört: +25p · Skyddade kultledaren (Vägarens bedömning): +20p · Kulten vinner: +50p sidebonus"},
+   poang:"Direktiv utfört hela kvällen: +30p · Båda pentagram placerade ostört: +25p · Skyddade kultledaren (Vägarens bedömning): +20p · Kulten vinner: +100p sidebonus"},
   {id:"mk2",namn:"Mörkrets Spegel",
    kultInfo:"Du tjänar Mörkblotets Kult. Någonstans bland byborna finns en hemlig ledare – men du vet inte vem det är. Du tjänar kulten i blindo.",
    direktiv:"Håll andra spelare borta från midsommarstången under dansen i Fas 3. Skapa distraktioner, bjud in till samtal, hitta på något – men håll dem borta.",
    hur:"Du vet inte varför stången är viktig. Du vet bara att det är ditt uppdrag. Fråga inte. Gör det bara.",
    risk:"Kultledaren kan när som helst välja att avsätta dig om du riskerar att avslöjas. Du spelar då vidare som vanlig bybo – berätta inget om vad du visste.",
    pentagram:"Placera ut 2 pentagram diskret på tomten under kvällen utan att bli påkommen. Rapportera till Vägaren när du är klar.",
-   poang:"Direktiv utfört hela kvällen: +30p · Båda pentagram placerade ostört: +25p · Skyddade kultledaren (Vägarens bedömning): +20p · Kulten vinner: +50p sidebonus"},
+   poang:"Direktiv utfört hela kvällen: +30p · Båda pentagram placerade ostört: +25p · Skyddade kultledaren (Vägarens bedömning): +20p · Kulten vinner: +100p sidebonus"},
   {id:"mk3",namn:"Tystnadens Väktare",
    kultInfo:"Du tjänar Mörkblotets Kult. Någonstans bland byborna finns en hemlig ledare – men du vet inte vem det är. Du tjänar kulten i blindo.",
    direktiv:"Om Mästersmeden eller Örtmästaren verkar vara på väg att avslöja något viktigt – avbryt dem. En fråga, ett skratt, ett avbrott. Vad som helst.",
    hur:"Var social och avbryt folk lite oftare än normalt. Det ska aldrig verka avsiktligt.",
    risk:"Kultledaren kan när som helst välja att avsätta dig om du riskerar att avslöjas. Du spelar då vidare som vanlig bybo – berätta inget om vad du visste.",
    pentagram:"Placera ut 2 pentagram diskret på tomten under kvällen utan att bli påkommen. Rapportera till Vägaren när du är klar.",
-   poang:"Direktiv utfört hela kvällen: +30p · Båda pentagram placerade ostört: +25p · Skyddade kultledaren (Vägarens bedömning): +20p · Kulten vinner: +50p sidebonus"},
+   poang:"Direktiv utfört hela kvällen: +30p · Båda pentagram placerade ostört: +25p · Skyddade kultledaren (Vägarens bedömning): +20p · Kulten vinner: +100p sidebonus"},
 ];
 
 const KULTLEDARE_INFO={
@@ -759,9 +759,9 @@ const UPPGIFTER=[
   {id:"dom_markt",label:"Pekade rätt – kultmärkt",poang:20,kat:"dom",rollId:"*"},
   {id:"dom_ledare",label:"Pekade rätt – Kultledaren",poang:40,kat:"dom",rollId:"*"},
   {id:"dom_fel",label:"Pekade fel",poang:-5,kat:"dom",rollId:"*"},
-  {id:"sido_byn",label:"Sidebonus – Byn vann",poang:30,kat:"dom",rollId:"*"},
+  {id:"sido_byn",label:"Sidebonus – Byn vann",poang:25,kat:"dom",rollId:"*"},
   {id:"barn_dom",label:"Barnroll – pekade rätt på kultledaren",poang:30,kat:"dom",rollId:["skogsvakten","galningen","korsriddaren"]},
-  {id:"sido_kult",label:"Sidebonus – Kulten vann",poang:50,kat:"dom",rollId:"*"},
+  {id:"sido_kult",label:"Sidebonus – Kulten vann",poang:100,kat:"dom",rollId:"*"},
   {id:"gille_bonus",label:"Gillebonus",poang:30,kat:"gille",rollId:"*",gilleBonus:true},
 ];
 
@@ -1678,8 +1678,8 @@ function PoangAdmin({spelare,setSpelare,fordel=[]}){
           {id:"dom_ledare",label:"Pekade rätt – Kultledaren",poang:40,farg:"#a8d5a2"},
           {id:"dom_markt",label:"Pekade rätt – kultmärkt",poang:20,farg:"#a8d5a2"},
           {id:"dom_fel",label:"Pekade fel",poang:-5,farg:"#cc6666"},
-          {id:"sido_byn",label:"Sidebonus – Byn vann",poang:30,farg:"#a8d5a2"},
-          {id:"sido_kult",label:"Sidebonus – Kulten vann",poang:50,farg:"#cc9966"},
+          {id:"sido_byn",label:"Sidebonus – Byn vann",poang:25,farg:"#a8d5a2"},
+          {id:"sido_kult",label:"Sidebonus – Kulten vann",poang:100,farg:"#cc9966"},
           {id:"barn_dom",label:"Barnroll – pekade rätt på Kultledaren",poang:30,farg:"#a8d5a2"},
         ].map(dom=><div key={dom.id} style={{marginBottom:8,padding:"8px 10px",background:"#0a0000",borderRadius:4,border:"1px solid #cc333322"}}>
           <div style={{display:"flex",justifyContent:"space-between",marginBottom:6}}>
