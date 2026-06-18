@@ -942,7 +942,6 @@ function blandaOchTilldela(antalBarn, fordeltaBarnIds=[]){
   // Matcha spelare med anklagelse mot annat gille
   const vuxnaRoller=allaRoller.filter(r=>!r.barnroll).sort(()=>Math.random()-0.5);
   const anklagelseTilldelning=anklagelsePool.map((a,i)=>{
-    // Hitta en spelare vars gille inte matchar anklagelsens riktning
     const gilleMap={
       mot_ortagillet:"ortagillet",
       mot_smederna:"smederna",
@@ -950,11 +949,10 @@ function blandaOchTilldela(antalBarn, fordeltaBarnIds=[]){
       mot_den_resande:"fri",
     };
     const anklGille=gilleMap[a.id]||"";
-    // Välj kandidat som inte tillhör det anklagade gillet
     const kandidat=vuxnaRoller.find(r=>r.gille!==anklGille);
     return {
       rollId:kandidat?.id||vuxnaRoller[i]?.id||null,
-      anklagelse:a,
+      anklagelse:{...a, nr:i+1},
     };
   });
 
@@ -1123,13 +1121,20 @@ function AnklagelseSektion({roll}){
   if(!roll.anklagelse)return null;
   const ac=roll.gilleColor||T.guld;
   const ankl=roll.anklagelse;
-  return <ToggleBlock label={`⚖️ Din förskrivna anklagelse – mot ${ankl.riktning}`} ac={ac} bg="#08080f" open={open} setOpen={setOpen}>
+  const nr=ankl.nr||1;
+  return <ToggleBlock label={`⚖️ Din förskrivna anklagelse – ANKLAGELSE ${nr} AV 2`} ac={nr===1?"#ffcc44":ac} bg="#08080f" open={open} setOpen={setOpen}>
+    <div style={{background:nr===1?"#1a1000":"#080814",border:`2px solid ${nr===1?"#ffcc44":ac}`,borderRadius:4,padding:"12px",marginBottom:10,textAlign:"center"}}>
+      <div style={{fontSize:13,color:nr===1?"#ffcc44":ac,fontFamily:"'Cinzel',serif",fontWeight:700,letterSpacing:2,marginBottom:4}}>
+        {nr===1?"⚡ DU GÅR FÖRST – INLEDER TINGET":"2️⃣ DU GÅR ANDRA – VÄNTA PÅ DIN TUR"}
+      </div>
+      <div style={{fontSize:11,color:T.textDim,fontStyle:"italic"}}>{nr===1?"Vägaren ger dig ordet direkt när Tinget öppnar":"Vägaren ger dig ordet när första anklagelsen är avgjord"}</div>
+    </div>
     <div style={{background:"#080814",border:`1px solid ${ac}33`,borderRadius:3,padding:"14px",marginBottom:10}}>
-      <div style={{fontSize:10,color:ac,letterSpacing:2,fontFamily:"'Cinzel',serif",marginBottom:8}}>LÄS HÖGT VID TINGET</div>
+      <div style={{fontSize:10,color:ac,letterSpacing:2,fontFamily:"'Cinzel',serif",marginBottom:8}}>DIN ANKLAGELSE – MOT {ankl.riktning.toUpperCase()} – LÄS HÖGT VID TINGET</div>
       <p style={{fontSize:13,color:T.text,lineHeight:1.9,margin:0,fontStyle:"italic"}}>"{ankl.text}"</p>
     </div>
     <div style={{fontSize:11,color:T.textDim,fontStyle:"italic",marginBottom:8,lineHeight:1.5}}>{ankl.stil}</div>
-    <div style={{fontSize:11,color:"#ffcc66"}}>+5p för att framföra · +10p om rätt gille · -5p om fel gille → totalt 15p eller 0p</div>
+    <div style={{fontSize:11,color:"#ffcc66"}}>+5p för att framföra · +10p om rätt gille · -5p om fel gille</div>
   </ToggleBlock>;
 }
 
@@ -2145,7 +2150,7 @@ function SpelledarVy({setVy,starta,tab,setTab,antalBarn,setAntalBarn,spelare,set
              "Den som inte hunnit checka in – gör det snart.",
            ],
            tips:"Påminn om rebusen. Ta emot sista checkins."},
-          {fas:"FAS 2 – TINGET",farg:"#9999e0",
+          {fas:"FAS 2 – TING 1",farg:"#9999e0",
            rader:[
              "BYBOR! Tinget är öppnat!",
              "Ställ er i en halvcirkel. Tinget kräver ordning.",
@@ -2173,8 +2178,30 @@ function SpelledarVy({setVy,starta,tab,setTab,antalBarn,setAntalBarn,spelare,set
              "Ritualen är fullbordad. Vägaren väger.",
            ],
            tips:"Sista poängställningen innan Domen. Lyft fram den som leder. Skapa maximal spänning – Domen avgör allt."},
-          {fas:"FAS 4 – DOMEN",farg:"#cc3333",
+          {fas:"FAS 4 – TING 2",farg:"#9999e0",
            rader:[
+             "Innan natten faller – Tinget öppnas igen.",
+             "Nu finns inga förskrivna anklagelser. Ordet är fritt.",
+             "Den som har något att säga – säg det nu.",
+             "Ni har sett och hört under kvällen. Det är er sista chans att forma Domen.",
+             "Tinget är stängt när jag säger det.",
+           ],
+           tips:"Max 5 fria anklagelser. Inga förskrivna. Ge ordet till den som räcker upp handen. Håll tempot uppe – Domen är nära."},
+          {fas:"⚖️ POÄNGSTÄLLNING – INFÖR DOMEN",farg:"#c9a84c",
+           rader:[
+             "Tinget har talat för sista gången. Vägaren räknar.",
+           ],
+           tips:"Sista poängställningen. Dramatisk paus. Domen avgör allt."},
+          {fas:"FAS 5 – DOMEN",farg:"#cc3333",
+           rader:[
+             "Dansen är slut. Solståndsnatten lider mot sitt slut.",
+             "Vägaren kräver nu sin dom.",
+             "Ni har sett och hört. Ni har dansat och viskat. Ni har anklagat och försvarats.",
+             "Nu ska ni peka.",
+             "På min räkning pekar ni alla – samtidigt – på den person ni tror bär mörkrets ledarskap.",
+             "Tre... två... ett... PEK!",
+           ],
+           tips:"Räkna långsamt. Dramatisk paus. Avslöja kultmärkta först – sedan kultledaren sist."},
              "Dansen är slut. Solståndsnatten lider mot sitt slut.",
              "Vägaren kräver nu sin dom.",
              "Ni har sett och hört. Ni har dansat och viskat. Ni har anklagat och försvarats.",
@@ -2478,7 +2505,7 @@ function SpelarVy({rollData}){
   const gilleData=GILLESUPPDRAG[roll.gille];
   const rollnamn=roll.rollnamn||"";
 
-  const tabs=["🎭 Min roll","🌿 Mitt gille","📜 Regler"];
+  const tabs=roll.barnroll?["🎭 Min roll","🌿 Mitt gille","📜 Regler"]:["🎭 Min roll","🌿 Mitt gille","📜 Regler"];
 
   return <div style={{minHeight:"100vh",background:T.bg,color:T.text,fontFamily:"'IM Fell English',Georgia,serif",paddingBottom:60}}>
     <style>{`@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=IM+Fell+English:ital@0;1&display=swap');*{box-sizing:border-box}body{margin:0;background:#0d0b08}`}</style>
