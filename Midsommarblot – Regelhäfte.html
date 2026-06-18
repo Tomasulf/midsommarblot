@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<!-- saved from url=(0049)file:///C:/Users/Y7SN/Downloads/regler%20(1).html -->
+<html lang="sv"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Midsommarblot – Regelhäfte</title>
+<link href="./Midsommarblot – Regelhäfte_files/css2" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#0d0b08;
+    --papper:#1a1510;
+    --kant:#3a2e1e;
+    --kant2:#1e1810;
+    --text:#e8d8b8;
+    --dim:#8a7a5a;
+    --guld:#c9a84c;
+    --guld-dim:#7a5a1a;
+    --rod:#8b1a1a;
+    --gron:#a8d5a2;
+    --lila:#9999e0;
+    --orange:#d4956a;
+  }
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'IM Fell English',Georgia,serif;
+    font-size:16px;
+    line-height:1.8;
+    padding-bottom:80px;
+  }
+
+  /* ── HERO ── */
+  .hero{
+    text-align:center;
+    padding:60px 24px 48px;
+    border-bottom:1px solid var(--kant);
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:radial-gradient(ellipse at 50% 0%, #c9a84c08 0%, transparent 70%);
+    pointer-events:none;
+  }
+  .runes{
+    font-family:monospace;
+    letter-spacing:10px;
+    color:var(--guld-dim);
+    font-size:13px;
+    margin-bottom:20px;
+  }
+  .hero h1{
+    font-family:'Cinzel',serif;
+    font-size:clamp(28px,7vw,48px);
+    font-weight:700;
+    color:var(--guld);
+    letter-spacing:4px;
+    margin-bottom:6px;
+  }
+  .hero .sub{
+    font-size:14px;
+    color:var(--dim);
+    font-style:italic;
+    margin-bottom:4px;
+  }
+  .hero .datum{
+    font-size:12px;
+    color:var(--guld-dim);
+    letter-spacing:2px;
+  }
+  .divider{
+    width:80px;
+    height:1px;
+    background:linear-gradient(to right,transparent,var(--guld-dim),transparent);
+    margin:24px auto;
+  }
+  .hero .ingress{
+    max-width:480px;
+    margin:0 auto;
+    font-size:15px;
+    color:var(--text);
+    line-height:1.9;
+    font-style:italic;
+  }
+
+  /* ── INNEHÅLL ── */
+  .innehall{
+    max-width:560px;
+    margin:0 auto;
+    padding:0 20px;
+  }
+
+  /* ── KAPITEL ── */
+  .kapitel{
+    margin-top:48px;
+  }
+  .kapitel-rubrik{
+    font-family:'Cinzel',serif;
+    font-size:11px;
+    letter-spacing:4px;
+    text-transform:uppercase;
+    color:var(--guld-dim);
+    margin-bottom:6px;
+  }
+  .kapitel h2{
+    font-family:'Cinzel',serif;
+    font-size:22px;
+    color:var(--guld);
+    letter-spacing:2px;
+    margin-bottom:16px;
+    padding-bottom:10px;
+    border-bottom:1px solid var(--kant);
+  }
+  .kapitel p{
+    font-size:15px;
+    color:var(--text);
+    line-height:1.9;
+    margin-bottom:14px;
+  }
+  .kapitel p:last-child{margin-bottom:0}
+
+  /* ── KORT ── */
+  .kort{
+    background:var(--papper);
+    border:1px solid var(--kant);
+    border-radius:4px;
+    padding:16px;
+    margin-bottom:12px;
+  }
+  .kort-rubrik{
+    font-family:'Cinzel',serif;
+    font-size:10px;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    color:var(--guld-dim);
+    margin-bottom:8px;
+    display:block;
+  }
+  .kort p{
+    font-size:14px;
+    color:var(--text);
+    line-height:1.8;
+    margin:0;
+  }
+
+  /* ── FAS-KORT ── */
+  .fas{
+    border-left:3px solid var(--guld);
+    padding:14px 16px;
+    background:var(--papper);
+    border-radius:0 4px 4px 0;
+    margin-bottom:10px;
+  }
+  .fas-nr{
+    font-family:'Cinzel',serif;
+    font-size:10px;
+    letter-spacing:3px;
+    color:var(--guld-dim);
+    margin-bottom:4px;
+    display:block;
+  }
+  .fas h3{
+    font-family:'Cinzel',serif;
+    font-size:16px;
+    color:var(--guld);
+    margin-bottom:6px;
+  }
+  .fas p{
+    font-size:14px;
+    color:var(--dim);
+    line-height:1.7;
+    margin:0;
+  }
+
+  /* ── ORDBOK ── */
+  .ord{
+    padding:12px 0;
+    border-bottom:1px solid var(--kant2);
+  }
+  .ord:last-child{border-bottom:none}
+  .ord-term{
+    font-family:'Cinzel',serif;
+    font-size:13px;
+    color:var(--guld);
+    margin-bottom:4px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .ord-term .ikon{font-size:15px}
+  .ord p{
+    font-size:13px;
+    color:var(--dim);
+    line-height:1.7;
+    margin:0;
+    font-style:italic;
+  }
+
+  /* ── GILLE-KORT ── */
+  .gille{
+    border-radius:4px;
+    padding:14px 16px;
+    margin-bottom:10px;
+  }
+  .gille h3{
+    font-family:'Cinzel',serif;
+    font-size:15px;
+    margin-bottom:6px;
+  }
+  .gille p{
+    font-size:13px;
+    line-height:1.7;
+    margin:0;
+    opacity:0.85;
+  }
+
+  /* ── REGLER-LISTA ── */
+  .regler-lista{
+    list-style:none;
+    padding:0;
+  }
+  .regler-lista li{
+    padding:8px 0 8px 20px;
+    border-bottom:1px solid var(--kant2);
+    font-size:14px;
+    color:var(--text);
+    line-height:1.7;
+    position:relative;
+  }
+  .regler-lista li:last-child{border-bottom:none}
+  .regler-lista li::before{
+    content:'✦';
+    position:absolute;
+    left:0;
+    color:var(--guld-dim);
+    font-size:10px;
+    top:12px;
+  }
+
+  /* ── POÄNG-TABELL ── */
+  .poang-rad{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:7px 0;
+    border-bottom:1px solid var(--kant2);
+    font-size:13px;
+  }
+  .poang-rad:last-child{border-bottom:none}
+  .poang-rad .etikett{color:var(--text)}
+  .poang-rad .varde{
+    font-family:'Cinzel',serif;
+    font-weight:700;
+    color:var(--gron);
+    white-space:nowrap;
+    margin-left:16px;
+  }
+  .poang-rad .varde.minus{color:#cc6666}
+
+  /* ── VARNING-RUTA ── */
+  .varning{
+    background:#120808;
+    border:1px solid var(--rod);
+    border-radius:4px;
+    padding:14px 16px;
+    margin-bottom:12px;
+  }
+  .varning p{
+    font-size:13px;
+    color:#cc9999;
+    line-height:1.7;
+    margin:0;
+  }
+
+  /* ── INNEHÅLLSFÖRTECKNING ── */
+  .toc{
+    background:var(--papper);
+    border:1px solid var(--kant);
+    border-radius:4px;
+    padding:20px;
+    margin:32px 0 0;
+  }
+  .toc-rubrik{
+    font-family:'Cinzel',serif;
+    font-size:10px;
+    letter-spacing:3px;
+    color:var(--guld-dim);
+    margin-bottom:12px;
+    display:block;
+  }
+  .toc a{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:7px 0;
+    border-bottom:1px solid var(--kant2);
+    text-decoration:none;
+    color:var(--dim);
+    font-size:13px;
+    transition:color 0.2s;
+  }
+  .toc a:last-child{border-bottom:none}
+  .toc a:hover{color:var(--guld)}
+  .toc a span{color:var(--guld-dim);font-size:11px}
+
+  /* ── HIGHLIGHT-RUTA ── */
+  .highlight{
+    background:#080a06;
+    border:1px solid var(--guld-dim);
+    border-radius:4px;
+    padding:14px 16px;
+    margin-bottom:12px;
+  }
+  .highlight p{
+    font-size:14px;
+    color:var(--guld);
+    line-height:1.8;
+    margin:0;
+    font-style:italic;
+  }
+
+  /* ── FOOTER ── */
+  footer{
+    text-align:center;
+    padding:40px 20px 20px;
+    font-size:11px;
+    color:var(--guld-dim);
+    letter-spacing:2px;
+    border-top:1px solid var(--kant);
+    margin-top:60px;
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="runes">ᛗ ᛁ ᛞ ᛋ ᚢ ᛗ ᛒ ᛚ ᚩ ᛏ</div>
+  <h1>Midsommarblot</h1>
+  <div class="sub">Ausås Blotängar</div>
+  <div class="datum">Solståndsnatten · 19 juni 2026</div>
+  <div class="divider"></div>
+  <p class="ingress">
+    Det är natten då solen aldrig går ned.<br>
+    Byborna samlas kring midsommarstången för att fira årets ljusaste tid.<br><br>
+    Men medan sången ekar över ängarna rör sig något i skuggorna.<br><br>
+    Förtroenden kommer att prövas, allianser brytas och hemligheter avslöjas.<br><br>
+    För i natt är ingenting som det verkar.
+  </p>
+</div>
+
+<div class="innehall">
+
+  <!-- INNEHÅLLSFÖRTECKNING -->
+  <div class="toc">
+    <span class="toc-rubrik">INNEHÅLL</span>
+    <a href="file:///C:/Users/Y7SN/Downloads/regler%20(1).html#syfte">I. Spelets syfte <span>↓</span></a>
+    <a href="file:///C:/Users/Y7SN/Downloads/regler%20(1).html#gillen">II. Gillen &amp; roller <span>↓</span></a>
+    <a href="file:///C:/Users/Y7SN/Downloads/regler%20(1).html#faser">III. Kvällens faser <span>↓</span></a>
+    <a href="file:///C:/Users/Y7SN/Downloads/regler%20(1).html#regler">IV. Viktiga regler <span>↓</span></a>
+    <a href="file:///C:/Users/Y7SN/Downloads/regler%20(1).html#poang">V. Poängsystemet <span>↓</span></a>
+    <a href="file:///C:/Users/Y7SN/Downloads/regler%20(1).html#dans">VI. Dansen <span>↓</span></a>
+    <a href="file:///C:/Users/Y7SN/Downloads/regler%20(1).html#tinget">VII. Tinget <span>↓</span></a>
+    <a href="file:///C:/Users/Y7SN/Downloads/regler%20(1).html#domen">VIII. Domen <span>↓</span></a>
+    <a href="file:///C:/Users/Y7SN/Downloads/regler%20(1).html#ordbok">IX. Ordbok <span>↓</span></a>
+  </div>
+
+  <!-- I. SYFTE -->
+  <div class="kapitel" id="syfte">
+    <div class="kapitel-rubrik">Kapitel I</div>
+    <h2>Spelets syfte</h2>
+    <p>Midsommarblot är ett socialt spel om lögner, allianser och avslöjanden. Alla spelare tillhör en roll och ett gille – men bland er döljer sig Mörkblotets Kult.</p>
+    <p>Byborna försöker avslöja Kultledaren. Kulten försöker överleva oavslöjad till kvällens slut.</p>
+    <p>Du tävlar på tre nivåer samtidigt – som individ, med ditt gille och på din sida om konflikten.</p>
+
+    <div class="highlight">
+      <p>Lita inte på någon. Allting du gör kan ge poäng. Allting du säger kan användas mot dig.</p>
+    </div>
+
+    <div class="kort">
+      <span class="kort-rubrik">Tre vinstnivåer</span>
+      <p><strong style="color:var(--guld)">Sidan</strong> – är du bybo eller kultist? Rätt sida vinner sidbonus.<br>
+      <strong style="color:var(--guld)">Gillet</strong> – vilket gille samlar flest poäng totalt?<br>
+      <strong style="color:var(--guld)">Individen</strong> – den med absolut flest poäng är Solstångsnattens hjälte.</p>
+    </div>
+  </div>
+
+  <!-- II. GILLEN -->
+  <div class="kapitel" id="gillen">
+    <div class="kapitel-rubrik">Kapitel II</div>
+    <h2>Gillen &amp; roller</h2>
+    <p>Alla spelare tillhör ett av tre gillen – eller spelar som Den Resande, en friflygare utan gilletillhörighet. Ditt gille är din primära lojalitet, men inte nödvändigtvis din enda.</p>
+
+    <div class="gille" style="background:#0a120a;border:1px solid #a8d5a244">
+      <h3 style="color:#a8d5a2">🌿 Örtagillet</h3>
+      <p style="color:#a8d5a2">Byns visdomsbärare. Örtagillet rör sig mjukt men ser allt. Kloka Gumman/Gubben, Örtmästaren och Grönskans Väktare tillhör detta gille. Era styrkor ligger i observation, allianser och subtila förmågor.</p>
+    </div>
+
+    <div class="gille" style="background:#120e08;border:1px solid #d4956a44">
+      <h3 style="color:#d4956a">⚒ Smederna</h3>
+      <p style="color:#d4956a">Byns starka arm. Smederna är direkta, skeptiska och handlingskraftiga. Mästersmeden, Soldaten och Glödviskaren tillhör detta gille. Era styrkor ligger i anklagelser, koordination och att skapa tryck.</p>
+    </div>
+
+    <div class="gille" style="background:#08080f;border:1px solid #9999e044">
+      <h3 style="color:#9999e0">🌙 Månkyrkan</h3>
+      <p style="color:#9999e0">Byns andliga röst. Månkyrkan rör sig i mystik och högtidlighet. Högprästen, Runläsaren och Munken/Nunnan tillhör detta gille. Era styrkor ligger i manipulation, ritualer och att forma stämningen.</p>
+    </div>
+
+    <div class="gille" style="background:#0a0900;border:1px solid #c9a84c44">
+      <h3 style="color:#c9a84c">🧳 Den Resande</h3>
+      <p style="color:#c9a84c">Friflygaren utan hem. Den Resande dök upp i morse och ingen vet varför. Tävlar inte på gillenivå – bara individuellt och på sida. Handelsvaran är information.</p>
+    </div>
+
+    <div class="kort" style="margin-top:16px">
+      <span class="kort-rubrik">Kultens skugga</span>
+      <p>Bland spelarna finns en hemlig Kultledare och kultmärkta bybor som tjänar mörkret. Kultledaren känner till sina kultmärkta – men de kultmärkta vet inte vem Kultledaren är. Ingen bybo går säker. Alla spelar sina roller fullt ut. Ingen avslöjar sig frivilligt.</p>
+    </div>
+  </div>
+
+  <!-- III. FASER -->
+  <div class="kapitel" id="faser">
+    <div class="kapitel-rubrik">Kapitel III</div>
+    <h2>Kvällens faser</h2>
+    <p>Kvällen är uppdelad i fyra faser. Varje fas har ett eget syfte och egna regler för vad som är möjligt.</p>
+
+    <div class="fas" style="border-color:#a8d5a2">
+      <span class="fas-nr" style="color:#a8d5a2">FAS 1</span>
+      <h3 style="color:#a8d5a2">Allianser</h3>
+      <p>Mingla. Bilda allianser. Dela hemligheter – men välj noga med vem. Genomför dina rolluppdrag. Gilledanser och övriga danser uppstår spontant när ett gille begär det – och kan ske både här och i Fas 3. Håll ögonen öppna för det ovanliga. Rebussamlaren bör samla sina pusseldelar så tidigt som möjligt – rebusen måste lämnas till Vägaren innan Fas 3 är slut.</p>
+    </div>
+
+    <div class="fas" style="border-color:#9999e0">
+      <span class="fas-nr" style="color:#9999e0">FAS 2</span>
+      <h3 style="color:#9999e0">Tinget</h3>
+      <p>Formella anklagelser framförs inför alla. Den anklagade försvarar sig i 60 sekunder. Anklagaren svarar i 30 sekunder. Förmågor kan aktiveras. Tinget skapar misstanke – men ingen roll avslöjas här.</p>
+    </div>
+
+    <div class="fas" style="border-color:#d4956a">
+      <span class="fas-nr" style="color:#d4956a">FAS 3</span>
+      <h3 style="color:#d4956a">Ritualen &amp; dansen</h3>
+      <p>Gilledanser och ritualdanser genomförs vid stången – det är här kvällens viktigaste dans äger rum. Håll ögonen öppna vid stången – något kan hända där som får betydelse vid Domen. Rebusen måste lämnas till Vägaren innan Fas 3 är slut. Allt ni ser under denna fas kan avgöra kvällens utgång.</p>
+    </div>
+
+    <div class="fas" style="border-color:#cc3333">
+      <span class="fas-nr" style="color:#cc3333">FAS 4</span>
+      <h3 style="color:#cc3333">Domen</h3>
+      <p>Vägaren räknar ned: tre – två – ett. Alla pekar samtidigt på den de tror är Kultledaren. Rollerna avslöjas dramatiskt. Poäng räknas. Hjälten kröns.</p>
+    </div>
+  </div>
+
+  <!-- IV. REGLER -->
+  <div class="kapitel" id="regler">
+    <div class="kapitel-rubrik">Kapitel IV</div>
+    <h2>Viktiga regler</h2>
+
+    <ul class="regler-lista">
+      <li>Din roll är hemlig – visa aldrig ditt rollkort för någon annan spelare.</li>
+      <li>Lögner är tillåtna och uppmuntrade. Det är en del av spelet.</li>
+      <li>Förmågor aktiveras alltid genom Vägaren – gå diskret fram och meddela.</li>
+      <li>Allianser måste registreras hos Vägaren för att ge poäng.</li>
+      <li>Anklagelser vid Tinget framförs högt inför alla – inte i smyg.</li>
+      <li>Kultledaren känner till de kultmärkta – men de kultmärkta vet inte vem Kultledaren är. Och ingen bybo går säker.</li>
+      <li>Förmågor som säger "en gång" gäller hela kvällen.</li>
+      <li>Vägaren är neutral och dömer i tveksamma fall. Vägarens ord är lag.</li>
+      <li>Fråga alltid Vägaren om du är osäker – aldrig en annan spelare.</li>
+    </ul>
+
+    <div class="varning" style="margin-top:16px">
+      <p>🩸 Kultister – er roll är att överleva, inte att döda stämningen. Spela er byboroll med övertygelse. Misstanke är roligare än avslöjande.</p>
+    </div>
+  </div>
+
+  <!-- V. POÄNG -->
+  <div class="kapitel" id="poang">
+    <div class="kapitel-rubrik">Kapitel V</div>
+    <h2>Poängsystemet</h2>
+    <p>Poäng ges av Vägaren under kvällen. Kom och checka in när du genomfört något poängvärt – Vägaren bedömer och registrerar.</p>
+
+    <div class="kort">
+      <span class="kort-rubrik">Individuellt</span>
+      <div class="poang-rad"><span class="etikett">Dans genomförd (per låt)</span><span class="varde">+5–10p</span></div>
+      <div class="poang-rad"><span class="etikett">Alla 6 danser klara</span><span class="varde">+20p</span></div>
+      <div class="poang-rad"><span class="etikett">Rolluppdrag genomfört</span><span class="varde">+10–20p</span></div>
+      <div class="poang-rad"><span class="etikett">Förmåga använd med effekt</span><span class="varde">+10–15p</span></div>
+      <div class="poang-rad"><span class="etikett">Allians registrerad (annat gille)</span><span class="varde">+15p</span></div>
+      <div class="poang-rad"><span class="etikett">Hemlighet delad med rätt person</span><span class="varde">+10p</span></div>
+      <div class="poang-rad"><span class="etikett">Anklagelse framförd vid Tinget</span><span class="varde">+5p</span></div>
+      <div class="poang-rad"><span class="etikett">Bruten allians</span><span class="varde minus">-10p</span></div>
+    </div>
+
+    <div class="kort">
+      <span class="kort-rubrik">Domen</span>
+      <div class="poang-rad"><span class="etikett">Rätt på kultmärkt</span><span class="varde">+20p</span></div>
+      <div class="poang-rad"><span class="etikett">Rätt på Kultledaren</span><span class="varde">+40p</span></div>
+      <div class="poang-rad"><span class="etikett">Fel röst</span><span class="varde minus">-5p</span></div>
+    </div>
+
+    <div class="kort">
+      <span class="kort-rubrik">Sidbonus</span>
+      <div class="poang-rad"><span class="etikett">Byn vinner</span><span class="varde">+30p till alla bybor</span></div>
+      <div class="poang-rad"><span class="etikett">Kulten vinner</span><span class="varde">+50p till kultister</span></div>
+    </div>
+
+    <div class="kort">
+      <span class="kort-rubrik">Gillebonus</span>
+      <div class="poang-rad"><span class="etikett">Hela gillet slutför sina uppdrag</span><span class="varde">+30p till alla i gillet</span></div>
+    </div>
+
+    <p style="font-size:13px;color:var(--dim);font-style:italic;margin-top:12px">Vägaren kan också belöna god stämning, generositet och hjälpsamhet med extra poäng efter eget omdöme.</p>
+  </div>
+
+  <!-- VI. DANS -->
+  <div class="kapitel" id="dans">
+    <div class="kapitel-rubrik">Kapitel VI</div>
+    <h2>Dansen</h2>
+    <p>Dans är en naturlig del av midsommarfirandet – men varje dans är också ett uppdrag. Ditt rollkort innehåller hemliga dansdirektiv för varje låt. Dessa är unika för din karaktär.</p>
+    <p>Gilledanser är gemensamma uppdrag där hela gillet dansar på ett specifikt sätt. Lyckas alla bidrar det till gillebonus.</p>
+
+    <div class="kort">
+      <span class="kort-rubrik">Kvällens danser</span>
+      <div class="poang-rad"><span class="etikett">🎵 Cannelloni Macaroni</span><span class="varde">+5p</span></div>
+      <div class="poang-rad"><span class="etikett">🎵 Walking on Sunshine</span><span class="varde">+5p</span></div>
+      <div class="poang-rad"><span class="etikett">🎵 Euphoria – Loreen</span><span class="varde">+5p</span></div>
+      <div class="poang-rad"><span class="etikett">🎵 Levan Polkka – rätt håll</span><span class="varde">+10p</span></div>
+      <div class="poang-rad"><span class="etikett">🌿 Guld och gröna skogar (Örtagillet)</span><span class="varde">+10p</span></div>
+      <div class="poang-rad"><span class="etikett">⚒ Seven Nation Army (Smederna)</span><span class="varde">+10p</span></div>
+      <div class="poang-rad"><span class="etikett">🌙 Only Time (Månkyrkan)</span><span class="varde">+10p</span></div>
+    </div>
+
+    <div class="highlight">
+      <p>Levan Polkka är kvällens hemliga ritualdans. Mer om vad den innebär framgår av ditt rollkort.</p>
+    </div>
+  </div>
+
+  <!-- VII. TINGET -->
+  <div class="kapitel" id="tinget">
+    <div class="kapitel-rubrik">Kapitel VII</div>
+    <h2>Tinget</h2>
+    <p>Tinget är kvällens formella anklagelseceremoni. Vägaren öppnar Tinget och ger sedan ordet till den som vill framföra en anklagelse.</p>
+
+    <div class="kort">
+      <span class="kort-rubrik">Tingets ordning</span>
+      <p>
+        1. Vägaren öppnar Tinget och ger ordet till första anklagaren.<br>
+        2. Anklagelsen framförs högt inför alla.<br>
+        3. Den anklagade försvarar sig i <strong style="color:var(--guld)">60 sekunder</strong>.<br>
+        4. Anklagaren svarar i <strong style="color:var(--guld)">30 sekunder</strong>.<br>
+        5. Vägaren ger sedan ordet till nästa anklagare – totalt hålls max 2 anklagelser.<br>
+        6. Förmågor kan aktiveras under Tinget via Vägaren.<br><br>
+        <em style="color:var(--dim)">Vissa röster bär mer tyngd än andra vid Tinget – beroende på vem du är och hur övertygande du framför din sak.</em>
+      </p>
+    </div>
+
+    <p>Tinget skapar misstanke – men ingen roll avslöjas här. Det är ord mot ord. Lögner är tillåtna. Övertygelse är allt.</p>
+
+    <div class="varning">
+      <p>Tinget är inte en dom. Att anklagas är inte att vara skyldig. Den som anklagas för tidigt och dåligt riskerar att tappa trovärdighet – inte poäng.</p>
+    </div>
+  </div>
+
+  <!-- VIII. DOMEN -->
+  <div class="kapitel" id="domen">
+    <div class="kapitel-rubrik">Kapitel VIII</div>
+    <h2>Domen</h2>
+    <p>Domen är kvällens klimax. Alla samlas runt stången. Vägaren räknar ned högt – och på ett pekar alla samtidigt.</p>
+
+    <div class="highlight">
+      <p>Tre... två... ett... alla pekar samtidigt på den de tror bär mörkrets ledarskap. Ingen får vänta och se vart andra pekar.</p>
+    </div>
+
+    <div class="kort">
+      <span class="kort-rubrik">Så går det till</span>
+      <p>
+        1. Vägaren samlar alla och förklarar att Domen är nära.<br>
+        2. Alla har några sekunder att bestämma sig – men ingen får diskutera högt.<br>
+        3. Vägaren räknar ned: <strong style="color:var(--guld)">tre – två – ett</strong>. Alla pekar samtidigt.<br>
+        4. Vägaren räknar pekningarna och avslöjar utfallet.<br><br>
+        <em style="color:var(--dim)">Obs – vissa pekningar väger tyngre än andra. Det kan bero på förmågor eller inlösningar som gjorts under kvällen. Du kanske inte vet om det förrän efteråt.</em>
+      </p>
+    </div>
+
+    <div class="kort">
+      <span class="kort-rubrik">Vinstvillkor</span>
+      <p>
+        <strong style="color:var(--gron)">🌿 Byn vinner</strong> om Kultledaren pekas ut och avslöjas.<br><br>
+        <strong style="color:#cc6666">🩸 Kulten vinner</strong> om Kultledaren överlever Domen oavslöjad.<br><br>
+        <strong style="color:var(--guld)">⚖️ Oavgjort</strong> om kultmärkta avslöjas men Kultledaren klarar sig. Vägaren avgör.
+      </p>
+    </div>
+  </div>
+
+  <!-- IX. ORDBOK -->
+  <div class="kapitel" id="ordbok">
+    <div class="kapitel-rubrik">Kapitel IX</div>
+    <h2>Ordbok</h2>
+    <p>Här förklaras de begrepp som används under kvällen.</p>
+
+    <div class="kort">
+      <div class="ord">
+        <div class="ord-term"><span class="ikon">⚖️</span>Vägaren</div>
+        <p>Spelets domare och berättare. Den enda som känner till alla rollernas sanna identitet. Vägarens ord är lag. Förmågor aktiveras, allianser registreras och poäng ges via Vägaren.</p>
+      </div>
+      <div class="ord">
+        <div class="ord-term"><span class="ikon">🎭</span>Roll</div>
+        <p>Din hemliga identitet för kvällen. Rollen ger dig en karaktär, ett uppdrag, förmågor och relationer. Visa aldrig ditt rollkort för någon.</p>
+      </div>
+      <div class="ord">
+        <div class="ord-term"><span class="ikon">⚔️</span>Förmåga</div>
+        <p>En unik kraft kopplad till din roll. Varje roll har två förmågor. Aktiveras alltid genom att diskret meddela Vägaren. Förmågor som säger "en gång" gäller hela kvällen.</p>
+      </div>
+      <div class="ord">
+        <div class="ord-term"><span class="ikon">🤝</span>Allians</div>
+        <p>En formell överenskommelse med en annan spelare, registrerad hos Vägaren. En bruten allians ger minuspoäng.</p>
+      </div>
+      <div class="ord">
+        <div class="ord-term"><span class="ikon">⚖️</span>Tinget</div>
+        <p>Den formella anklagelseceremoni som hålls i Fas 2. Anklagelser framförs högt inför alla. Inga roller avslöjas – Tinget skapar misstanke, inte dom.</p>
+      </div>
+      <div class="ord">
+        <div class="ord-term"><span class="ikon">🗳️</span>Domen</div>
+        <p>Kvällens avgörande ögonblick i Fas 4. Alla pekar samtidigt på den de tror är Kultledaren. Rollerna avslöjas och poäng räknas.</p>
+      </div>
+      <div class="ord">
+        <div class="ord-term"><span class="ikon">🩸</span>Kultledare</div>
+        <p>Den hemliga skurken. Spelar sin byboroll fullt ut men tjänar mörkret. Vinner om hen överlever Domen oavslöjad.</p>
+      </div>
+      <div class="ord">
+        <div class="ord-term"><span class="ikon">🔺</span>Kultmärkt</div>
+        <p>En bybo som i hemlighet tjänar Kulten. Känner inte till Kultledarens identitet. Vet inte heller vilka de andra kultmärkta är. Följer ett hemligt direktiv.</p>
+      </div>
+      <div class="ord">
+        <div class="ord-term"><span class="ikon">💰</span>Inlösen</div>
+        <p>Poäng kan bytas mot fördelar hos Vägaren: ledtrådar om Kultledaren, extra pekningar vid Domen eller immunitet. Görs diskret under kvällen.</p>
+      </div>
+      <div class="ord">
+        <div class="ord-term"><span class="ikon">🧩</span>Kedjor</div>
+        <p>Hemliga informationskedjor som löper mellan specifika roller. Säg rätt fras, få rätt svar, dela en pusselbit om den gamla ramsan. Rebussamlaren samlar alla bitar.</p>
+      </div>
+      <div class="ord">
+        <div class="ord-term"><span class="ikon">🏺</span>Artefakt</div>
+        <p>Speciella föremål med koppling till kvällens händelser. Mer om artefakterna framgår av ditt rollkort.</p>
+      </div>
+      <div class="ord">
+        <div class="ord-term"><span class="ikon">🎵</span>Dansdirektiv</div>
+        <p>Hemliga instruktioner i ditt rollkort som berättar hur just din karaktär dansar varje låt. Direktiven är unika per roll och ger poäng om de genomförs.</p>
+      </div>
+      <div class="ord">
+        <div class="ord-term"><span class="ikon">🏅</span>Gillebonus</div>
+        <p>Extra poäng till alla i ett gille om hela gillet slutfört sina gemensamma uppdrag. +30p vardera. Kräver att alla bidrar.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  ᛗᛁᛞᛋᚢᛗᛒᛚᚩᛏ · AUSÅS BLOTÄNGAR · SOLSTÅNDSNATTEN 2026
+</footer>
+
+
+
+</body></html>
