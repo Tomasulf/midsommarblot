@@ -1431,9 +1431,9 @@ function RollKort({roll,onBekrafta,spelarKon,spelarAlder}){
     {!roll.erKultledare&&!roll.barnroll&&<div style={{...Kort,borderColor:"#c9a84c44",background:"#0a0800"}}>
       <span style={{...Lbl,color:T.guld}}>💎 Inlösen – köp hos Vägaren</span>
       {[
-        {label:"Kultledarens gille",kostnad:"30p"},
+        {label:"Kultledarens gille",kostnad:"90p"},
         {label:"Tre oskyldiga namnges",kostnad:"60p"},
-        {label:"Kultledarens kön",kostnad:"90p"},
+        {label:"Kultledarens kön",kostnad:"30p"},
         {label:"Immunitet mot anklagelse",kostnad:"40p"},
         {label:"5× pekning vid Domen",kostnad:"50p"},
         {label:"10× pekning vid Domen",kostnad:"100p"},
@@ -1463,7 +1463,7 @@ function RollKort({roll,onBekrafta,spelarKon,spelarAlder}){
       :<Sek label="💡 Tips" ac={T.guldDim}><p style={RT}>{roll.tips}</p></Sek>}
     <p style={{fontSize:11,color:T.textDim,textAlign:"center",marginTop:10}}>Memorera · Visa ingen · Lycka till</p>
     {!roll.barnroll&&<div style={{background:"#120808",border:"1px solid #cc333322",borderRadius:4,padding:"10px 14px",marginTop:8,textAlign:"center"}}>
-      <p style={{fontSize:11,color:"#cc9999",margin:0,lineHeight:1.7}}>🩸 I Fas 3 kan mörkrets märke beseglas. Om skyddsrunan – rebusen – inte aktiverats i tid kan mörkret fullbordas utan hinder. Håll ögonen öppna och samarbeta.</p>
+      <p style={{fontSize:11,color:"#cc9999",margin:0,lineHeight:1.7}}>🩸 I Fas 3 kan mörkrets märke beseglas. Om skyddsrunan inte aktiverats i tid kan mörkret fullbordas utan hinder. Håll ögonen öppna och samarbeta.</p>
     </div>}
     <div style={{background:"#0a0a00",border:`1px solid ${T.kant}`,borderRadius:4,padding:"10px 14px",marginTop:10,textAlign:"center"}}>
       <p style={{fontSize:11,color:T.guld,margin:0,lineHeight:1.7}}>{roll.barnroll?"🍬 PSST! VÄGAREN BELÖNAR GÄRNA SNÄLLA OCH HJÄLPSAMMA SPELARE MED EXTRA POÄNG... KANSKE TILL OCH MED GODIS!":"🥂 Vägaren kan belöna god stämning, generositet och hjälpsamhet med extra poäng. Tilltugg och påtår uppskattas alltid."}</p>
