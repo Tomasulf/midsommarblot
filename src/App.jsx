@@ -597,7 +597,31 @@ const BARN_KOMBO_UPPDRAG = {
       poang:"+15p VAR OM NI RAPPORTERAR!",
     },
   ],
+  "smederna+ortagillet": [
+    {
+      titel:"DUBBELDYNA 👻",
+      uppdrag:"En av er smyger upp bakom en vuxen och viskar 'Jag vet vad du gjort.' Den andre gör EXAKT samma sak mot en annan vuxen – inom 30 sekunder! Rapportera till Vägaren vad de sa!",
+      poang:"+20p VAR OM NI LYCKAS!",
+    },
+    {
+      titel:"LÖGNEKEDJAN 🌿⚒",
+      uppdrag:"Berätta för en vuxen att du sett din kompis gömma något konstigt bakom ett träd. Rapportera till Vägaren vad de svarade!",
+      poang:"+15p VAR OM NI RAPPORTERAR!",
+    },
+  ],
   "ortagillet+månkyrkan": [
+    {
+      titel:"DET HEMLIGA TECKNET 🌿🌙",
+      uppdrag:"Gå fram till SAMMA vuxen och viska varsitt hemligt ord i örat – en i taget med lite mellanrum. Den vuxne får inte veta att ni samarbetar! Rapportera till Vägaren!",
+      poang:"+20p VAR OM NI LYCKAS!",
+    },
+    {
+      titel:"FALSK PROFETIA 🔮",
+      uppdrag:"Gå till en vuxen och säg allvarligt: 'Månens stjärnor har visat mig att DU är kultledaren.' Rapportera reaktionen till Vägaren!",
+      poang:"+15p VAR OM NI RAPPORTERAR!",
+    },
+  ],
+  "månkyrkan+ortagillet": [
     {
       titel:"DET HEMLIGA TECKNET 🌿🌙",
       uppdrag:"Gå fram till SAMMA vuxen och viska varsitt hemligt ord i örat – en i taget med lite mellanrum. Den vuxne får inte veta att ni samarbetar! Rapportera till Vägaren!",
@@ -621,12 +645,29 @@ const BARN_KOMBO_UPPDRAG = {
       poang:"+15p VAR OM NI RAPPORTERAR!",
     },
   ],
+  "månkyrkan+smederna": [
+    {
+      titel:"DUBBELT RYKTE ⚒🌙",
+      uppdrag:"Gå var och en till en OLIKA vuxen och berätta att er kompis sagt något konstigt vid stången. Rapportera till Vägaren vad de svarade!",
+      poang:"+20p VAR OM NI LYCKAS!",
+    },
+    {
+      titel:"VÄLSIGNELSEN 🙏",
+      uppdrag:"En av er håller upp ett föremål och den andre lägger högtidligt handen på det och mumlar något mystiskt. Gör det framför EN vuxen! Rapportera till Vägaren!",
+      poang:"+15p VAR OM NI RAPPORTERAR!",
+    },
+  ],
 };
 
 function getBarnKomboUppdrag(gille1, gille2) {
-  const gillen = [gille1, gille2].sort();
-  const key = gillen.join("+");
-  return BARN_KOMBO_UPPDRAG[key] || [];
+  const kombinationer = [
+    gille1+"+"+gille2,
+    gille2+"+"+gille1,
+  ];
+  for(const key of kombinationer){
+    if(BARN_KOMBO_UPPDRAG[key]) return BARN_KOMBO_UPPDRAG[key];
+  }
+  return [];
 }
 
 
