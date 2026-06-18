@@ -531,9 +531,6 @@ const ROLL_UPPGIFTER = {
     {label:"Trädvälsignelse genomförd", poang:15},
     {label:"Smög bakom 3 spelare ostört", poang:20},
     {label:"Pekade ut rätt kultledare vid Domen", poang:30},
-    {label:"Paraden genomförd (kompis med)", poang:20},
-    {label:"Det hemliga rådet (kompis med)", poang:15},
-    {label:"Störningsmanövern (kompis med)", poang:25},
   ],
   galningen: [
     {label:"Hittade kompisen direkt", poang:20},
@@ -542,9 +539,6 @@ const ROLL_UPPGIFTER = {
     {label:"Avbröt Högprästen med PANG PANG PANG", poang:20},
     {label:"Vunnit sten-sax-påse mot spelare", poang:10},
     {label:"Pekade ut rätt kultledare vid Domen", poang:30},
-    {label:"Paraden genomförd (kompis med)", poang:20},
-    {label:"Det hemliga rådet (kompis med)", poang:15},
-    {label:"Störningsmanövern (kompis med)", poang:25},
   ],
   korsriddaren: [
     {label:"Hittade kompisen direkt", poang:20},
@@ -553,9 +547,6 @@ const ROLL_UPPGIFTER = {
     {label:"Vaktat stången 5 min", poang:20},
     {label:"Sagt vem kultledaren är högt", poang:15},
     {label:"Pekade ut rätt kultledare vid Domen", poang:30},
-    {label:"Paraden genomförd (kompis med)", poang:20},
-    {label:"Det hemliga rådet (kompis med)", poang:15},
-    {label:"Störningsmanövern (kompis med)", poang:25},
   ],
 };
 
