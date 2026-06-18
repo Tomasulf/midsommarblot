@@ -1904,6 +1904,7 @@ function SpelledarVy({setVy,starta,tab,setTab,antalBarn,setAntalBarn,spelare,set
         {fordeltaBarn.length>0&&<div>
           <div style={{fontSize:10,color:"#ffb3c6",letterSpacing:1,marginBottom:6}}>BARNROLLER ATT SKICKA:</div>
           {fordeltaBarn.map(barn=>{
+            const andraBarn=fordeltaBarn.filter(b=>b.id!==barn.id).map(b=>b.id);
             const miniData={
               id:barn.id,
               kon:"",
@@ -1912,7 +1913,8 @@ function SpelledarVy({setVy,starta,tab,setTab,antalBarn,setAntalBarn,spelare,set
               km:"",
               rb:0,
               pd:slumpaPolkka(),
-              ai:"",
+              ai:fordeltaBarn.map(b=>b.id).join(","),
+              bi:fordeltaBarn.map(b=>b.id).join(","),
               kid:"",
             };
             const enkodad=btoa(JSON.stringify(miniData));
@@ -2454,7 +2456,7 @@ export default function App(){
             erRebussamlare:mini.rb===1,
             anklagelse:anklagelse,
             kedjor:rekonstrueradeKedjor,
-            aktivaIds:alleRollerIds,
+            aktivaIds:mini.bi?mini.bi.split(",").filter(Boolean):alleRollerIds,
           };
           return <SpelarVy rollData={rollData}/>;
         }
