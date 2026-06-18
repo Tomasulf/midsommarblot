@@ -2197,7 +2197,7 @@ function GuideVy({setVy}){
   if(roll){
     const ac=roll.barnroll?"#ffb3c6":roll.gilleColor||T.guld;
     const rollnamn=typeof roll.rollnamn==="function"?roll.rollnamn(""):roll.rollnamn;
-    const barnUppg=roll.barnroll?BARN_UPPGIFTER[roll.id]:null;
+    const barnUppg=roll.barnroll?ROLL_UPPGIFTER[roll.id]:null;
     return <div style={Sida}>
       <button style={Tillbaka} onClick={()=>setVald(null)}>← Tillbaka</button>
       <div style={{textAlign:"center",padding:"20px 0 16px"}}>
