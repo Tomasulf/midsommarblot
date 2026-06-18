@@ -685,19 +685,19 @@ const HEMLIGHETER = {
     "Du vet att två spelare i byn delar en hemlighet de tror är begravd. Den är det inte.",
   ],
   hogprasten: [
-    "Du vet att ett av pentagrammen på tomten är falskt – placerat av någon som vill vilseleda.",
+    "Du vet att något på tomten inte är vad det ser ut att vara – placerat av någon som vill vilseleda.",
   ],
   runlaesaren: [
     "Du vet att runorna pekade på ett specifikt gille redan när du kastar dem i morse. Du har inte berättat vilket.",
   ],
   munken: [
-    "Du hörde en konversation vid ölkannan som ingen visste att du hörde. Den handlade om stången.",
+    "Du hörde en konversation vid ölkannan som ingen visste att du hörde. Det handlade om något som ska hända i natt.",
     "Du vet vem som drack ur den heliga kalken utan lov. Det var inte en from handling.",
   ],
   den_resande: [
     "Du vet att någon i byn inte är den de utger sig för att vara. Du har sett dem förut – i en annan by.",
     "Du bär på ett brev som aldrig fick sin mottagare. Det avslöjar något om en person här ikväll.",
-    "Du vet att midsommarstången har ett märke på baksidan som ingen annan lagt märke till.",
+    "Du har sett något på tomten som inte borde finnas där. Du vet inte vad det betyder.",
     "Du har hört talas om Mörkblotets Kult förut. Det slutade inte väl för den byn.",
   ],
 };
@@ -714,7 +714,7 @@ const RUNORAKEL = [
   "En person du misstänker är oskyldig. En du inte misstänker är det inte.",
   "Stången drar till sig mörker ikväll. Den som håller i den äger natten.",
   "Dina rötter sitter djupare i denna jord än du tror. Lita på dem.",
-  "Någon i din närhet har already bestämt hur de ska rösta. Och det är inte på kultledaren.",
+  "Någon i din närhet har redan bestämt hur de ska peka vid Domen. Och det är inte på den skyldige.",
   "Det gamla löftet bryts ikväll – men bara om tre röster ropar det rätta ordet.",
   "Du är inte ensam i din misstanke. Men du är ensam i din kunskap.",
 ];
@@ -729,26 +729,26 @@ const JULIA_UPPDRAG={
 // ─── KULTDATA ─────────────────────────────────────────────────────────────────
 const KULTMARKEN=[
   {id:"mk1",namn:"Skuggviskaren",
-   kultInfo:"Du tjänar Mörkblotets Kult. Någonstans bland byborna finns en hemlig ledare – men du vet inte vem det är. Du tjänar kulten i blindo.",
-   direktiv:"Skydda Runläsaren från anklagelser under Tinget. Avled uppmärksamheten från dem – subtilt och diskret.",
-   hur:"Spela din byboroll fullt ut. Kultuppdraget är ett hemligt extra lager som ingen annan känner till.",
+   kultInfo:"Du tjänar Mörkblotets Kult. Kultledaren känner till dig och kan ha sökt upp dig med den hemliga hälsningen. Skydda dem – de vet vem du är.",
+   direktiv:"Anklagas någon vid Tinget som du tror är Kultledaren – försvara dem omedelbart och högt. Under kvällen: plantera minst ett falskt spår mot någon annan. Vid Domen: peka på en oskyldig bybo. +30p om Vägaren bedömer att du försvarade Kultledaren.",
+   hur:"Spela din byboroll fullt ut. Kultuppdraget är ett hemligt extra lager – ingen annan bybo vet om dig.",
    risk:"Kultledaren kan när som helst välja att avsätta dig om du riskerar att avslöjas. Du spelar då vidare som vanlig bybo – berätta inget om vad du visste.",
-   pentagram:"Placera ut 2 pentagram diskret på tomten under kvällen utan att bli påkommen. Rapportera till Vägaren när du är klar.",
-   poang:"Direktiv utfört hela kvällen: +30p · Båda pentagram placerade ostört: +25p · Skyddade kultledaren (Vägarens bedömning): +20p · Kulten vinner: +100p sidebonus"},
+   pentagram:"Placera ut 1 pentagram diskret på tomten under kvällen utan att bli påkommen. Rapportera till Vägaren när du är klar.",
+   poang:"Försvarade Kultledaren vid Tinget: +30p · Pentagram placerat ostört: +25p · Falskt spår planterat: +15p · Kulten vinner: +100p sidebonus"},
   {id:"mk2",namn:"Mörkrets Spegel",
-   kultInfo:"Du tjänar Mörkblotets Kult. Någonstans bland byborna finns en hemlig ledare – men du vet inte vem det är. Du tjänar kulten i blindo.",
-   direktiv:"Håll andra spelare borta från midsommarstången under dansen i Fas 3. Skapa distraktioner, bjud in till samtal, hitta på något – men håll dem borta.",
+   kultInfo:"Du tjänar Mörkblotets Kult. Kultledaren känner till dig och kan ha sökt upp dig med den hemliga hälsningen. Skydda dem – de vet vem du är.",
+   direktiv:"Anklagas någon vid Tinget som du tror är Kultledaren – försvara dem omedelbart och högt. Under kvällen: plantera minst ett falskt spår mot någon annan. Vid Domen: peka på en oskyldig bybo. +30p om Vägaren bedömer att du försvarade Kultledaren.",
    hur:"Du vet inte varför stången är viktig. Du vet bara att det är ditt uppdrag. Fråga inte. Gör det bara.",
    risk:"Kultledaren kan när som helst välja att avsätta dig om du riskerar att avslöjas. Du spelar då vidare som vanlig bybo – berätta inget om vad du visste.",
-   pentagram:"Placera ut 2 pentagram diskret på tomten under kvällen utan att bli påkommen. Rapportera till Vägaren när du är klar.",
-   poang:"Direktiv utfört hela kvällen: +30p · Båda pentagram placerade ostört: +25p · Skyddade kultledaren (Vägarens bedömning): +20p · Kulten vinner: +100p sidebonus"},
+   pentagram:"Placera ut 1 pentagram diskret på tomten under kvällen utan att bli påkommen. Rapportera till Vägaren när du är klar.",
+   poang:"Försvarade Kultledaren vid Tinget: +30p · Pentagram placerat ostört: +25p · Falskt spår planterat: +15p · Kulten vinner: +100p sidebonus"},
   {id:"mk3",namn:"Tystnadens Väktare",
-   kultInfo:"Du tjänar Mörkblotets Kult. Någonstans bland byborna finns en hemlig ledare – men du vet inte vem det är. Du tjänar kulten i blindo.",
-   direktiv:"Om Mästersmeden eller Örtmästaren verkar vara på väg att avslöja något viktigt – avbryt dem. En fråga, ett skratt, ett avbrott. Vad som helst.",
+   kultInfo:"Du tjänar Mörkblotets Kult. Kultledaren känner till dig och kan ha sökt upp dig med den hemliga hälsningen. Skydda dem – de vet vem du är.",
+   direktiv:"Anklagas någon vid Tinget som du tror är Kultledaren – försvara dem omedelbart och högt. Under kvällen: plantera minst ett falskt spår mot någon annan. Vid Domen: peka på en oskyldig bybo. +30p om Vägaren bedömer att du försvarade Kultledaren.",
    hur:"Var social och avbryt folk lite oftare än normalt. Det ska aldrig verka avsiktligt.",
    risk:"Kultledaren kan när som helst välja att avsätta dig om du riskerar att avslöjas. Du spelar då vidare som vanlig bybo – berätta inget om vad du visste.",
-   pentagram:"Placera ut 2 pentagram diskret på tomten under kvällen utan att bli påkommen. Rapportera till Vägaren när du är klar.",
-   poang:"Direktiv utfört hela kvällen: +30p · Båda pentagram placerade ostört: +25p · Skyddade kultledaren (Vägarens bedömning): +20p · Kulten vinner: +100p sidebonus"},
+   pentagram:"Placera ut 1 pentagram diskret på tomten under kvällen utan att bli påkommen. Rapportera till Vägaren när du är klar.",
+   poang:"Försvarade Kultledaren vid Tinget: +30p · Pentagram placerat ostört: +25p · Falskt spår planterat: +15p · Kulten vinner: +100p sidebonus"},
 ];
 
 const KULTLEDARE_INFO={
@@ -821,7 +821,7 @@ const UPPGIFTER=[
   {id:"formaga",label:"Förmåga använd rätt",poang:20,kat:"uppdrag",rollId:"*"},
   {id:"pentagram_hitta",label:"Pentagram hittat",poang:10,kat:"uppdrag",rollId:"*"},
   // Kultisternas pentagram-uppdrag
-  {id:"pentagram_markt_klart",label:"Kultmärkt – alla pentagram placerade",poang:20,kat:"kult",rollId:"*"},
+  {id:"pentagram_markt_klart",label:"Kultmärkt – pentagram placerat ostört",poang:25,kat:"kult",rollId:"*"},
   {id:"pentagram_ledare_klart",label:"Kultledaren – alla pentagram placerade",poang:30,kat:"kult",rollId:"*"},
   {id:"pentagram_alla_klart",label:"Alla kultister – pentagram klara",poang:20,kat:"kult",rollId:"*"},
   // Artefakter
@@ -1392,7 +1392,7 @@ function RollKort({roll,onBekrafta,spelarKon,spelarAlder}){
     {roll.erKultledare&&<ToggleBlock label="🩸 HEMLIGT – Du är Kultledaren" ac="#cc3333" bg="#1a0000" open={visMarke} setOpen={setVisMarke}>
       <div style={{background:"#0a0000",border:"1px solid #cc3333",borderRadius:3,padding:"10px",marginBottom:10,textAlign:"center",fontSize:12,color:"#cc3333",fontFamily:"'Cinzel',serif",letterSpacing:1}}>AVSLÖJA DETTA FÖR INGEN</div>
       <p style={{...RT,color:"#cc9999",marginBottom:10}}>{KULTLEDARE_INFO.beskrivning}</p>
-      <p style={{...RT,color:"#cc9999",marginBottom:10}}><strong style={{color:"#cc3333"}}>Välsignelsen:</strong> {KULTLEDARE_INFO.valssignelsen}</p>
+      <p style={{...RT,color:"#cc9999",marginBottom:10}}><strong style={{color:"#cc3333"}}>Mörkrets märke:</strong> {KULTLEDARE_INFO.valssignelsen}</p>
       <p style={{...RT,color:"#cc9999",marginBottom:10}}><strong style={{color:"#cc3333"}}>Igenkänning:</strong> {KULTLEDARE_INFO.igenkanning}</p>
       <p style={{...RT,color:"#cc9999",marginBottom:6}}>{KULTLEDARE_INFO.foermaga}</p>
       <p style={{...RT,color:"#cc9999",marginBottom:10}}>{KULTLEDARE_INFO.foermaga2}</p>
@@ -1462,6 +1462,9 @@ function RollKort({roll,onBekrafta,spelarKon,spelarAlder}){
       </div>
       :<Sek label="💡 Tips" ac={T.guldDim}><p style={RT}>{roll.tips}</p></Sek>}
     <p style={{fontSize:11,color:T.textDim,textAlign:"center",marginTop:10}}>Memorera · Visa ingen · Lycka till</p>
+    {!roll.barnroll&&<div style={{background:"#120808",border:"1px solid #cc333322",borderRadius:4,padding:"10px 14px",marginTop:8,textAlign:"center"}}>
+      <p style={{fontSize:11,color:"#cc9999",margin:0,lineHeight:1.7}}>🩸 I Fas 3 kan mörkrets märke beseglas. Om skyddsrunan – rebusen – inte aktiverats i tid kan mörkret fullbordas utan hinder. Håll ögonen öppna och samarbeta.</p>
+    </div>}
     <div style={{background:"#0a0a00",border:`1px solid ${T.kant}`,borderRadius:4,padding:"10px 14px",marginTop:10,textAlign:"center"}}>
       <p style={{fontSize:11,color:T.guld,margin:0,lineHeight:1.7}}>{roll.barnroll?"🍬 PSST! VÄGAREN BELÖNAR GÄRNA SNÄLLA OCH HJÄLPSAMMA SPELARE MED EXTRA POÄNG... KANSKE TILL OCH MED GODIS!":"🥂 Vägaren kan belöna god stämning, generositet och hjälpsamhet med extra poäng. Tilltugg och påtår uppskattas alltid."}</p>
     </div>
@@ -2427,7 +2430,7 @@ const REGLER = [
   {titel:"Dansen",icon:"🎵",farg:"#c9a84c",text:"Dans är en naturlig del av midsommarfirandet – men varje dans är också ett uppdrag.\n\nDitt rollkort innehåller hemliga dansdirektiv för varje låt. Dessa är unika för din karaktär och ger poäng om de genomförs.\n\nGILLEDANSER är gemensamma uppdrag där hela gillet dansar på ett specifikt sätt. Lyckas alla bidrar det till gillebonusen.\n\nDanser kan uppstå i både Fas 1 och Fas 3 – var redo när musiken sätts på.\n\nVar uppmärksam – andra observerar dig lika mycket som du observerar dem."},
   {titel:"Poängsystemet",icon:"💰",farg:"#c9a84c",text:"INDIVIDUELLT – Uppdrag, förmågor, allianser, dans, artefakter.\n\nGILLEBONUS +30p – Om hela gillet slutför sina gemensamma uppdrag.\n\nSIDBONUS – Byn vinner: +60p till alla bybor · Kulten vinner: +100p till kultister\n\nDOMSPOÄNG – Rätt på kultmärkt: +20p · Rätt på Kultledaren: +40p · Fel: -5p\n\nLEDTRÅDAR – Lös in poäng hos Vägaren mot information om Kultledaren. Tre nivåer – ju dyrare, ju mer avslöjande.\n\nVägaren kan också belöna god stämning, generositet och hjälpsamhet efter eget omdöme."},
   {titel:"Domen",icon:"🗳️",farg:"#c9a84c",text:"Domen är kvällens dramatiska klimax.\n\nAlla samlas. Ingen får diskutera högt.\n\nVägaren räknar ned: TRE – TVÅ – ETT – alla pekar samtidigt på den de tror bär mörkrets ledarskap.\n\nIngen får vänta och se vart andra pekar.\n\nVissa pekningar väger tyngre än andra – beroende på förmågor och inlösningar gjorda under kvällen.\n\nVägaren räknar pekningarna och avslöjar utfallet dramatiskt."},
-  {titel:"Vinstvillkor",icon:"🏆",farg:"#c9a84c",text:"BYBORNA VINNER OM Kultledaren pekas ut och avslöjas vid Domen.\n\nKULTEN VINNER OM Kultledaren överlever oavslöjad – eller om minst 6 av 10 spelare tillhör kulten vid kvällens slut (Kultledaren omvänder 3 bybor).\n\nOAVGJORT om situationen är oklar. Vägaren avgör.\n\nKom ihåg – du tävlar också individuellt och på gillenivå! Spelet avgörs inte bara av vem som hittar Kultledaren."},
+  {titel:"Vinstvillkor",icon:"🏆",farg:"#c9a84c",text:"BYBORNA VINNER OM Kultledaren pekas ut och avslöjas vid Domen – eller om byborna genom samarbete hindrar mörkrets märke från att fullbordas i Fas 3.\n\nKULTEN VINNER OM Kultledaren överlever oavslöjad, om mörkrets märke beseglas i Fas 3, eller om minst 6 av 10 spelare tillhör kulten.\n\nOAVGJORT om situationen är oklar. Vägaren avgör.\n\nKom ihåg – du tävlar också individuellt och på gillenivå! Spelet avgörs inte bara av vem som hittar Kultledaren."},
   {titel:"Inlösen – prislista",icon:"💎",farg:"#c9a84c",text:"Poäng kan när som helst lösas in hos Vägaren mot fördelar. Gå diskret fram och berätta vad du vill köpa.\n\n🔍 LEDTRÅDAR OM KULTLEDAREN\n90p – Kultledarens gille avslöjas\n60p – Tre oskyldiga spelare namnges\n30p – Kultledarens kön avslöjas\n\n🛡 SKYDD\n40p – Immunitet mot en anklagelse vid Tinget\n\n🗳️ EXTRA PEKNINGAR VID DOMEN\n50p – Din pekning räknas som 5\n100p – Din pekning räknas som 10\n\nTips: Ledtrådar är mest värda sent i spelet. Immunitet är guld om du misstänks."},
   {titel:"Allmänna regler",icon:"📜",farg:"#c9a84c",text:"• Din roll är hemlig – visa aldrig ditt rollkort för någon annan spelare\n• Lögner är tillåtna och uppmuntrade – det är en del av spelet\n• Förmågor aktiveras alltid genom Vägaren, aldrig på egen hand\n• Allianser måste registreras hos Vägaren för att ge poäng\n• Checka in med Vägaren när du gjort något poängvärt\n• Fråga alltid Vägaren om du är osäker – aldrig en annan spelare\n• Barnroller har förenklade uppdrag och egna regler\n• Ha kul – det är midsommar!"},
 ];
@@ -2519,8 +2522,8 @@ function SpelarVy({rollData}){
         </p>
       </div>
       <div style={{...Kort,borderColor:"#cc333344",background:"#120808"}}>
-        <div style={{...Lbl,color:"#cc6666"}}>🩸 Kultens kännetecken</div>
-        <p style={{fontSize:12,color:"#cc9999",lineHeight:1.6,margin:0}}>Kultmedlemmar bär INGET synligt kännetecken. De döljer sig bland er och spelar sina roller fullt ut.<br/><br/>Det finns ett hemligt igenkänningstecken – men det vet bara de som tillhör kulten.</p>
+        <div style={{...Lbl,color:"#cc6666"}}>🩸 Kultens skugga</div>
+        <p style={{fontSize:12,color:"#cc9999",lineHeight:1.6,margin:0}}>Kultmedlemmar bär INGET synligt kännetecken. De döljer sig bland er och spelar sina roller fullt ut.<br/><br/>Kultledaren känner till sina kultmärkta. Under kvällen kan bybor lockas över till mörkret – hur det sker vet bara de som redan tjänar kulten.<br/><br/>Det finns ett hemligt igenkänningstecken – men det vet bara de som tillhör kulten.</p>
       </div>
     </div>}
 
