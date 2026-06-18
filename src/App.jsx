@@ -1625,6 +1625,7 @@ function PoangAdmin({spelare,setSpelare,fordel=[]}){
   }
 
   const valdSp=spelare.find(s=>s.id===vald);
+  const aktivaSpelare=fordel.length>0?spelare.filter(s=>fordel.some(r=>r.id===s.id)):spelare;
   const maxP=Math.max(...spelare.map(s=>s.poang),1);
   // Kultister från fordel (för vågen)
   const kultisterIds=fordel.filter(r=>r.erKultledare||r.kultMarke).map(r=>r.id);
@@ -1657,8 +1658,9 @@ function PoangAdmin({spelare,setSpelare,fordel=[]}){
           {spelare.map(s=>{
             const g=Object.values(GILLE_INFO).find(x=>x.ids.includes(s.id));
             const ac=g?.farg||T.guld;
+            const aktiv=fordel.length===0||fordel.some(r=>r.id===s.id);
             return <div key={s.id} style={{display:"flex",flexDirection:"column",marginBottom:4}}>
-              <button style={{fontSize:11,background:vald===s.id?ac+"33":"transparent",color:vald===s.id?ac:T.textDim,border:`1px solid ${vald===s.id?ac+"66":T.kant2}`,borderRadius:3,padding:"5px 9px",cursor:"pointer",fontFamily:"inherit"}} onClick={()=>setVald(s.id)}>
+              <button style={{fontSize:11,background:!aktiv?"transparent":vald===s.id?ac+"33":"transparent",color:!aktiv?"#333":vald===s.id?ac:T.textDim,border:`1px solid ${!aktiv?"#222":vald===s.id?ac+"66":T.kant2}`,borderRadius:3,padding:"5px 9px",cursor:aktiv?"pointer":"default",fontFamily:"inherit",opacity:aktiv?1:0.35,textDecoration:!aktiv?"line-through":"none"}} onClick={()=>aktiv&&setVald(s.id)}>
                 {s.icon} {s.rollnamn} <strong>{s.poang}p</strong>
               </button>
             </div>;
@@ -1748,7 +1750,7 @@ function PoangAdmin({spelare,setSpelare,fordel=[]}){
             <span style={{fontSize:11,color:ting.farg}}>{ting.poang>0?"+":""}{ting.poang}p</span>
           </div>
           <div style={{display:"flex",flexWrap:"wrap",gap:3}}>
-            {spelare.map(s=>{
+            {aktivaSpelare.map(s=>{
               const g=Object.values(GILLE_INFO).find(x=>x.ids.includes(s.id));
               const ac=g?.farg||T.guld;
               return <div key={s.id} style={{display:"flex",gap:0,marginBottom:2}}>
@@ -1776,7 +1778,7 @@ function PoangAdmin({spelare,setSpelare,fordel=[]}){
             <span style={{fontSize:11,color:"#9999cc"}}>±{dans.poang}p</span>
           </div>
           <div style={{display:"flex",flexWrap:"wrap",gap:3}}>
-            {spelare.map(s=>{
+            {aktivaSpelare.map(s=>{
               const g=Object.values(GILLE_INFO).find(x=>x.ids.includes(s.id));
               const ac=g?.farg||T.guld;
               return <div key={s.id} style={{display:"flex",gap:0,marginBottom:2}}>
@@ -1808,7 +1810,7 @@ function PoangAdmin({spelare,setSpelare,fordel=[]}){
             <span style={{fontSize:11,color:dom.farg}}>{dom.poang>0?"+":""}{dom.poang}p</span>
           </div>
           <div style={{display:"flex",flexWrap:"wrap",gap:3}}>
-            {spelare.map(s=>{
+            {aktivaSpelare.map(s=>{
               const g=Object.values(GILLE_INFO).find(x=>x.ids.includes(s.id));
               const ac=g?.farg||T.guld;
               return <div key={s.id} style={{display:"flex",gap:0,marginBottom:2}}>
