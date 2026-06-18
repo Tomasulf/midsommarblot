@@ -759,7 +759,7 @@ const UPPGIFTER=[
   {id:"dom_markt",label:"Pekade rätt – kultmärkt",poang:20,kat:"dom",rollId:"*"},
   {id:"dom_ledare",label:"Pekade rätt – Kultledaren",poang:40,kat:"dom",rollId:"*"},
   {id:"dom_fel",label:"Pekade fel",poang:-5,kat:"dom",rollId:"*"},
-  {id:"sido_byn",label:"Sidebonus – Byn vann",poang:25,kat:"dom",rollId:"*"},
+  {id:"sido_byn",label:"Sidebonus – Byn vann",poang:60,kat:"dom",rollId:"*"},
   {id:"barn_dom",label:"Barnroll – pekade rätt på kultledaren",poang:30,kat:"dom",rollId:["skogsvakten","galningen","korsriddaren"]},
   {id:"sido_kult",label:"Sidebonus – Kulten vann",poang:100,kat:"dom",rollId:"*"},
   {id:"gille_bonus",label:"Gillebonus",poang:30,kat:"gille",rollId:"*",gilleBonus:true},
@@ -1678,7 +1678,7 @@ function PoangAdmin({spelare,setSpelare,fordel=[]}){
           {id:"dom_ledare",label:"Pekade rätt – Kultledaren",poang:40,farg:"#a8d5a2"},
           {id:"dom_markt",label:"Pekade rätt – kultmärkt",poang:20,farg:"#a8d5a2"},
           {id:"dom_fel",label:"Pekade fel",poang:-5,farg:"#cc6666"},
-          {id:"sido_byn",label:"Sidebonus – Byn vann",poang:25,farg:"#a8d5a2"},
+          {id:"sido_byn",label:"Sidebonus – Byn vann",poang:60,farg:"#a8d5a2"},
           {id:"sido_kult",label:"Sidebonus – Kulten vann",poang:100,farg:"#cc9966"},
           {id:"barn_dom",label:"Barnroll – pekade rätt på Kultledaren",poang:30,farg:"#a8d5a2"},
         ].map(dom=><div key={dom.id} style={{marginBottom:8,padding:"8px 10px",background:"#0a0000",borderRadius:4,border:"1px solid #cc333322"}}>
