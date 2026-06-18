@@ -757,12 +757,12 @@ const KULTLEDARE_INFO={
   valssignelsen:"Håll handen på stången ostört i 30 sekunder under dansen i Fas 3. Om byborna saboterar ritualen missar du dessa poäng – men du kan fortfarande vinna på Domen.",
   foermaga:"🩸 Blodsband: Hälsa på båda dina kultmärkta under Fas 1 med det hemliga tecknet (bestäm med Vägaren). +15p per lyckad hälsning = max +30p.",
   foermaga2:"🕯 Avsättning: Om en kultmärkt håller på att avslöjas – kontakta Vägaren diskret och namnge dem. De spelar vidare som vanlig bybo. Du är skyddad.",
-  igenkanning:"Säg 'Mörkret hälsar' till en spelare. Om de är märkt svarar de 'och natten är lång'.",
+  igenkanning:"Säg 'Skål för solståndet' till en spelare. Om de är märkt svarar de 'och för mörkret som väntar'.",
   tips:"Sprid falska anklagelser. Rösta på en oskyldig bybo vid Domen. Om majoriteten röstar fel vinner kulten.",
   pentagram:"Placera ut 3 pentagram diskret på tomten utan att bli påkommen. +30p om alla placeras.",
   inlosen:[
     {kostnad:30, vad:"Plantera ett falskt rykte via Vägaren – Vägaren viskar det diskret till 1-2 spelare."},
-    {kostnad:100, vad:"Omvänd EN bybo till kulten – de får ett enkelt direktiv och röstar med kulten vid Domen."},
+    {kostnad:50, vad:"Omvänd EN bybo till kulten – lägg handen på deras axel och säg 'Månens ljus är allt som är kvar.' Meddela sedan Vägaren vem du omvänt. De får ett enkelt direktiv och röstar med kulten vid Domen. Max 3 omvändningar."},
     {kostnad:50, vad:"5 extra röster vid Domen – rösta på en oskyldig bybo för att avleda."},
     {kostnad:100, vad:"10 extra röster vid Domen – kan vara avgörande med 10 spelare."},
   ],
@@ -784,7 +784,8 @@ const KULTMARKE_KANDIDATER=["mastersmeden","lakemedlaren","soldaten","hogprasten
 const VINSTVILLKOR={
   niva1:{rubrik:"🎯 NIVÅ 1 – SIDAN",farg:"#c9a84c",villkor:[
     "🌿 BYN vinner om Kultledaren pekas ut och avslöjas vid Domen.",
-    "🩸 KULTEN vinner om Kultledaren överlever Domen oavslöjad – eller om Välsignelsen aktiveras.",
+    "🩸 KULTEN vinner om Kultledaren överlever Domen oavslöjad.",
+    "🩸 KULTEN vinner också om minst 6 av 10 spelare tillhör kulten vid kvällens slut – Kultledaren måste ha omvänt 3 bybor.",
     "⚖️ OAVGJORT om kultmärkta avslöjas men Kultledaren klarar sig.",
   ],tips:"Sidvinnaren utropas först vid Domen. +60p till vinnande bybo · +100p till vinnande kultist."},
   niva2:{rubrik:"🏆 NIVÅ 2 – GILLET",farg:"#a8d5a2",villkor:[
@@ -845,9 +846,9 @@ const UPPGIFTER=[
 ];
 
 const INLOSEN=[
-  {id:"led1",kostnad:30,typ:"ledtrad",label:"Ledtråd nivå 1 – gille",beskrivning:"Kultledarens GILLE avslöjas."},
+  {id:"led1",kostnad:90,typ:"ledtrad",label:"Ledtråd nivå 1 – gille",beskrivning:"Kultledarens GILLE avslöjas."},
   {id:"led2",kostnad:60,typ:"ledtrad",label:"Ledtråd nivå 2 – uteslutning",beskrivning:"Tre oskyldiga namnges."},
-  {id:"led3",kostnad:90,typ:"ledtrad",label:"Ledtråd nivå 3 – kön",beskrivning:"Kultledarens KÖN avslöjas."},
+  {id:"led3",kostnad:30,typ:"ledtrad",label:"Ledtråd nivå 3 – kön",beskrivning:"Kultledarens KÖN avslöjas."},
   {id:"immun",kostnad:40,typ:"skydd",label:"Immunitet mot en anklagelse",beskrivning:"En anklagelse avvisas automatiskt."},
   {id:"r5",kostnad:50,typ:"roster",label:"5 extra röster vid Domen",beskrivning:"Din röst räknas som 5."},
   {id:"r10",kostnad:100,typ:"roster",label:"10 extra röster vid Domen",beskrivning:"Din röst räknas som 10."},
@@ -2052,7 +2053,7 @@ function SpelledarVy({setVy,starta,tab,setTab,antalBarn,setAntalBarn,spelare,set
       </div>
       <div style={{...Kort,borderColor:"#cc333355",background:"#120808"}}>
         <div style={{...Lbl,color:"#cc6666"}}>🩸 Kultinfo</div>
-        <p style={{fontSize:12,color:"#cc9999",lineHeight:1.7,margin:0}}>1 hemlig Kultledare · 2 Kultmärkta · Resten bybor<br/>Igenkänning: "Mörkret hälsar" → "och natten är lång"</p>
+        <p style={{fontSize:12,color:"#cc9999",lineHeight:1.7,margin:0}}>1 hemlig Kultledare · 2 Kultmärkta · Resten bybor<br/>Igenkänning: "Skål för solståndet" → "och för mörkret som väntar"</p>
       </div>
       {fordel?.length>0&&<div style={{...Kort,borderColor:"#9999cc44",background:"#080814"}}>
         <div style={{...Lbl,color:"#9999cc"}}>✓ Roller delade – {fordel.length} spelare</div>
@@ -2426,8 +2427,8 @@ const REGLER = [
   {titel:"Dansen",icon:"🎵",farg:"#c9a84c",text:"Dans är en naturlig del av midsommarfirandet – men varje dans är också ett uppdrag.\n\nDitt rollkort innehåller hemliga dansdirektiv för varje låt. Dessa är unika för din karaktär och ger poäng om de genomförs.\n\nGILLEDANSER är gemensamma uppdrag där hela gillet dansar på ett specifikt sätt. Lyckas alla bidrar det till gillebonusen.\n\nDanser kan uppstå i både Fas 1 och Fas 3 – var redo när musiken sätts på.\n\nVar uppmärksam – andra observerar dig lika mycket som du observerar dem."},
   {titel:"Poängsystemet",icon:"💰",farg:"#c9a84c",text:"INDIVIDUELLT – Uppdrag, förmågor, allianser, dans, artefakter.\n\nGILLEBONUS +30p – Om hela gillet slutför sina gemensamma uppdrag.\n\nSIDBONUS – Byn vinner: +60p till alla bybor · Kulten vinner: +100p till kultister\n\nDOMSPOÄNG – Rätt på kultmärkt: +20p · Rätt på Kultledaren: +40p · Fel: -5p\n\nLEDTRÅDAR – Lös in poäng hos Vägaren mot information om Kultledaren. Tre nivåer – ju dyrare, ju mer avslöjande.\n\nVägaren kan också belöna god stämning, generositet och hjälpsamhet efter eget omdöme."},
   {titel:"Domen",icon:"🗳️",farg:"#c9a84c",text:"Domen är kvällens dramatiska klimax.\n\nAlla samlas. Ingen får diskutera högt.\n\nVägaren räknar ned: TRE – TVÅ – ETT – alla pekar samtidigt på den de tror bär mörkrets ledarskap.\n\nIngen får vänta och se vart andra pekar.\n\nVissa pekningar väger tyngre än andra – beroende på förmågor och inlösningar gjorda under kvällen.\n\nVägaren räknar pekningarna och avslöjar utfallet dramatiskt."},
-  {titel:"Vinstvillkor",icon:"🏆",farg:"#c9a84c",text:"BYBORNA VINNER OM Kultledaren pekas ut och avslöjas vid Domen.\n\nKULTEN VINNER OM Kultledaren överlever oavslöjad.\n\nOAVGJORT om situationen är oklar. Vägaren avgör.\n\nKom ihåg – du tävlar också individuellt och på gillenivå! Spelet avgörs inte bara av vem som hittar Kultledaren."},
-  {titel:"Inlösen – prislista",icon:"💎",farg:"#c9a84c",text:"Poäng kan när som helst lösas in hos Vägaren mot fördelar. Gå diskret fram och berätta vad du vill köpa.\n\n🔍 LEDTRÅDAR OM KULTLEDAREN\n30p – Kultledarens gille avslöjas\n60p – Tre oskyldiga spelare namnges\n90p – Kultledarens kön avslöjas\n\n🛡 SKYDD\n40p – Immunitet mot en anklagelse vid Tinget\n\n🗳️ EXTRA PEKNINGAR VID DOMEN\n50p – Din pekning räknas som 5\n100p – Din pekning räknas som 10\n\nTips: Ledtrådar är mest värda sent i spelet. Immunitet är guld om du misstänks."},
+  {titel:"Vinstvillkor",icon:"🏆",farg:"#c9a84c",text:"BYBORNA VINNER OM Kultledaren pekas ut och avslöjas vid Domen.\n\nKULTEN VINNER OM Kultledaren överlever oavslöjad – eller om minst 6 av 10 spelare tillhör kulten vid kvällens slut (Kultledaren omvänder 3 bybor).\n\nOAVGJORT om situationen är oklar. Vägaren avgör.\n\nKom ihåg – du tävlar också individuellt och på gillenivå! Spelet avgörs inte bara av vem som hittar Kultledaren."},
+  {titel:"Inlösen – prislista",icon:"💎",farg:"#c9a84c",text:"Poäng kan när som helst lösas in hos Vägaren mot fördelar. Gå diskret fram och berätta vad du vill köpa.\n\n🔍 LEDTRÅDAR OM KULTLEDAREN\n90p – Kultledarens gille avslöjas\n60p – Tre oskyldiga spelare namnges\n30p – Kultledarens kön avslöjas\n\n🛡 SKYDD\n40p – Immunitet mot en anklagelse vid Tinget\n\n🗳️ EXTRA PEKNINGAR VID DOMEN\n50p – Din pekning räknas som 5\n100p – Din pekning räknas som 10\n\nTips: Ledtrådar är mest värda sent i spelet. Immunitet är guld om du misstänks."},
   {titel:"Allmänna regler",icon:"📜",farg:"#c9a84c",text:"• Din roll är hemlig – visa aldrig ditt rollkort för någon annan spelare\n• Lögner är tillåtna och uppmuntrade – det är en del av spelet\n• Förmågor aktiveras alltid genom Vägaren, aldrig på egen hand\n• Allianser måste registreras hos Vägaren för att ge poäng\n• Checka in med Vägaren när du gjort något poängvärt\n• Fråga alltid Vägaren om du är osäker – aldrig en annan spelare\n• Barnroller har förenklade uppdrag och egna regler\n• Ha kul – det är midsommar!"},
 ];
 
@@ -2519,7 +2520,7 @@ function SpelarVy({rollData}){
       </div>
       <div style={{...Kort,borderColor:"#cc333344",background:"#120808"}}>
         <div style={{...Lbl,color:"#cc6666"}}>🩸 Kultens kännetecken</div>
-        <p style={{fontSize:12,color:"#cc9999",lineHeight:1.6,margin:0}}>Kultmedlemmar bär INGET kännetecken. De döljer sig bland er.<br/><br/>Om någon säger "Mörkret hälsar" – svara "och natten är lång" om du är kultmärkt.</p>
+        <p style={{fontSize:12,color:"#cc9999",lineHeight:1.6,margin:0}}>Kultmedlemmar bär INGET synligt kännetecken. De döljer sig bland er och spelar sina roller fullt ut.<br/><br/>Det finns ett hemligt igenkänningstecken – men det vet bara de som tillhör kulten.</p>
       </div>
     </div>}
 
