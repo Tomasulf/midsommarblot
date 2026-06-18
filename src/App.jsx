@@ -81,7 +81,7 @@ const ROLLER_MASTER=[
    karaktar:"Högtidlig, teatralisk, van vid att folk lyssnar.",
    beskrivning:"Du är Månkyrkans röst. Den Resande bär en hemlighet om dig.",
    uppdrag:"Avge offentlig profetia under Fas 1. Samla 5+ i cirkelgång under Euphoria (+25p)!",
-   foermaga:"🌙 Helgad Ritual: Under Fas 1 – lägg en hand på en persons axel och säg: 'Månens ljus faller på dig ikväll.' De ska gå till Vägaren – de får dansdirektiv för Only Time med Månkyrkan, samt en ledtråd till en av de gömda artefakterna. En gång.",
+   foermaga:"🌙 Helgad Ritual: Under Fas 1 – lägg en hand på en persons axel och säg: 'Månens ljus faller på dig ikväll.' De ska gå till Vägaren – de får dansdirektiv för Berghain med Månkyrkan, samt en ledtråd till en av de gömda artefakterna. En gång.",
    foermaga2:"📿 Absolution: Ta en spelare åt sidan i Fas 1 – de berättar en bekännelse. De får immunitet mot anklagelse vid Tinget. Meddela Vägaren INNAN Tinget öppnar. +10p.",
    fraser:[
      {fras:"Månens öga sluter sig aldrig helt.",nyckelord:"vad ser månens öga",svar:"Och vad ser månens öga ikväll?"},
@@ -274,7 +274,7 @@ const DANSLATAR=[
   {id:"walking",   titel:"Walking on Sunshine",poang:5},
   {id:"euphoria",  titel:"Euphoria – Loreen",  poang:5},
   {id:"guld",      titel:"Guld och gröna skogar",gille:"ortagillet",poang:10},
-  {id:"only",      titel:"Only Time",           gille:"månkyrkan",poang:10},
+  {id:"only",      titel:"Berghain",           gille:"månkyrkan",poang:10},
   {id:"seven",     titel:"Seven Nation Army",   gille:"smederna",poang:10},
 ];
 
@@ -443,7 +443,7 @@ const GILLESUPPDRAG = {
       "Genomför Skuggprofetian utomhus inför vittnen",
       "Högprästen avger profetia INNAN Fas 2",
       "Runläsaren ger minst 2 orakel utanför kyrkan",
-      "Alla dansar Only Time – håller hand i ring",
+      "Alla dansar Berghain – håller hand i ring",
     ],
     ceremoni: {
       namn:"🌙 Skuggprofetian",
@@ -1427,6 +1427,34 @@ function RollKort({roll,onBekrafta,spelarKon,spelarAlder}){
       </>}
     </ToggleBlock>}
 
+    {!roll.erKultledare&&!roll.barnroll&&<div style={{...Kort,borderColor:"#c9a84c44",background:"#0a0800"}}>
+      <span style={{...Lbl,color:T.guld}}>💎 Inlösen – köp hos Vägaren</span>
+      {[
+        {label:"Kultledarens gille",kostnad:"30p"},
+        {label:"Tre oskyldiga namnges",kostnad:"60p"},
+        {label:"Kultledarens kön",kostnad:"90p"},
+        {label:"Immunitet mot anklagelse",kostnad:"40p"},
+        {label:"5× pekning vid Domen",kostnad:"50p"},
+        {label:"10× pekning vid Domen",kostnad:"100p"},
+      ].map((r,i)=><div key={i} style={{display:"flex",justifyContent:"space-between",padding:"5px 0",borderBottom:`1px solid ${T.kant2}`}}>
+        <span style={{fontSize:12,color:T.text}}>{r.label}</span>
+        <span style={{fontSize:12,color:"#cc6666",fontWeight:700}}>{r.kostnad}</span>
+      </div>)}
+    </div>}
+
+    {roll.barnroll&&<div style={{...Kort,borderColor:"#ffcc4444",background:"#0a0800"}}>
+      <span style={{...Lbl,color:"#ffcc44"}}>💰 Vad kan du köpa av Vägaren?</span>
+      {[
+        {label:"En ledtråd om Kultledaren",kostnad:"30p"},
+        {label:"Immunitet – ingen kan anklaga dig vid Tinget",kostnad:"40p"},
+        {label:"Din pekning räknas som 5 vid Domen",kostnad:"50p"},
+      ].map((r,i)=><div key={i} style={{display:"flex",justifyContent:"space-between",padding:"5px 0",borderBottom:`1px solid ${T.kant2}`}}>
+        <span style={{fontSize:12,color:"#ffe8f0"}}>{r.label}</span>
+        <span style={{fontSize:12,color:"#ffcc44",fontWeight:700}}>{r.kostnad}</span>
+      </div>)}
+      <div style={{fontSize:11,color:"#ffb3c6",marginTop:8,fontStyle:"italic"}}>Gå fram till Vägaren och viska vad du vill köpa!</div>
+    </div>}
+
     {roll.barnroll
       ?<div style={{background:"#0a0008",border:"1px solid #ffb3c644",borderRadius:4,padding:"12px",marginBottom:8,textAlign:"center"}}>
         <div style={{fontSize:12,color:"#ffb3c6",fontWeight:700,lineHeight:1.7}}>{roll.tips}</div>
@@ -2399,7 +2427,7 @@ const REGLER = [
   {titel:"Poängsystemet",icon:"💰",farg:"#c9a84c",text:"INDIVIDUELLT – Uppdrag, förmågor, allianser, dans, artefakter.\n\nGILLEBONUS +30p – Om hela gillet slutför sina gemensamma uppdrag.\n\nSIDBONUS – Byn vinner: +60p till alla bybor · Kulten vinner: +100p till kultister\n\nDOMSPOÄNG – Rätt på kultmärkt: +20p · Rätt på Kultledaren: +40p · Fel: -5p\n\nLEDTRÅDAR – Lös in poäng hos Vägaren mot information om Kultledaren. Tre nivåer – ju dyrare, ju mer avslöjande.\n\nVägaren kan också belöna god stämning, generositet och hjälpsamhet efter eget omdöme."},
   {titel:"Domen",icon:"🗳️",farg:"#c9a84c",text:"Domen är kvällens dramatiska klimax.\n\nAlla samlas. Ingen får diskutera högt.\n\nVägaren räknar ned: TRE – TVÅ – ETT – alla pekar samtidigt på den de tror bär mörkrets ledarskap.\n\nIngen får vänta och se vart andra pekar.\n\nVissa pekningar väger tyngre än andra – beroende på förmågor och inlösningar gjorda under kvällen.\n\nVägaren räknar pekningarna och avslöjar utfallet dramatiskt."},
   {titel:"Vinstvillkor",icon:"🏆",farg:"#c9a84c",text:"BYBORNA VINNER OM Kultledaren pekas ut och avslöjas vid Domen.\n\nKULTEN VINNER OM Kultledaren överlever oavslöjad.\n\nOAVGJORT om situationen är oklar. Vägaren avgör.\n\nKom ihåg – du tävlar också individuellt och på gillenivå! Spelet avgörs inte bara av vem som hittar Kultledaren."},
-  {titel:"Allmänna regler",icon:"📜",farg:"#c9a84c",text:"• Din roll är hemlig – visa aldrig ditt rollkort för någon annan spelare\n• Lögner är tillåtna och uppmuntrade – det är en del av spelet\n• Förmågor aktiveras alltid genom Vägaren, aldrig på egen hand\n• Allianser måste registreras hos Vägaren för att ge poäng\n• Checka in med Vägaren när du gjort något poängvärt\n• Fråga alltid Vägaren om du är osäker – aldrig en annan spelare\n• Barnroller har förenklade uppdrag och egna regler\n• Ha kul – det är midsommar!"},
+  {titel:"Inlösen – prislista",icon:"💎",farg:"#c9a84c",text:"Poäng kan när som helst lösas in hos Vägaren mot fördelar. Gå diskret fram och berätta vad du vill köpa.\n\n🔍 LEDTRÅDAR OM KULTLEDAREN\n30p – Kultledarens gille avslöjas\n60p – Tre oskyldiga spelare namnges\n90p – Kultledarens kön avslöjas\n\n🛡 SKYDD\n40p – Immunitet mot en anklagelse vid Tinget\n\n🗳️ EXTRA PEKNINGAR VID DOMEN\n50p – Din pekning räknas som 5\n100p – Din pekning räknas som 10\n\nTips: Ledtrådar är mest värda sent i spelet. Immunitet är guld om du misstänks."},text:"• Din roll är hemlig – visa aldrig ditt rollkort för någon annan spelare\n• Lögner är tillåtna och uppmuntrade – det är en del av spelet\n• Förmågor aktiveras alltid genom Vägaren, aldrig på egen hand\n• Allianser måste registreras hos Vägaren för att ge poäng\n• Checka in med Vägaren när du gjort något poängvärt\n• Fråga alltid Vägaren om du är osäker – aldrig en annan spelare\n• Barnroller har förenklade uppdrag och egna regler\n• Ha kul – det är midsommar!"},
 ];
 
 function RegelVy({setVy}){
