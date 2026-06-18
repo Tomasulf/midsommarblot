@@ -1119,12 +1119,16 @@ function BarnSektion({roll}){
   if(!roll.barnroll)return null;
   const ac="#ffb3c6";
   
-  // Hitta vilken kompis denna barnroll har
-  const kompis={
-    skogsvakten:{namn:"GALNINGEN MED GRYTAN",gille:"SMEDERNA"},
-    galningen:{namn:"SKOGSVAKTEN",gille:"ÖRTAGILLET"},
-    korsriddaren:{namn:"GALNINGEN MED GRYTAN",gille:"SMEDERNA"},
-  }[roll.id];
+  // Hitta kompisen dynamiskt från aktivaIds
+  const andraBarnIds=(roll.aktivaIds||[]).filter(id=>{
+    const r=ROLLER_MASTER.find(x=>x.id===id);
+    return r&&r.barnroll&&id!==roll.id;
+  });
+  const kompisRoll=andraBarnIds.length>0?ROLLER_MASTER.find(r=>r.id===andraBarnIds[0]):null;
+  const kompis=kompisRoll?{
+    namn:(typeof kompisRoll.rollnamn==="function"?kompisRoll.rollnamn(""):kompisRoll.rollnamn).toUpperCase(),
+    gille:kompisRoll.gille?.toUpperCase()
+  }:null;
 
   return <div style={{background:"#1a0a10",border:`2px solid ${ac}`,borderRadius:6,padding:"16px",marginBottom:8}}>
     <div style={{fontSize:12,color:ac,letterSpacing:2,fontFamily:"'Cinzel',serif",marginBottom:12,textAlign:"center"}}>⚡ DIN KOMPIS IKVÄLL ⚡</div>
@@ -2191,6 +2195,7 @@ function GuideVy({setVy}){
   if(roll){
     const ac=roll.barnroll?"#ffb3c6":roll.gilleColor||T.guld;
     const rollnamn=typeof roll.rollnamn==="function"?roll.rollnamn(""):roll.rollnamn;
+    const barnUppg=roll.barnroll?BARN_UPPGIFTER[roll.id]:null;
     return <div style={Sida}>
       <button style={Tillbaka} onClick={()=>setVald(null)}>← Tillbaka</button>
       <div style={{textAlign:"center",padding:"20px 0 16px"}}>
@@ -2207,7 +2212,7 @@ function GuideVy({setVy}){
         <p style={{fontSize:13,color:T.textDim,lineHeight:1.7,margin:0,fontStyle:"italic"}}>{roll.tips}</p>
       </div>}
       <div style={{...Kort,borderColor:ac+"44"}}>
-        <span style={{...Lbl,color:ac}}>FÖRMÅGOR</span>
+        <span style={{...Lbl,color:ac}}>FÖRMÅGOR & HYSS</span>
         {[roll.foermaga,roll.foermaga2].filter(Boolean).map((f,i)=>{
           const poangMatch=f.match(/[+\-]\d+p/g);
           const engangMatch=f.includes("En gång");
@@ -2222,6 +2227,13 @@ function GuideVy({setVy}){
           </div>;
         })}
       </div>
+      {barnUppg&&<div style={{...Kort,borderColor:ac+"44"}}>
+        <span style={{...Lbl,color:ac}}>POÄNGLISTA</span>
+        {barnUppg.map((u,i)=><div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"6px 0",borderBottom:i<barnUppg.length-1?`1px solid ${T.kant2}`:"none"}}>
+          <span style={{fontSize:12,color:T.text,lineHeight:1.5,flex:1}}>{u.label}</span>
+          <span style={{fontSize:12,color:"#a8d5a2",fontFamily:"'Cinzel',serif",marginLeft:12,flexShrink:0}}>+{u.poang}p</span>
+        </div>)}
+      </div>}
     </div>;
   }
 
