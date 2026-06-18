@@ -2012,6 +2012,11 @@ function SpelledarVy({setVy,starta,tab,setTab,antalBarn,setAntalBarn,spelare,set
              "Lycka till – ni kommer att behöva det.",
            ],
            tips:"Sätt igång musiken om ett gille ber om det. Håll koll på checkins."},
+          {fas:"⚖️ POÄNGSTÄLLNING – EFTER FAS 1",farg:"#c9a84c",
+           rader:[
+             "Vägaren summerar – så här ser det ut efter Fas ett.",
+           ],
+           tips:"Gå igenom poängställningen i appen. Lyft fram ledaren och nämn ett gille som ligger bra till. Håll det kort och dramatiskt."},
           {fas:"10 MIN KVAR – FAS 1",farg:"#d4956a",
            rader:[
              "Bybor – tio minuter kvar av Fas ett. Den som har pusseldelar av ramsan – lämna dem till mig nu.",
@@ -2028,6 +2033,11 @@ function SpelledarVy({setVy,starta,tab,setTab,antalBarn,setAntalBarn,spelare,set
              "Tinget är till för misstanke – inte dom. Domen kommer senare.",
            ],
            tips:"Ge ordet till den som har förskriven anklagelse. Håll tiden. Max 2 fria anklagelser efter."},
+          {fas:"⚖️ POÄNGSTÄLLNING – EFTER FAS 2",farg:"#c9a84c",
+           rader:[
+             "Tinget har talat. Vägaren räknar.",
+           ],
+           tips:"Gå igenom poängställningen. Nämn vem som anklagade och försvarade sig bäst. Bygg spänning inför Ritualen."},
           {fas:"FAS 3 – RITUALEN",farg:"#d4956a",
            rader:[
              "Tinget är stängt. Vägaren har hört vad som sagts.",
@@ -2036,6 +2046,11 @@ function SpelledarVy({setVy,starta,tab,setTab,antalBarn,setAntalBarn,spelare,set
              "Håll ögonen öppna. Håll öronen öppna. Allt ni ser ikväll kan få betydelse vid Domen.",
            ],
            tips:"Spela gilledanserna. Levan Polkka minst en gång. Håll koll på stången."},
+          {fas:"⚖️ POÄNGSTÄLLNING – EFTER FAS 3",farg:"#c9a84c",
+           rader:[
+             "Ritualen är fullbordad. Vägaren väger.",
+           ],
+           tips:"Sista poängställningen innan Domen. Lyft fram den som leder. Skapa maximal spänning – Domen avgör allt."},
           {fas:"FAS 4 – DOMEN",farg:"#cc3333",
            rader:[
              "Dansen är slut. Solståndsnatten lider mot sitt slut.",
@@ -2168,9 +2183,51 @@ function DragVy({fordel,idx,roll,avslojar,bekr,klart,alder,setAlder,kon,setKon,a
 
 // ─── GUIDE-VY ─────────────────────────────────────────────────────────────────
 function GuideVy({setVy}){
+  const [vald,setVald]=useState(null);
+  const vuxna=ROLLER_MASTER.filter(r=>!r.barnroll);
+  const barn=ROLLER_MASTER.filter(r=>r.barnroll);
+  const roll=vald?ROLLER_MASTER.find(r=>r.id===vald):null;
+
+  if(roll){
+    const ac=roll.barnroll?"#ffb3c6":roll.gilleColor||T.guld;
+    const rollnamn=typeof roll.rollnamn==="function"?roll.rollnamn(""):roll.rollnamn;
+    return <div style={Sida}>
+      <button style={Tillbaka} onClick={()=>setVald(null)}>← Tillbaka</button>
+      <div style={{textAlign:"center",padding:"20px 0 16px"}}>
+        <div style={{fontSize:44,marginBottom:8}}>{roll.icon}</div>
+        <div style={{fontFamily:"'Cinzel',serif",fontSize:22,color:ac,marginBottom:4}}>{rollnamn}</div>
+        <div style={{fontSize:11,color:T.textDim,letterSpacing:2}}>{roll.gille?.toUpperCase()}</div>
+      </div>
+      <div style={{...Kort,borderColor:ac+"44"}}>
+        <span style={{...Lbl,color:ac}}>KARAKTÄR</span>
+        <p style={{fontSize:14,color:T.text,lineHeight:1.8,margin:0}}>{roll.karaktar}</p>
+      </div>
+      {roll.tips&&<div style={{...Kort,borderColor:ac+"22",background:"#08080a"}}>
+        <span style={{...Lbl,color:T.textDim}}>SPELTIPS</span>
+        <p style={{fontSize:13,color:T.textDim,lineHeight:1.7,margin:0,fontStyle:"italic"}}>{roll.tips}</p>
+      </div>}
+      <div style={{...Kort,borderColor:ac+"44"}}>
+        <span style={{...Lbl,color:ac}}>FÖRMÅGOR</span>
+        {[roll.foermaga,roll.foermaga2].filter(Boolean).map((f,i)=>{
+          const poangMatch=f.match(/[+\-]\d+p/g);
+          const engangMatch=f.includes("En gång");
+          const tvaGanger=f.includes("Kan användas två gånger");
+          return <div key={i} style={{padding:"12px 0",borderBottom:i===0?`1px solid ${T.kant2}`:"none"}}>
+            <div style={{fontSize:13,color:T.text,lineHeight:1.8,marginBottom:6}}>{f}</div>
+            <div style={{display:"flex",flexWrap:"wrap",gap:6,marginTop:4}}>
+              {poangMatch&&poangMatch.map((p,j)=><span key={j} style={{fontSize:11,background:p.startsWith("-")?"#cc333322":"#33cc6622",color:p.startsWith("-")?"#cc6666":"#a8d5a2",border:`1px solid ${p.startsWith("-")?"#cc333344":"#33cc6644"}`,borderRadius:3,padding:"2px 7px"}}>{p}</span>)}
+              {engangMatch&&!tvaGanger&&<span style={{fontSize:11,background:"#c9a84c22",color:T.guld,border:"1px solid #c9a84c44",borderRadius:3,padding:"2px 7px"}}>En gång</span>}
+              {tvaGanger&&<span style={{fontSize:11,background:"#c9a84c22",color:T.guld,border:"1px solid #c9a84c44",borderRadius:3,padding:"2px 7px"}}>Två gånger</span>}
+            </div>
+          </div>;
+        })}
+      </div>
+    </div>;
+  }
+
   return <div style={Sida}>
-    <button style={Tillbaka} onClick={()=>setVy("start")}>← Tillbaka</button>
-    <h2 style={SRubrik}>📜 Roller & Relationer</h2>
+    <button style={Tillbaka} onClick={()=>setVy("spelledare")}>← Tillbaka</button>
+    <h2 style={SRubrik}>🎭 Roller &amp; relationer</h2>
     <div style={{...Kort,borderColor:"#9999cc44",background:"#080814",marginBottom:12}}>
       <div style={{...Lbl,color:"#9999cc"}}>🕸 Relationsnät</div>
       <p style={{fontSize:12,color:T.textDim,lineHeight:1.9,margin:0}}>
@@ -2181,20 +2238,43 @@ function GuideVy({setVy}){
         Barnrollerna → ser allt vuxna missar
       </p>
     </div>
-    {ROLLER_MASTER.map(r=>{
-      const ac=r.barnroll?"#ffb3c6":r.gilleColor||T.guld;
-      const rollnamn=typeof r.rollnamn==="function"?r.rollnamn(""):r.rollnamn;
-      return <div key={r.id} style={{...Kort,marginBottom:8,borderColor:ac+"44"}}>
-        <div style={{display:"flex",gap:10,alignItems:"center",marginBottom:4}}>
-          <span style={{fontSize:22}}>{r.icon}</span>
-          <div>
-            <div style={{fontFamily:"'Cinzel',serif",fontSize:13,color:ac}}>{rollnamn}{r.barnroll?" 🌸":""}</div>
-            <div style={{fontSize:11,color:T.textDim}}>{r.gille}</div>
+    <div style={{...Kort,borderColor:"#c9a84c22",marginBottom:16}}>
+      <p style={{fontSize:12,color:T.textDim,fontStyle:"italic",lineHeight:1.7,margin:0}}>Klicka på en roll för att läsa mer. Förmågornas fulla text slumpas ut vid rollutdelning.</p>
+    </div>
+    {[
+      {label:"🌿 Örtagillet",ids:["kloka","ortmastaren","gronskan"]},
+      {label:"⚒ Smederna",ids:["mastersmeden","soldaten","glodviskaren"]},
+      {label:"🌙 Månkyrkan",ids:["hogprasten","runlaesaren","munken"]},
+      {label:"🧳 Övriga",ids:["den_resande"]}
+    ].map(g=><div key={g.label} style={{marginBottom:16}}>
+      <div style={{fontSize:10,color:T.textDim,letterSpacing:3,marginBottom:8,paddingLeft:2}}>{g.label}</div>
+      {vuxna.filter(r=>g.ids.includes(r.id)).map(r=>{
+        const ac=r.gilleColor||T.guld;
+        const rollnamn=typeof r.rollnamn==="function"?r.rollnamn(""):r.rollnamn;
+        return <button key={r.id} style={{width:"100%",background:T.papper,border:`1px solid ${ac}33`,borderRadius:4,padding:"12px 14px",marginBottom:6,cursor:"pointer",textAlign:"left",fontFamily:"inherit",display:"flex",alignItems:"center",gap:12}} onClick={()=>setVald(r.id)}>
+          <span style={{fontSize:26,flexShrink:0}}>{r.icon}</span>
+          <div style={{flex:1}}>
+            <div style={{fontFamily:"'Cinzel',serif",fontSize:13,color:ac,marginBottom:3}}>{rollnamn}</div>
+            <div style={{fontSize:11,color:T.textDim,lineHeight:1.5}}>{r.karaktar?.slice(0,80)}...</div>
           </div>
-        </div>
-        <p style={{fontSize:12,color:T.textDim,margin:0,lineHeight:1.5}}>{r.karaktar}</p>
-      </div>;
-    })}
+          <span style={{fontSize:10,color:T.textDim}}>▶</span>
+        </button>;
+      })}
+    </div>)}
+    {barn.length>0&&<div style={{marginBottom:16}}>
+      <div style={{fontSize:10,color:"#ffb3c6",letterSpacing:3,marginBottom:8,paddingLeft:2}}>🌸 BARNROLLER</div>
+      {barn.map(r=>{
+        const rollnamn=typeof r.rollnamn==="function"?r.rollnamn(""):r.rollnamn;
+        return <button key={r.id} style={{width:"100%",background:T.papper,border:"1px solid #ffb3c633",borderRadius:4,padding:"12px 14px",marginBottom:6,cursor:"pointer",textAlign:"left",fontFamily:"inherit",display:"flex",alignItems:"center",gap:12}} onClick={()=>setVald(r.id)}>
+          <span style={{fontSize:26,flexShrink:0}}>{r.icon}</span>
+          <div style={{flex:1}}>
+            <div style={{fontFamily:"'Cinzel',serif",fontSize:13,color:"#ffb3c6",marginBottom:3}}>{rollnamn}</div>
+            <div style={{fontSize:11,color:T.textDim,lineHeight:1.5}}>{r.karaktar?.slice(0,80)}...</div>
+          </div>
+          <span style={{fontSize:10,color:T.textDim}}>▶</span>
+        </button>;
+      })}
+    </div>}
   </div>;
 }
 
@@ -2212,14 +2292,16 @@ function QRKod({url}){
 
 // ─── REGELVY ──────────────────────────────────────────────────────────────────
 const REGLER = [
-  {titel:"Spelets syfte",icon:"⚖️",farg:"#c9a84c",text:"Midsommarblot är ett socialt spel om lögner, allianser och avslöjanden.\n\nAlla tillhör ett gille – Örtagillet, Smederna eller Månkyrkan. Men bland er gömmer sig Mörkblotets Kult.\n\nByborna försöker avslöja Kultledaren. Kulten försöker överleva oavslöjad.\n\nDu tävlar på tre nivåer: individuellt, med ditt gille och på din sida (By vs Kult)."},
-  {titel:"Kvällens faser",icon:"🕐",farg:"#c9a84c",text:"FAS 1 – ALLIANSER\nMingla, bilda allianser, dela hemligheter, genomför uppdrag. Danser uppstår spontant.\n\nFAS 2 – TINGET\nFormella anklagelser framförs. Den anklagade försvarar sig. Inga roller avslöjas – Tinget skapar misstanke.\n\nFAS 3 – RITUALEN & DANSEN\nGilledanser genomförs. Kultledaren försöker fullborda ritualen vid stången.\n\nFAS 4 – DOMEN\nAlla pekar på den de tror är Kultledaren. Rollerna avslöjas dramatiskt."},
-  {titel:"Viktiga begrepp",icon:"📖",farg:"#c9a84c",text:"VÄGAREN – Spelets domare. Den enda som vet alla rollernas sanna identitet.\n\nALLIANS – Formell överenskommelse registrerad hos Vägaren. Allierade bör rösta likadant vid Domen.\n\nANKLAGELSE – Formell beskyllning vid Tinget. Varje roll har en förskriven anklagelse. Ger poäng om den leder rätt.\n\nFÖRMÅGA – Varje karaktär har två unika förmågor. Aktiveras genom att berätta för Vägaren.\n\nINLÖSEN – Poäng byts mot fördelar hos Vägaren: ledtrådar, extra röster eller immunitet.\n\nKEDJOR – Hemliga informationskedjor. Säg rätt fras, få rätt svar, dela en pusselbit om ritualen."},
-  {titel:"Dansen",icon:"🎵",farg:"#c9a84c",text:"Dans är en naturlig del av midsommarfirandet – men varje dans är ett uppdrag.\n\nDitt rollkort innehåller hemliga dansdirektiv för varje låt. Dessa är unika för din karaktär och ger poäng.\n\nGILLEDANSER är gemensamma uppdrag där hela gillet dansar på ett specifikt sätt. Lyckas alla bidrar det till gillebonusen.\n\nVar uppmärksam – andra observerar dig lika mycket som du observerar dem."},
-  {titel:"Poängsystemet",icon:"💰",farg:"#c9a84c",text:"INDIVIDUELLT – Uppdrag, förmågor, allianser, dans.\n\nGILLEBONUS +30p – Om hela gillet slutför sina uppdrag.\n\nSIDBONUS – Byn vinner: +30p · Kulten vinner: +50p\n\nDOMSPOÄNG – Rätt på kultmärkt: +20p · Rätt på Kultledaren: +40p · Fel: -5p\n\nLEDTRÅDAR – Lös in poäng hos Vägaren mot information om Kultledaren. Tre nivåer – ju dyrare, ju mer avslöjande."},
-  {titel:"Domen",icon:"🗳️",farg:"#c9a84c",text:"Domen är kvällens dramatiska klimax.\n\nVägaren räknar ned: TRE – TVÅ – ETT – alla pekar samtidigt på den de tror är Kultledaren.\n\nAvslöjandet sker i ordning:\n1. Kultmärkta avslöjas\n2. Kultledaren avslöjas sist – dramatiskt\n\nOm Kultledaren pekas ut har Byn vunnit.\nOm Kultledaren överlever har Kulten vunnit."},
-  {titel:"Vinstvillkor",icon:"🏆",farg:"#c9a84c",text:"BYBORNA VINNER OM Kultledaren pekas ut vid Domen.\n\nKULTEN VINNER OM Kultledaren överlever oavslöjad – eller om Mörkblotets ritual fullbordas.\n\nOAVGJORT om kultmärkta avslöjas men Kultledaren klarar sig. Vägaren avgör.\n\nKom ihåg – du tävlar också individuellt! Även om din sida förlorar kan du vinna som individ."},
-  {titel:"Allmänna regler",icon:"📜",farg:"#c9a84c",text:"• Din roll är hemlig – visa aldrig ditt rollkort\n• Lögner är tillåtna och uppmuntrade\n• Förmågor aktiveras genom Vägaren\n• Allianser registreras alltid hos Vägaren\n• Barnroller har förenklade uppdrag\n• Fråga Vägaren om du är osäker\n• Ha kul – det är midsommar!"},
+  {titel:"Spelets syfte",icon:"⚖️",farg:"#c9a84c",text:"Midsommarblot är ett socialt spel om lögner, allianser och avslöjanden.\n\nAlla tillhör ett gille – Örtagillet, Smederna eller Månkyrkan. Men bland er gömmer sig Mörkblotets Kult.\n\nByborna försöker avslöja Kultledaren. Kulten försöker överleva oavslöjad.\n\nDu tävlar på tre nivåer: individuellt, med ditt gille och på din sida (By vs Kult).\n\nKom ihåg – även om din sida förlorar kan du vinna som individ."},
+  {titel:"Kvällens faser",icon:"🕐",farg:"#c9a84c",text:"FAS 1 – ALLIANSER\nMingla, bilda allianser, dela hemligheter, genomför uppdrag. Danser uppstår spontant när ett gille begär det.\n\nFAS 2 – TINGET\nFormella anklagelser framförs inför alla. Den anklagade försvarar sig i 60 sekunder. Anklagaren svarar i 30 sekunder. Inga roller avslöjas – Tinget skapar misstanke, inte dom.\n\nFAS 3 – RITUALEN & DANSEN\nGilledanser genomförs vid stången. Håll ögonen öppna – allt ni ser kan få betydelse vid Domen.\n\nFAS 4 – DOMEN\nAlla pekar samtidigt på den de tror är Kultledaren. Rollerna avslöjas dramatiskt."},
+  {titel:"Gillen",icon:"🏛️",farg:"#c9a84c",text:"🌿 ÖRTAGILLET\nByns visdomsbärare. Rör sig mjukt men ser allt. Styrkan ligger i observation, subtila förmågor och allianser.\n\n⚒ SMEDERNA\nByns starka arm. Direkta, skeptiska och handlingskraftiga. Styrkan ligger i anklagelser, koordination och att skapa tryck.\n\n🌙 MÅNKYRKAN\nByns andliga röst. Rör sig i mystik och högtidlighet. Styrkan ligger i manipulation, ritualer och att forma stämningen.\n\n🧳 DEN RESANDE\nFriflygaren utan hem. Tävlar inte på gillenivå – bara individuellt och på sida. Handelsvaran är information."},
+  {titel:"Viktiga begrepp",icon:"📖",farg:"#c9a84c",text:"VÄGAREN – Spelets domare. Den enda som vet alla rollernas sanna identitet. Vägarens ord är lag.\n\nALLIANS – Formell överenskommelse registrerad hos Vägaren. En bruten allians ger minuspoäng.\n\nANKLAGELSE – Formell beskyllning vid Tinget. Ger poäng om den är välgrundad.\n\nFÖRMÅGA – Varje karaktär har två unika förmågor. Aktiveras alltid genom att berätta för Vägaren – aldrig på egen hand.\n\nINLÖSEN – Poäng kan bytas mot fördelar hos Vägaren: ledtrådar om Kultledaren, extra pekningar vid Domen eller immunitet.\n\nKEDJOR – Hemliga informationskedjor mellan specifika roller. Säg rätt fras, få rätt svar, dela en pusselbit.\n\nARTEFAKT – Speciella föremål med koppling till kvällens händelser. Mer om artefakterna framgår av ditt rollkort."},
+  {titel:"Förmågor",icon:"✨",farg:"#c9a84c",text:"Varje roll har två unika förmågor som kan vända kvällens utgång.\n\nFörmågor aktiveras ALLTID genom Vägaren – gå diskret fram och meddela vad du vill göra. Aldrig på egen hand.\n\nFörmågor märkta med 'En gång' kan bara användas en gång under hela kvällen – välj ögonblicket noga.\n\nNågra förmågor kräver att du agerar fysiskt eller verbalt – läs din förmåga noga i ditt rollkort.\n\nVägaren bedömer om en förmåga lyckas och ger poäng därefter."},
+  {titel:"Dansen",icon:"🎵",farg:"#c9a84c",text:"Dans är en naturlig del av midsommarfirandet – men varje dans är också ett uppdrag.\n\nDitt rollkort innehåller hemliga dansdirektiv för varje låt. Dessa är unika för din karaktär och ger poäng om de genomförs.\n\nGILLEDANSER är gemensamma uppdrag där hela gillet dansar på ett specifikt sätt. Lyckas alla bidrar det till gillebonusen.\n\nDanser kan uppstå i både Fas 1 och Fas 3 – var redo när musiken sätts på.\n\nVar uppmärksam – andra observerar dig lika mycket som du observerar dem."},
+  {titel:"Poängsystemet",icon:"💰",farg:"#c9a84c",text:"INDIVIDUELLT – Uppdrag, förmågor, allianser, dans, artefakter.\n\nGILLEBONUS +30p – Om hela gillet slutför sina gemensamma uppdrag.\n\nSIDBONUS – Byn vinner: +30p till alla bybor · Kulten vinner: +50p till kultister\n\nDOMSPOÄNG – Rätt på kultmärkt: +20p · Rätt på Kultledaren: +40p · Fel: -5p\n\nLEDTRÅDAR – Lös in poäng hos Vägaren mot information om Kultledaren. Tre nivåer – ju dyrare, ju mer avslöjande.\n\nVägaren kan också belöna god stämning, generositet och hjälpsamhet efter eget omdöme."},
+  {titel:"Domen",icon:"🗳️",farg:"#c9a84c",text:"Domen är kvällens dramatiska klimax.\n\nAlla samlas. Ingen får diskutera högt.\n\nVägaren räknar ned: TRE – TVÅ – ETT – alla pekar samtidigt på den de tror bär mörkrets ledarskap.\n\nIngen får vänta och se vart andra pekar.\n\nVissa pekningar väger tyngre än andra – beroende på förmågor och inlösningar gjorda under kvällen.\n\nVägaren räknar pekningarna och avslöjar utfallet dramatiskt."},
+  {titel:"Vinstvillkor",icon:"🏆",farg:"#c9a84c",text:"BYBORNA VINNER OM Kultledaren pekas ut och avslöjas vid Domen.\n\nKULTEN VINNER OM Kultledaren överlever oavslöjad.\n\nOAVGJORT om situationen är oklar. Vägaren avgör.\n\nKom ihåg – du tävlar också individuellt och på gillenivå! Spelet avgörs inte bara av vem som hittar Kultledaren."},
+  {titel:"Allmänna regler",icon:"📜",farg:"#c9a84c",text:"• Din roll är hemlig – visa aldrig ditt rollkort för någon annan spelare\n• Lögner är tillåtna och uppmuntrade – det är en del av spelet\n• Förmågor aktiveras alltid genom Vägaren, aldrig på egen hand\n• Allianser måste registreras hos Vägaren för att ge poäng\n• Checka in med Vägaren när du gjort något poängvärt\n• Fråga alltid Vägaren om du är osäker – aldrig en annan spelare\n• Barnroller har förenklade uppdrag och egna regler\n• Ha kul – det är midsommar!"},
 ];
 
 function RegelVy({setVy}){
