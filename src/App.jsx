@@ -2497,7 +2497,26 @@ function SpelarVy({rollData}){
   const gilleData=GILLESUPPDRAG[roll.gille];
   const rollnamn=roll.rollnamn||"";
 
-  const tabs=roll.barnroll?["🎭 Min roll","🌿 Mitt gille","📜 Regler"]:["🎭 Min roll","🌿 Mitt gille","📜 Regler"];
+  const erResande=roll.gille==="fri";
+  const tabs=erResande?["🎭 Min roll","📜 Regler"]:["🎭 Min roll","🌿 Mitt gille","📜 Regler"];
+
+  const gilleInfo={
+    ortagillet:{
+      namn:"🌿 Örtagillet",
+      beskrivning:"Byns visdomsbärare. Örtagillet rör sig mjukt men ser allt. Era styrkor ligger i observation, subtila förmågor och allianser. Ni är limmet som håller byn samlad – och ögonen som ser vad andra missar.",
+      farg:"#a8d5a2",
+    },
+    smederna:{
+      namn:"⚒ Smedernas Brödraskap",
+      beskrivning:"Byns starka arm. Smederna är direkta, skeptiska och handlingskraftiga. Era styrkor ligger i anklagelser, koordination och att skapa tryck. Ni agerar när andra tvekar.",
+      farg:"#d4956a",
+    },
+    månkyrkan:{
+      namn:"☽ Månkyrkan",
+      beskrivning:"Byns andliga röst. Månkyrkan rör sig i mystik och högtidlighet. Era styrkor ligger i manipulation, ritualer och att forma stämningen. Ni ser det osynliga – och talar om det som ingen annan vågar.",
+      farg:"#9999e0",
+    },
+  }[roll.gille]||null;
 
   return <div style={{minHeight:"100vh",background:T.bg,color:T.text,fontFamily:"'IM Fell English',Georgia,serif",paddingBottom:60}}>
     <style>{`@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=IM+Fell+English:ital@0;1&display=swap');*{box-sizing:border-box}body{margin:0;background:#0d0b08}`}</style>
@@ -2515,31 +2534,54 @@ function SpelarVy({rollData}){
     {/* MIN ROLL */}
     {tab===0&&<RollKort roll={roll} onBekrafta={null} spelarKon={roll.spelarKon} spelarAlder={roll.spelarAlder} visaBekrafta={false}/>}
 
-    {/* MITT GILLE */}
-    {tab===1&&<div style={Sida}>
+    {/* MITT GILLE – bara för gillesmedlemmar */}
+    {!erResande&&tab===1&&<div style={Sida}>
       <div style={{textAlign:"center",padding:"20px 0 16px"}}>
-        <div style={{fontSize:11,color:ac,letterSpacing:3,fontFamily:"'Cinzel',serif",marginBottom:4}}>{roll.gille?.toUpperCase()}</div>
-        <div style={{fontFamily:"'Cinzel',serif",fontSize:22,color:ac,marginBottom:4}}>{roll.gille==="ortagillet"?"🌿 Örtagillet":roll.gille==="smederna"?"⚒ Smedjans Brödraskap":roll.gille==="månkyrkan"?"☽ Månkyrkan":"🎲 Fri"}</div>
+        <div style={{fontFamily:"'Cinzel',serif",fontSize:24,color:ac,marginBottom:8}}>{gilleInfo?.namn}</div>
+        <p style={{fontSize:14,color:T.textDim,lineHeight:1.8,fontStyle:"italic",margin:0}}>{gilleInfo?.beskrivning}</p>
       </div>
-      {gilleData&&<>
-        <div style={Kort}>
-          <div style={{...Lbl,color:ac}}>{gilleData.rubrik}</div>
-          {gilleData.gemensamt.map((u,i)=><div key={i} style={{display:"flex",gap:8,padding:"6px 0",borderBottom:`1px solid ${T.kant2}`}}>
-            <span style={{color:ac}}>•</span>
-            <span style={{fontSize:13,color:T.text,lineHeight:1.5}}>{u}</span>
-          </div>)}
-          <div style={{marginTop:10,padding:"8px",background:ac+"15",borderRadius:3,fontSize:12,color:ac,fontStyle:"italic"}}>{gilleData.bonus}</div>
-        </div>
-      </>}
-      <div style={Kort}>
-        <div style={{...Lbl,color:ac}}>Ditt kännetecken</div>
+
+      {/* Kännetecken */}
+      <div style={{...Kort,borderColor:ac+"44"}}>
+        <div style={{...Lbl,color:ac}}>Ert kännetecken</div>
         <p style={{fontSize:13,color:T.text,margin:0}}>
           {roll.gille==="ortagillet"?"🌸 Blomma bakom höger öra":
            roll.gille==="smederna"?"🪨 Liten sten i vänster hand":
-           roll.gille==="månkyrkan"?"🤍 Vitt snöre om vänster handled":
-           "🎲 Inget – du tillhör inget gille"}
+           "🤍 Vitt snöre om vänster handled"}
         </p>
       </div>
+
+      {/* Gillesuppdrag */}
+      {gilleData&&<div style={{...Kort,borderColor:ac+"44"}}>
+        <div style={{...Lbl,color:ac}}>{gilleData.rubrik}</div>
+        {gilleData.gemensamt.map((u,i)=><div key={i} style={{display:"flex",gap:8,padding:"6px 0",borderBottom:`1px solid ${T.kant2}`}}>
+          <span style={{color:ac,flexShrink:0}}>•</span>
+          <span style={{fontSize:13,color:T.text,lineHeight:1.5}}>{u}</span>
+        </div>)}
+        <div style={{marginTop:10,padding:"8px",background:ac+"15",borderRadius:3,fontSize:12,color:ac,fontStyle:"italic"}}>{gilleData.bonus}</div>
+      </div>}
+
+      {/* Ceremoni */}
+      {gilleData?.ceremoni&&<div style={{...Kort,borderColor:ac+"66",background:"#0a0a00"}}>
+        <div style={{...Lbl,color:ac}}>{gilleData.ceremoni.namn}</div>
+        <p style={{fontSize:13,color:T.text,lineHeight:1.8,margin:0}}>{gilleData.ceremoni.beskrivning}</p>
+      </div>}
+
+      {/* Relationer inom gillet */}
+      <div style={{...Kort,borderColor:ac+"33"}}>
+        <div style={{...Lbl,color:ac}}>Era roller i gillet</div>
+        {ROLLER_MASTER.filter(r=>r.gille===roll.gille&&!r.barnroll).map((r,i)=>{
+          const rn=typeof r.rollnamn==="function"?r.rollnamn(""):r.rollnamn;
+          const erDu=r.id===roll.id;
+          return <div key={i} style={{display:"flex",gap:10,alignItems:"center",padding:"7px 0",borderBottom:`1px solid ${T.kant2}`}}>
+            <span style={{fontSize:18}}>{r.icon}</span>
+            <span style={{fontSize:13,color:erDu?ac:T.text,flex:1,fontFamily:erDu?"'Cinzel',serif":"inherit"}}>{rn}{erDu?" (du)":""}</span>
+            <span style={{fontSize:11,color:T.textDim,fontStyle:"italic"}}>{r.karaktar?.slice(0,30)}...</span>
+          </div>;
+        })}
+      </div>
+
+      {/* Kultens skugga */}
       <div style={{...Kort,borderColor:"#cc333344",background:"#120808"}}>
         <div style={{...Lbl,color:"#cc6666"}}>🩸 Kultens skugga</div>
         <p style={{fontSize:12,color:"#cc9999",lineHeight:1.6,margin:0}}>Kultmedlemmar bär INGET synligt kännetecken. De döljer sig bland er och spelar sina roller fullt ut.<br/><br/>Kultledaren känner till sina kultmärkta. Under kvällen kan bybor lockas över till mörkret – hur det sker vet bara de som redan tjänar kulten.<br/><br/>Det finns ett hemligt igenkänningstecken – men det vet bara de som tillhör kulten.</p>
@@ -2547,7 +2589,7 @@ function SpelarVy({rollData}){
     </div>}
 
     {/* REGLER */}
-    {tab===2&&<RegelVy setVy={()=>{}}/>}
+    {tab===(erResande?1:2)&&<RegelVy setVy={()=>{}}/>}
   </div>;
 }
 
