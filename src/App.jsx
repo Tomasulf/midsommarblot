@@ -122,7 +122,7 @@ const ROLLER_MASTER=[
   {id:"skogsvakten",gille:"ortagillet",gilleColor:"#ffb3c6",icon:"🌲",barnroll:true,
    rollnamn:()=>"Skogsvakten",
    karaktar:"DU ÄR KVÄLLENS HEMLIGA ÖGA. DU SER VAD INGEN ANNAN SER.",
-   beskrivning:"DITT UPPDRAG ÄR VIKTIGT.\n\nDU RÖR DIG OBEMÄRKT. DU LYSSNAR. DU SPANAR. MEDAN ANDRA SPELARE PRATAR OCH PLANERAR – SER DU ALLT.\n\nDIN PARTNER I KVÄLL TILLHÖR SMEDERNA. HITTA DEM DIREKT.",
+   beskrivning:"DITT UPPDRAG ÄR VIKTIGT.\n\nDU RÖR DIG OBEMÄRKT. DU LYSSNAR. DU SPANAR. MEDAN ANDRA SPELARE PRATAR OCH PLANERAR – SER DU ALLT.\n\nDU HAR EN HEMLIG KOMPIS IKVÄLL. HITTA DEM DIREKT!",
    uppdrag:"VÄLJ EN SPELARE ATT SPANA PÅ UNDER HELA KVÄLLEN. RAPPORTERA TILL VÄGAREN VAD DU SER.",
    foermaga:"🌲 HYSS 1: Smyg upp bakom en spelare och viska: JAG VET VAD DU GJORT – spring sedan iväg!",
    foermaga2:"🌲 HYSS 2: Övertala en spelare att följa med till ett träd och välsigna det. Om de frågar varför – säg att det är MYCKET viktigt.",
@@ -137,7 +137,7 @@ const ROLLER_MASTER=[
   {id:"galningen",gille:"smederna",gilleColor:"#ffcc88",icon:"🥁",barnroll:true,
    rollnamn:()=>"Galningen med Grytan",
    karaktar:"DU ÄR KVÄLLENS VILDASTE KRAFT. ALLA HÖR DIG. INGEN KAN STOPPA DIG.",
-   beskrivning:"DIN GRYTA ÄR DITT VAPEN.\n\nNÄR DU SLÅR – LYSSNAR ALLA. NÄR DU TALAR – TIGER ALLA. DU HAR MER MAKT ÄN DU TROR.\n\nDIN PARTNER I KVÄLL TILLHÖR ÖRTAGILLET. HITTA DEM DIREKT.",
+   beskrivning:"DIN GRYTA ÄR DITT VAPEN.\n\nNÄR DU SLÅR – LYSSNAR ALLA. NÄR DU TALAR – TIGER ALLA. DU HAR MER MAKT ÄN DU TROR.\n\nDU HAR EN HEMLIG KOMPIS IKVÄLL. HITTA DEM DIREKT!",
    uppdrag:"SLÅ PÅ GRYTAN OCH ROPA LYSSNA PÅ MIG MINST 3 GÅNGER. VARJE GÅNG BERÄTTAR DU NÅGOT DU SETT.",
    foermaga:"🥁 HYSS 1: Marschera tre varv runt stången och sjung VI ÄR KULTEN VI ÄR KULTEN – så högt du kan!",
    foermaga2:"🥁 HYSS 2: Avbryt Högprästens allvarligaste stund med tre slag på grytan – PANG PANG PANG!",
@@ -152,7 +152,7 @@ const ROLLER_MASTER=[
   {id:"korsriddaren",gille:"månkyrkan",gilleColor:"#c8b8ff",icon:"⚔️",barnroll:true,
    rollnamn:()=>"Korsriddaren",
    karaktar:"DU ÄR KVÄLLENS VAKTHÅLLARE. INGENTING SKER UTAN ATT DU SER DET.",
-   beskrivning:"DITT LÖFTE ÄR HELIGT.\n\nDU VAKTAR. DU UTMANAR. DU AVSLÖJAR. MIDSOMMARSTÅNGEN OCH SANNINGEN ÄR UNDER DITT SKYDD I KVÄLL.\n\nDIN PARTNER I KVÄLL TILLHÖR SMEDERNA. HITTA DEM DIREKT.",
+   beskrivning:"DITT LÖFTE ÄR HELIGT.\n\nDU VAKTAR. DU UTMANAR. DU AVSLÖJAR. MIDSOMMARSTÅNGEN OCH SANNINGEN ÄR UNDER DITT SKYDD I KVÄLL.\n\nDU HAR EN HEMLIG KOMPIS IKVÄLL. HITTA DEM DIREKT!",
    uppdrag:"UTMANA EN SPELARE TILL STEN-SAX-PÅSE. VAKTA MIDSOMMARSTÅNGEN MOT ALLA SOM KOMMER NÄRA.",
    foermaga:"⚔️ HYSS 1: Säg högt inför alla: JAG VET VEM KULTLEDAREN ÄR – DET ÄR [peka på vem som helst]. Håll dig inte för skratt!",
    foermaga2:"⚔️ HYSS 2: Vakta stången i 5 minuter och säg NEJ till alla som försöker komma nära!",
@@ -561,6 +561,7 @@ const ROLL_UPPGIFTER = {
 
 
 // ─── GEMENSAMMA BARNUPPDRAG ───────────────────────────────────────────────────
+// Generiska (alla kombon)
 const BARN_GEMENSAMMA = [
   {
     nr:1,
@@ -581,6 +582,52 @@ const BARN_GEMENSAMMA = [
     poang:"+25p VAR OM NI LYCKAS STÖRA TINGET!",
   },
 ];
+
+// Kombo-specifika uppdrag (2 per kombination)
+const BARN_KOMBO_UPPDRAG = {
+  "ortagillet+smederna": [
+    {
+      titel:"DUBBELDYNA 👻",
+      uppdrag:"En av er smyger upp bakom en vuxen och viskar 'Jag vet vad du gjort.' Den andre gör EXAKT samma sak mot en annan vuxen – inom 30 sekunder! Rapportera till Vägaren vad de sa!",
+      poang:"+20p VAR OM NI LYCKAS!",
+    },
+    {
+      titel:"LÖGNEKEDJAN 🌿⚒",
+      uppdrag:"Berätta för en vuxen att du sett din kompis gömma något konstigt bakom ett träd. Rapportera till Vägaren vad de svarade!",
+      poang:"+15p VAR OM NI RAPPORTERAR!",
+    },
+  ],
+  "ortagillet+månkyrkan": [
+    {
+      titel:"DET HEMLIGA TECKNET 🌿🌙",
+      uppdrag:"Gå fram till SAMMA vuxen och viska varsitt hemligt ord i örat – en i taget med lite mellanrum. Den vuxne får inte veta att ni samarbetar! Rapportera till Vägaren!",
+      poang:"+20p VAR OM NI LYCKAS!",
+    },
+    {
+      titel:"FALSK PROFETIA 🔮",
+      uppdrag:"Gå till en vuxen och säg allvarligt: 'Månens stjärnor har visat mig att DU är kultledaren.' Rapportera reaktionen till Vägaren!",
+      poang:"+15p VAR OM NI RAPPORTERAR!",
+    },
+  ],
+  "smederna+månkyrkan": [
+    {
+      titel:"DUBBELT RYKTE ⚒🌙",
+      uppdrag:"Gå var och en till en OLIKA vuxen och berätta att er kompis sagt något konstigt vid stången. Rapportera till Vägaren vad de svarade!",
+      poang:"+20p VAR OM NI LYCKAS!",
+    },
+    {
+      titel:"VÄLSIGNELSEN 🙏",
+      uppdrag:"En av er håller upp ett föremål och den andre lägger högtidligt handen på det och mumlar något mystiskt. Gör det framför EN vuxen! Rapportera till Vägaren!",
+      poang:"+15p VAR OM NI RAPPORTERAR!",
+    },
+  ],
+};
+
+function getBarnKomboUppdrag(gille1, gille2) {
+  const gillen = [gille1, gille2].sort();
+  const key = gillen.join("+");
+  return BARN_KOMBO_UPPDRAG[key] || [];
+}
 
 
 // ─── HEMLIGHETER ──────────────────────────────────────────────────────────────
@@ -1127,22 +1174,27 @@ function BarnSektion({roll}){
   const kompisRoll=andraBarnIds.length>0?ROLLER_MASTER.find(r=>r.id===andraBarnIds[0]):null;
   const kompis=kompisRoll?{
     namn:(typeof kompisRoll.rollnamn==="function"?kompisRoll.rollnamn(""):kompisRoll.rollnamn).toUpperCase(),
-    gille:kompisRoll.gille?.toUpperCase()
+    gille:kompisRoll.gille?.toUpperCase(),
+    gilleNamn:kompisRoll.gille==="ortagillet"?"ÖRTAGILLET":kompisRoll.gille==="smederna"?"SMEDERNA":kompisRoll.gille==="månkyrkan"?"MÅNKYRKAN":kompisRoll.gille?.toUpperCase()
   }:null;
+
+  // Hämta kombo-specifika uppdrag
+  const komboUppdrag=kompisRoll?getBarnKomboUppdrag(roll.gille,kompisRoll.gille):[];
+  const allaUppdrag=[...BARN_GEMENSAMMA.map(u=>({...u})),...komboUppdrag];
 
   return <div style={{background:"#1a0a10",border:`2px solid ${ac}`,borderRadius:6,padding:"16px",marginBottom:8}}>
     <div style={{fontSize:12,color:ac,letterSpacing:2,fontFamily:"'Cinzel',serif",marginBottom:12,textAlign:"center"}}>⚡ DIN KOMPIS IKVÄLL ⚡</div>
     
     <div style={{background:"#0a0008",border:`1px solid ${ac}44`,borderRadius:4,padding:"12px",marginBottom:16,textAlign:"center"}}>
       <div style={{fontSize:18,marginBottom:4}}>🤝</div>
-      <div style={{fontSize:15,color:ac,fontWeight:700,fontFamily:"'Cinzel',serif",marginBottom:4}}>{kompis?.namn}</div>
-      <div style={{fontSize:12,color:"#ffb3c688"}}>FRÅN {kompis?.gille}</div>
+      <div style={{fontSize:15,color:ac,fontWeight:700,fontFamily:"'Cinzel',serif",marginBottom:4}}>{kompis?.namn||"OKÄND"}</div>
+      <div style={{fontSize:12,color:"#ffb3c688"}}>FRÅN {kompis?.gilleNamn||"OKÄNT GILLE"}</div>
       <div style={{fontSize:11,color:"#ffe8f0",marginTop:8,lineHeight:1.5}}>HITTA DEM DIREKT NÄR SPELET BÖRJAR!</div>
     </div>
 
     <div style={{fontSize:12,color:ac,letterSpacing:2,fontFamily:"'Cinzel',serif",marginBottom:10}}>🎯 VAD NI SKA GÖRA TILLSAMMANS</div>
     
-    {BARN_GEMENSAMMA.map((u,i)=><div key={i} style={{background:"#0a0008",border:`1px solid ${ac}33`,borderRadius:4,padding:"12px",marginBottom:8}}>
+    {allaUppdrag.map((u,i)=><div key={i} style={{background:"#0a0008",border:`1px solid ${ac}33`,borderRadius:4,padding:"12px",marginBottom:8}}>
       <div style={{fontSize:13,color:ac,fontWeight:700,marginBottom:6}}>{u.titel}</div>
       <div style={{fontSize:13,color:"#ffe8f0",lineHeight:1.7,marginBottom:8}}>{u.uppdrag}</div>
       <div style={{background:"#ffcc4422",borderRadius:3,padding:"6px 10px",display:"inline-block"}}>
