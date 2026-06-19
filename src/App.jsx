@@ -1976,7 +1976,7 @@ function ManusBlock({f}){
 
 
 // ─── SPELLEDARE-VY ────────────────────────────────────────────────────────────
-function SpelledarVy({setVy,starta,tab,setTab,antalBarn,setAntalBarn,spelare,setSpelare,domAvslojad,setDomAvslojad,fordel,barnGillenVal=[],setBarnGillenVal,fordeltaBarn=[],setFordeltaBarn}){
+function SpelledarVy({setVy,starta,tab,setTab,antalBarn,setAntalBarn,spelare,setSpelare,domAvslojad,setDomAvslojad,fordel,barnGillenVal=[],setBarnGillenVal,fordeltaBarn=[],setFordeltaBarn,rensaAllt}){
   const [visaRoster,setVisaRoster]=useState(false);
   const tabs=["Setup","Vinstvillkor","Vägaren","Poäng"];
   return <div style={Sida}>
@@ -2090,7 +2090,7 @@ function SpelledarVy({setVy,starta,tab,setTab,antalBarn,setAntalBarn,spelare,set
         <p style={{fontSize:11,color:"#cc9999",lineHeight:1.6,margin:0}}>Kultledaren får 3 pentagram · Kultmärkta får 2 var.<br/>Placeras diskret på tomten under spelet.<br/>Bybor som hittar dem: +10p · Kultister som placerar alla ostört: +20-30p</p>
       </div>
       <button style={{...BtnH,width:"100%"}} onClick={starta}>Starta – Dela ut roller →</button>
-    </>}
+      {(fordel.length>0||spelare.some(s=>s.poang>0))&&<button style={{...BtnS,width:"100%",marginTop:8,borderColor:"#cc333344",color:"#cc6666",fontSize:12}} onClick={()=>{if(window.confirm("Rensa ALL speldata? Poäng och rollutdelning försvinner."))rensaAllt();}}>🗑 Rensa och börja om</button>}    </>}
 
     {tab===1&&<div>
       {Object.entries(VINSTVILLKOR).map(([k,v])=><div key={k} style={{...Kort,marginBottom:8,borderColor:v.farg+"44"}}>
@@ -2645,12 +2645,21 @@ export default function App(){
     return <SpelarVy rollData={null}/>;
   }
 
-  const [vy,setVy]=useState("start");
-  const [sTab,setSTab]=useState(0);
+  const [vy,setVyState]=useState(()=>{
+    try{const v=localStorage.getItem("mb_vy");if(v&&v!=="drag")return v;}catch(e){}
+    return "start";
+  });
+  function setVy(v){
+    try{localStorage.setItem("mb_vy",v);}catch(e){}
+    setVyState(v);
+  }
+  const [sTab,setSTab]=useState(()=>{
+    try{const t=localStorage.getItem("mb_stab");if(t)return parseInt(t);}catch(e){}return 0;
+  });
+  function setSTabP(v){try{localStorage.setItem("mb_stab",String(v));}catch(e){}setSTab(v);}
   const [antalBarn,setAntalBarn]=useState(2);
   const [barnGillenVal,setBarnGillenVal]=useState([]);
-  const [fordeltaBarn,setFordeltaBarn]=useState([]); // barnroller som delats ut i förväg
-  const [fordel,setFordel]=useState([]);
+  const [fordeltaBarn,setFordeltaBarn]=useState([]);
   const [idx,setIdx]=useState(0);
   const [roll,setRoll]=useState(null);
   const [avslojar,setAvslojar]=useState(false);
@@ -2658,8 +2667,35 @@ export default function App(){
   const [alder,setAlder]=useState("");
   const [kon,setKon]=useState(null);
   const [alderKlar,setAlderKlar]=useState(false);
-  const [spelare,setSpelare]=useState(()=>INITIAL_SPELARE.map(s=>({...s})));
-  const [domAvslojad,setDomAvslojad]=useState(false);
+  const [spelare,setSpelare]=useState(()=>{
+    try{const s=localStorage.getItem("mb_spelare");if(s)return JSON.parse(s);}catch(e){}
+    return INITIAL_SPELARE.map(s=>({...s}));
+  });
+  const [fordel,setFordel]=useState(()=>{
+    try{const s=localStorage.getItem("mb_fordel");if(s)return JSON.parse(s);}catch(e){}
+    return [];
+  });
+  const [domAvslojad,setDomAvslojad]=useState(()=>{
+    try{return localStorage.getItem("mb_dom")==="true";}catch(e){}return false;
+  });
+  useEffect(()=>{try{localStorage.setItem("mb_spelare",JSON.stringify(spelare));}catch(e){};},[spelare]);
+  useEffect(()=>{try{localStorage.setItem("mb_fordel",JSON.stringify(fordel));}catch(e){};},[fordel]);
+  useEffect(()=>{try{localStorage.setItem("mb_dom",String(domAvslojad));}catch(e){};},[domAvslojad]);
+
+  function rensaAllt(){
+    try{
+      localStorage.removeItem("mb_spelare");
+      localStorage.removeItem("mb_fordel");
+      localStorage.removeItem("mb_dom");
+      localStorage.removeItem("mb_vy");
+      localStorage.removeItem("mb_stab");
+    }catch(e){}
+    setSpelare(INITIAL_SPELARE.map(s=>({...s})));
+    setFordel([]);
+    setDomAvslojad(false);
+    setVy("start");
+    setIdx(0);reset();
+  }
   const [kontaktlista,setKontaktlista]=useState(()=>{
     try{const s=localStorage.getItem("mb_kontakter");if(s)return JSON.parse(s);}catch(e){}
     return Array.from({length:10},(_,i)=>({id:i+1,namn:"",kon:"tjej",alder:"",mail:"",telefon:""}));
@@ -2703,7 +2739,7 @@ export default function App(){
   return <div style={{minHeight:"100vh",background:T.bg,color:T.text,fontFamily:"'IM Fell English',Georgia,serif",paddingBottom:60}}>
     <style>{css}</style>
     {vy==="start"&&<StartVy setVy={setVy}/>}
-    {vy==="spelledare"&&<SpelledarVy setVy={setVy} starta={starta} tab={sTab} setTab={setSTab} antalBarn={antalBarn} setAntalBarn={setAntalBarn} spelare={spelare} setSpelare={setSpelare} domAvslojad={domAvslojad} setDomAvslojad={setDomAvslojad} fordel={fordel} barnGillenVal={barnGillenVal} setBarnGillenVal={setBarnGillenVal} fordeltaBarn={fordeltaBarn} setFordeltaBarn={setFordeltaBarn}/>}
+    {vy==="spelledare"&&<SpelledarVy setVy={setVy} starta={starta} tab={sTab} setTab={setSTabP} antalBarn={antalBarn} setAntalBarn={setAntalBarn} spelare={spelare} setSpelare={setSpelare} domAvslojad={domAvslojad} setDomAvslojad={setDomAvslojad} fordel={fordel} barnGillenVal={barnGillenVal} setBarnGillenVal={setBarnGillenVal} fordeltaBarn={fordeltaBarn} setFordeltaBarn={setFordeltaBarn} rensaAllt={rensaAllt}/>}
     {vy==="deltagare"&&<DeltagarVy setVy={setVy} kontaktlista={kontaktlista} setKontaktlista={setKontaktlista}/>}
     {vy==="drag"&&<DragVy fordel={fordel} idx={idx} roll={roll} avslojar={avslojar} bekr={bekr} klart={klart} alder={alder} setAlder={setAlder} kon={kon} setKon={setKon} alderKlar={alderKlar} bekraftaAlder={bekraftaAlder} setAvslojar={setAvslojar} setBekr={setBekr} nasta={nasta} setVy={setVy}/>}
     {vy==="guide"&&<GuideVy setVy={setVy}/>}
