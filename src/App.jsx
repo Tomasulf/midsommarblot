@@ -729,21 +729,21 @@ const JULIA_UPPDRAG={
 // ─── KULTDATA ─────────────────────────────────────────────────────────────────
 const KULTMARKEN=[
   {id:"mk1",namn:"Skuggviskaren",
-   kultInfo:"Du tjänar Mörkblotets Kult. Kultledaren känner till dig och kan ha sökt upp dig med den hemliga hälsningen. Skydda dem – de vet vem du är.",
+   kultInfo:"Du tjänar Mörkblotets Kult. Under Fas 1 kommer Kultledaren att söka upp dig – en och en, aldrig i grupp. De säger: 'Skål för solståndet.' Du svarar: 'och för mörkret som väntar.' Därefter vet ni båda. Säg ingenting mer om det.",
    direktiv:"Anklagas någon vid Tinget som du tror är Kultledaren – försvara dem omedelbart och högt. Under kvällen: plantera minst ett falskt spår mot någon annan. Vid Domen: peka på en oskyldig bybo. +30p om Vägaren bedömer att du försvarade Kultledaren.",
    hur:"Spela din byboroll fullt ut. Kultuppdraget är ett hemligt extra lager – ingen annan bybo vet om dig.",
    risk:"Kultledaren kan när som helst välja att avsätta dig om du riskerar att avslöjas. Du spelar då vidare som vanlig bybo – berätta inget om vad du visste.",
    pentagram:"Placera ut 1 pentagram diskret på tomten under kvällen utan att bli påkommen. Rapportera till Vägaren när du är klar.",
    poang:"Försvarade Kultledaren vid Tinget: +30p · Pentagram placerat ostört: +25p · Falskt spår planterat: +15p · Kulten vinner: +100p sidebonus"},
   {id:"mk2",namn:"Mörkrets Spegel",
-   kultInfo:"Du tjänar Mörkblotets Kult. Kultledaren känner till dig och kan ha sökt upp dig med den hemliga hälsningen. Skydda dem – de vet vem du är.",
+   kultInfo:"Du tjänar Mörkblotets Kult. Under Fas 1 kommer Kultledaren att söka upp dig – en och en, aldrig i grupp. De säger: 'Skål för solståndet.' Du svarar: 'och för mörkret som väntar.' Därefter vet ni båda. Säg ingenting mer om det.",
    direktiv:"Anklagas någon vid Tinget som du tror är Kultledaren – försvara dem omedelbart och högt. Under kvällen: plantera minst ett falskt spår mot någon annan. Vid Domen: peka på en oskyldig bybo. +30p om Vägaren bedömer att du försvarade Kultledaren.",
-   hur:"Du vet inte varför stången är viktig. Du vet bara att det är ditt uppdrag. Fråga inte. Gör det bara.",
+   hur:"Spela din byboroll fullt ut. Kultuppdraget är ett hemligt extra lager – ingen annan bybo vet om dig. Om Kultledaren inte sökt upp dig under Fas 1 – vänta. De kommer.",
    risk:"Kultledaren kan när som helst välja att avsätta dig om du riskerar att avslöjas. Du spelar då vidare som vanlig bybo – berätta inget om vad du visste.",
    pentagram:"Placera ut 1 pentagram diskret på tomten under kvällen utan att bli påkommen. Rapportera till Vägaren när du är klar.",
    poang:"Försvarade Kultledaren vid Tinget: +30p · Pentagram placerat ostört: +25p · Falskt spår planterat: +15p · Kulten vinner: +100p sidebonus"},
   {id:"mk3",namn:"Tystnadens Väktare",
-   kultInfo:"Du tjänar Mörkblotets Kult. Kultledaren känner till dig och kan ha sökt upp dig med den hemliga hälsningen. Skydda dem – de vet vem du är.",
+   kultInfo:"Du tjänar Mörkblotets Kult. Under Fas 1 kommer Kultledaren att söka upp dig – en och en, aldrig i grupp. De säger: 'Skål för solståndet.' Du svarar: 'och för mörkret som väntar.' Därefter vet ni båda. Säg ingenting mer om det.",
    direktiv:"Anklagas någon vid Tinget som du tror är Kultledaren – försvara dem omedelbart och högt. Under kvällen: plantera minst ett falskt spår mot någon annan. Vid Domen: peka på en oskyldig bybo. +30p om Vägaren bedömer att du försvarade Kultledaren.",
    hur:"Var social och avbryt folk lite oftare än normalt. Det ska aldrig verka avsiktligt.",
    risk:"Kultledaren kan när som helst välja att avsätta dig om du riskerar att avslöjas. Du spelar då vidare som vanlig bybo – berätta inget om vad du visste.",
@@ -755,9 +755,10 @@ const KULTLEDARE_INFO={
   beskrivning:"Bakom din byboroll gömmer sig Mörkblotets sanna ledare. Fullborda ritualen vid Solståndsnatten.",
   uppdrag:"Överlev Domen oavslöjad. Det är allt som krävs för kultens seger.",
   valssignelsen:"Håll handen på stången ostört i 30 sekunder under dansen i Fas 3. Om byborna saboterar ritualen missar du dessa poäng – men du kan fortfarande vinna på Domen.",
-  foermaga:"🩸 Blodsband: Hälsa på båda dina kultmärkta under Fas 1 med det hemliga tecknet (bestäm med Vägaren). +15p per lyckad hälsning = max +30p.",
+  igenkanning:"Söka upp dina kultmärkta diskret under Fas 1 – helst en i taget, aldrig i grupp. Säg frasen 'Skål för solståndet' i ett naturligt sammanhang. Om de svarar 'och för mörkret som väntar' – de är dina. Om de inte svarar rätt – de är en bybo. Avslöja ingenting.",
+  foermaga:"🩸 Blodsband: Hälsa på båda dina kultmärkta under Fas 1 med igenkänningsfrasen. +15p per lyckad hälsning = max +30p. Rapportera till Vägaren när du lyckats.",
   foermaga2:"🕯 Avsättning: Om en kultmärkt håller på att avslöjas – kontakta Vägaren diskret och namnge dem. De spelar vidare som vanlig bybo. Du är skyddad.",
-  igenkanning:"Säg 'Skål för solståndet' till en spelare. Om de är märkt svarar de 'och för mörkret som väntar'.",
+  kommunikation:"Efter igenkänning – håll kommunikationen minimal och aldrig öppen. Ge inga direkta order. Kultmärkta vet vad de ska göra. Om du behöver förmedla något – gör det via Vägaren.",
   tips:"Sprid falska anklagelser. Rösta på en oskyldig bybo vid Domen. Om majoriteten röstar fel vinner kulten.",
   pentagram:"Placera ut 3 pentagram diskret på tomten utan att bli påkommen. +30p om alla placeras.",
   inlosen:[
@@ -857,7 +858,7 @@ const INLOSEN=[
 const INITIAL_SPELARE=ROLLER_MASTER.filter(r=>!r.barnroll).map(r=>({
   id:r.id, rollnamn:typeof r.rollnamn==="function"?r.rollnamn(""):r.rollnamn,
   icon:r.icon, gille:r.gille, gilleColor:r.gilleColor,
-  poang:0, inlost:[], roster:1,
+  poang:0, inlost:[], roster:1, klar:[],
 }));
 
 const GILLE_INFO={
@@ -1408,7 +1409,11 @@ function RollKort({roll,onBekrafta,spelarKon,spelarAlder}){
       <div style={{background:"#0a0000",border:"1px solid #cc3333",borderRadius:3,padding:"10px",marginBottom:10,textAlign:"center",fontSize:12,color:"#cc3333",fontFamily:"'Cinzel',serif",letterSpacing:1}}>AVSLÖJA DETTA FÖR INGEN</div>
       <p style={{...RT,color:"#cc9999",marginBottom:10}}>{KULTLEDARE_INFO.beskrivning}</p>
       <p style={{...RT,color:"#cc9999",marginBottom:10}}><strong style={{color:"#cc3333"}}>Mörkrets märke:</strong> {KULTLEDARE_INFO.valssignelsen}</p>
-      <p style={{...RT,color:"#cc9999",marginBottom:10}}><strong style={{color:"#cc3333"}}>Igenkänning:</strong> {KULTLEDARE_INFO.igenkanning}</p>
+      <div style={{background:"#0a0000",border:"2px solid #cc3333",borderRadius:4,padding:"12px",marginBottom:10}}>
+        <div style={{fontSize:10,color:"#cc3333",letterSpacing:2,fontFamily:"'Cinzel',serif",marginBottom:8}}>🩸 IGENKÄNNING – SÅ HITTAR DU DINA KULTMÄRKTA</div>
+        <p style={{...RT,color:"#cc9999",margin:0,lineHeight:1.9}}>{KULTLEDARE_INFO.igenkanning}</p>
+      </div>
+      <p style={{...RT,color:"#cc9999",marginBottom:10}}><strong style={{color:"#cc3333"}}>Efter igenkänning:</strong> {KULTLEDARE_INFO.kommunikation}</p>
       <p style={{...RT,color:"#cc9999",marginBottom:6}}>{KULTLEDARE_INFO.foermaga}</p>
       <p style={{...RT,color:"#cc9999",marginBottom:10}}>{KULTLEDARE_INFO.foermaga2}</p>
       <p style={{...RT,color:"#cc9999",marginBottom:10}}>{KULTLEDARE_INFO.tips}</p>
@@ -1424,7 +1429,19 @@ function RollKort({roll,onBekrafta,spelarKon,spelarAlder}){
     </ToggleBlock>}
 
     {roll.kultMarke&&!roll.erKultledare&&<ToggleBlock label={`🩸 Hemligt kultmärke – ${roll.kultMarke.namn}`} ac="#cc6666" bg="#140303" open={visMarke} setOpen={setVisMarke}>
-      <div style={{background:"#0a0000",border:"1px solid #8b1a1a",borderRadius:3,padding:"10px",marginBottom:10,fontSize:12,color:"#cc6666",textAlign:"center"}}>Du tjänar kulten. Du vet inte vem ledaren är.</div>
+      <div style={{background:"#0a0000",border:"1px solid #8b1a1a",borderRadius:3,padding:"10px",marginBottom:10,fontSize:12,color:"#cc6666",textAlign:"center"}}>Du tjänar kulten. Kultledaren vet vem du är.</div>
+      <div style={{background:"#0a0000",border:"2px solid #cc6666",borderRadius:4,padding:"12px",marginBottom:10}}>
+        <div style={{fontSize:10,color:"#cc6666",letterSpacing:2,fontFamily:"'Cinzel',serif",marginBottom:8}}>🩸 IGENKÄNNING – SÅ HITTAR KULTLEDAREN DIG</div>
+        <p style={{...RT,color:"#cc9999",margin:"0 0 8px",lineHeight:1.9}}>Under Fas 1 kommer Kultledaren att söka upp dig – en i taget, diskret. De säger:</p>
+        <div style={{background:"#150000",borderRadius:3,padding:"10px",textAlign:"center",marginBottom:8}}>
+          <div style={{fontSize:15,color:"#ffcc88",fontStyle:"italic"}}>"Skål för solståndet"</div>
+        </div>
+        <p style={{...RT,color:"#cc9999",margin:"0 0 8px",lineHeight:1.9}}>Du svarar:</p>
+        <div style={{background:"#150000",borderRadius:3,padding:"10px",textAlign:"center",marginBottom:8}}>
+          <div style={{fontSize:15,color:"#ffcc88",fontStyle:"italic"}}>"och för mörkret som väntar"</div>
+        </div>
+        <p style={{...RT,color:"#cc9999",margin:0,fontStyle:"italic",fontSize:12}}>Säg ingenting mer om det. Om de inte sökt upp dig under Fas 1 – vänta. De kommer.</p>
+      </div>
       <p style={{...RT,color:"#cc9999",marginBottom:10}}>{roll.kultMarke.direktiv}</p>
       <p style={{...RT,color:"#cc9999",marginBottom:10}}>{roll.kultMarke.hur}</p>
       <p style={{...RT,color:"#cc9999",marginBottom:10}}>{roll.kultMarke.risk}</p>
@@ -1618,8 +1635,8 @@ function PoangAdmin({spelare,setSpelare,fordel=[]}){
 
   function angraHandling(){
     if(!sistaHandling)return;
-    const {id,poang}=sistaHandling;
-    setSpelare(prev=>prev.map(s=>s.id===id?{...s,poang:s.poang-poang}:s));
+    const {id,uppgId,poang}=sistaHandling;
+    setSpelare(prev=>prev.map(s=>s.id===id?{...s,poang:s.poang-poang,klar:(s.klar||[]).filter(k=>k!==uppgId)}:s));
     setSistaHandling(null);
   }
 
@@ -1691,10 +1708,19 @@ function PoangAdmin({spelare,setSpelare,fordel=[]}){
         {ROLL_UPPGIFTER[valdSp.id]?.length>0&&<div style={{marginBottom:10}}>
           <div style={{fontSize:10,color:T.guldDim,letterSpacing:2,marginBottom:5,fontFamily:"'Cinzel',serif"}}>⭐ ROLLSPECIFIKA UPPDRAG</div>
           <div style={{display:"flex",flexDirection:"column",gap:3}}>
-            {ROLL_UPPGIFTER[valdSp.id].map((u,i)=><button key={i} style={{background:"transparent",border:`1px solid ${u.poang<0?"#8b1a1a":T.kant2}`,borderRadius:3,padding:"7px 10px",cursor:"pointer",textAlign:"left",fontFamily:"inherit",display:"flex",justifyContent:"space-between"}} onClick={()=>{const p=u.poang;setSistaHandling({id:valdSp.id,uppgId:"roll_"+i,poang:p});setSpelare(prev=>prev.map(s=>s.id===valdSp.id?{...s,poang:Math.max(0,s.poang+p)}:s));}}>
-              <span style={{fontSize:12,color:T.text}}>{u.label}</span>
-              <span style={{fontSize:13,color:u.poang<0?"#cc6666":"#a8d5a2",fontWeight:700}}>{u.poang>0?"+":""}{u.poang}p</span>
-            </button>)}
+            {ROLL_UPPGIFTER[valdSp.id].map((u,i)=>{
+              const klarKey="roll_"+i;
+              const erKlar=(valdSp.klar||[]).includes(klarKey);
+              return <button key={i} disabled={erKlar} style={{background:erKlar?"#0a1a0a":"transparent",border:`1px solid ${erKlar?"#3d6b3a":u.poang<0?"#8b1a1a":T.kant2}`,borderRadius:3,padding:"7px 10px",cursor:erKlar?"default":"pointer",textAlign:"left",fontFamily:"inherit",display:"flex",justifyContent:"space-between",opacity:erKlar?0.7:1}} onClick={()=>{
+                if(erKlar)return;
+                const p=u.poang;
+                setSistaHandling({id:valdSp.id,uppgId:klarKey,poang:p});
+                setSpelare(prev=>prev.map(s=>s.id===valdSp.id?{...s,poang:s.poang+p,klar:[...(s.klar||[]),klarKey]}:s));
+              }}>
+                <span style={{fontSize:12,color:erKlar?"#a8d5a2":T.text}}>{erKlar?"✓ ":""}{u.label}</span>
+                <span style={{fontSize:13,color:erKlar?"#a8d5a2":u.poang<0?"#cc6666":"#a8d5a2",fontWeight:700}}>{u.poang>0?"+":""}{u.poang}p</span>
+              </button>;
+            })}
           </div>
         </div>}
 
@@ -1791,9 +1817,10 @@ function PoangAdmin({spelare,setSpelare,fordel=[]}){
             {aktivaSpelare.map(s=>{
               const g=Object.values(GILLE_INFO).find(x=>x.ids.includes(s.id));
               const ac=g?.farg||T.guld;
+              const erKlar=(s.klar||[]).includes(dans.id);
               return <div key={s.id} style={{display:"flex",gap:0,marginBottom:2}}>
-                <button title={`+${dans.poang}p till ${s.rollnamn}`} style={{fontSize:10,background:ac+"22",color:ac,border:`1px solid ${ac}44`,borderRadius:"3px 0 0 3px",padding:"3px 6px",cursor:"pointer",fontFamily:"inherit"}} onClick={()=>addPoang(s.id,dans.id)}>{s.icon}+</button>
-                <button title={`-${dans.poang}p från ${s.rollnamn}`} style={{fontSize:10,background:"#1a000022",color:"#cc6666",border:"1px solid #cc666633",borderRadius:"0 3px 3px 0",padding:"3px 5px",cursor:"pointer",fontFamily:"inherit"}} onClick={()=>minusPoang(s.id,dans.id,dans.poang)}> −</button>
+                <button title={erKlar?`✓ ${s.rollnamn} klar`:`+${dans.poang}p till ${s.rollnamn}`} disabled={erKlar} style={{fontSize:10,background:erKlar?"#0a1a0a":ac+"22",color:erKlar?"#a8d5a2":ac,border:`1px solid ${erKlar?"#3d6b3a":ac+"44"}`,borderRadius:"3px 0 0 3px",padding:"3px 6px",cursor:erKlar?"default":"pointer",fontFamily:"inherit"}} onClick={()=>{if(erKlar)return;setSpelare(prev=>prev.map(x=>x.id===s.id?{...x,poang:x.poang+dans.poang,klar:[...(x.klar||[]),dans.id]}:x));setSistaHandling({id:s.id,uppgId:dans.id,poang:dans.poang});}}>{erKlar?"✓":s.icon+"+"}</button>
+                <button title={`-${dans.poang}p från ${s.rollnamn}`} disabled={erKlar} style={{fontSize:10,background:"#1a000022",color:erKlar?"#555":"#cc6666",border:"1px solid #cc666633",borderRadius:"0 3px 3px 0",padding:"3px 5px",cursor:erKlar?"default":"pointer",fontFamily:"inherit"}} onClick={()=>minusPoang(s.id,dans.id,dans.poang)}> −</button>
               </div>;
             })}
           </div>
