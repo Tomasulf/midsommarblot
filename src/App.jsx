@@ -854,7 +854,7 @@ const INLOSEN=[
   {id:"r10",kostnad:100,typ:"roster",label:"10 extra röster vid Domen",beskrivning:"Din röst räknas som 10."},
 ];
 
-const INITIAL_SPELARE=ROLLER_MASTER.filter(r=>!r.barnroll).concat(ROLLER_MASTER.filter(r=>r.barnroll).slice(0,2)).map(r=>({
+const INITIAL_SPELARE=ROLLER_MASTER.filter(r=>!r.barnroll).map(r=>({
   id:r.id, rollnamn:typeof r.rollnamn==="function"?r.rollnamn(""):r.rollnamn,
   icon:r.icon, gille:r.gille, gilleColor:r.gilleColor,
   poang:0, inlost:[], roster:1,
@@ -879,11 +879,9 @@ function blandaOchTilldela(antalBarn, fordeltaBarnIds=[]){
   const barnFordelade=fordeltaBarnIds.length>0; // Barn har fått roller i förväg
 
   if(barnFordelade){
-    // Barn har fått roller i förväg - de ska INTE vara med i kvällens dragning
-    // Men vi behöver veta deras gillen för att räkna vuxna rätt
     const fordeltaBarnRoller=allaBarnRoller.filter(r=>fordeltaBarnIds.includes(r.id));
     barnGillen=fordeltaBarnRoller.map(r=>r.gille);
-    valdaBarn=[]; // Inga barn i kvällens dragning
+    valdaBarn=fordeltaBarnRoller; // Inkludera i allaRoller för poängsystemet
   } else if(antalBarn>=2){
     const shuffledBarn=[...allaBarnRoller].sort(()=>Math.random()-0.5);
     const barn1=shuffledBarn[0];
@@ -1157,9 +1155,21 @@ function GillesuppdragSektion({roll}){
   const data=GILLESUPPDRAG[gille];
   if(!data)return null;
   const ac=roll.barnroll?"#ffb3c6":roll.gilleColor||T.guld;
+
+  // Filtrera bort uppdrag som nämner roller som inte är aktiva
+  const aktivaIds=roll.aktivaIds||[];
+  const aktivaRollnamn=ROLLER_MASTER.filter(r=>aktivaIds.includes(r.id)).map(r=>
+    typeof r.rollnamn==="function"?r.rollnamn(""):r.rollnamn
+  );
+  const rollerAttKolla=["Kloka Gumman/Gubben","Kloke Gubben","Örtmästaren","Grönskans Väktare","Mästersmeden","Soldaten","Glödviskaren","Högprästen","Runläsaren","Munken","Nunnan","Den Resande"];
+  const filtrerade=data.gemensamt.filter(u=>{
+    const namnIUppdrag=rollerAttKolla.filter(namn=>u.includes(namn));
+    if(namnIUppdrag.length===0)return true;
+    return namnIUppdrag.some(namn=>aktivaRollnamn.some(an=>an.includes(namn)||namn.includes(an)));
+  });
   return <ToggleBlock label={data.rubrik} ac={ac} bg="#060e06" open={open} setOpen={setOpen}>
     <div style={{fontSize:11,color:T.textDim,fontStyle:"italic",marginBottom:10,lineHeight:1.5}}>Alla i gillet måste bidra för gillebonus!</div>
-    {data.gemensamt.map((u,i)=><div key={i} style={{display:"flex",gap:8,padding:"5px 0",borderBottom:`1px solid ${T.kant2}`}}>
+    {filtrerade.map((u,i)=><div key={i} style={{display:"flex",gap:8,padding:"5px 0",borderBottom:`1px solid ${T.kant2}`}}>
       <span style={{fontSize:13,color:ac,flexShrink:0}}>•</span>
       <span style={{fontSize:12,color:T.text,lineHeight:1.5}}>{u}</span>
     </div>)}
@@ -2703,7 +2713,16 @@ export default function App(){
   useEffect(()=>{try{localStorage.setItem("mb_kontakter",JSON.stringify(kontaktlista));}catch(e){};},[kontaktlista]);
 
   function starta(){
-    setFordel(blandaOchTilldela(antalBarn, fordeltaBarn.map(r=>r.id)));
+    const nyFordel=blandaOchTilldela(antalBarn, fordeltaBarn.map(r=>r.id));
+    setFordel(nyFordel);
+    // Lägg till barnroller i spelare-listan dynamiskt
+    const barnIFordel=nyFordel.filter(r=>r.barnroll);
+    const barnSpelare=barnIFordel.map(r=>({
+      id:r.id, rollnamn:typeof r.rollnamn==="function"?r.rollnamn(r.spelarKon||""):r.rollnamn,
+      icon:r.icon, gille:r.gille, gilleColor:r.gilleColor||"#ffb3c6",
+      poang:0, inlost:[], roster:1,
+    }));
+    setSpelare([...INITIAL_SPELARE.map(s=>({...s})),...barnSpelare]);
     setIdx(0);reset();setVy("drag");
   }
   function reset(){setRoll(null);setAvslojar(false);setBekr(false);setAlder("");setKon(null);setAlderKlar(false);}
