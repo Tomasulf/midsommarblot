@@ -1675,7 +1675,60 @@ function PoangAdmin({spelare,setSpelare,fordel=[]}){
   const kultProcent=100-bynProcent;
 
   return <div>
-    <TabBar tabs={["Check-in","Fasöversikt","Gillen & Våg"]} active={subTab} onChange={setSubTab}/>
+    <TabBar tabs={["Check-in","Sammanställning","Fasöversikt","Gillen & Våg"]} active={subTab} onChange={setSubTab}/>
+
+    {subTab===1&&<>
+      <div style={{...Kort,borderColor:"#c9a84c44",marginBottom:8}}>
+        <div style={{...Lbl,color:T.guld}}>📋 Poängöversikt per spelare</div>
+        {[...aktivaSpelare].sort((a,b)=>b.poang-a.poang).map((s,rank)=>{
+          const g=Object.values(GILLE_INFO).find(x=>x.ids.includes(s.id));
+          const ac=g?.farg||T.guld;
+          const klarDans=(s.klar||[]).filter(k=>k.startsWith("dans_"));
+          const klarRoll=(s.klar||[]).filter(k=>k.startsWith("roll_"));
+          const rollUppg=ROLL_UPPGIFTER[s.id]||[];
+          const totalRollPoang=klarRoll.reduce((sum,k)=>{
+            const i=parseInt(k.replace("roll_",""));
+            return sum+(rollUppg[i]?.poang||0);
+          },0);
+          const dansNamn={
+            dans_cannelloni:"Cannelloni",dans_walking:"Walking on Sunshine",
+            dans_euphoria:"Euphoria",dans_polkka:"Levan Polkka",
+            dans_gilledans:"Gilledans",dans_alla:"Alla danser",
+          };
+          return <div key={s.id} style={{marginBottom:12,padding:"12px",background:"#0a0a00",border:`1px solid ${ac}33`,borderRadius:4}}>
+            <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:10}}>
+              <span style={{fontSize:11,color:T.textDim,width:18}}>{rank+1}.</span>
+              <span style={{fontSize:20}}>{s.icon}</span>
+              <span style={{fontFamily:"'Cinzel',serif",fontSize:13,color:ac,flex:1}}>{s.rollnamn}</span>
+              <span style={{fontFamily:"'Cinzel',serif",fontSize:20,color:ac,fontWeight:700}}>{s.poang}p</span>
+            </div>
+            {/* Dans */}
+            <div style={{marginBottom:6}}>
+              <div style={{fontSize:10,color:T.textDim,letterSpacing:1,marginBottom:4}}>🎵 DANS ({klarDans.length} av 6)</div>
+              <div style={{display:"flex",flexWrap:"wrap",gap:4}}>
+                {klarDans.length===0
+                  ?<span style={{fontSize:11,color:T.textDim,fontStyle:"italic"}}>Ingen dans registrerad</span>
+                  :klarDans.map(k=><span key={k} style={{fontSize:10,background:ac+"22",color:ac,border:`1px solid ${ac}44`,borderRadius:3,padding:"2px 7px"}}>{dansNamn[k]||k}</span>)
+                }
+              </div>
+            </div>
+            {/* Rolluppdrag */}
+            {klarRoll.length>0&&<div style={{marginBottom:6}}>
+              <div style={{fontSize:10,color:T.textDim,letterSpacing:1,marginBottom:4}}>⭐ ROLLUPPDRAG ({klarRoll.length}st · +{totalRollPoang}p)</div>
+              <div style={{display:"flex",flexWrap:"wrap",gap:4}}>
+                {klarRoll.map(k=>{
+                  const i=parseInt(k.replace("roll_",""));
+                  const u=rollUppg[i];
+                  return u?<span key={k} style={{fontSize:10,background:"#0a1a0a",color:"#a8d5a2",border:"1px solid #3d6b3a44",borderRadius:3,padding:"2px 7px"}}>✓ {u.label}</span>:null;
+                })}
+              </div>
+            </div>}
+            {/* Övrigt */}
+            {klarRoll.length===0&&klarDans.length===0&&<div style={{fontSize:11,color:T.textDim,fontStyle:"italic"}}>Inga uppdrag registrerade ännu</div>}
+          </div>;
+        })}
+      </div>
+    </>}
 
     {subTab===0&&<>
       {/* VÄLJ SPELARE */}
@@ -1860,7 +1913,7 @@ function PoangAdmin({spelare,setSpelare,fordel=[]}){
       </div>
     </>}
 
-    {subTab===1&&<>
+    {subTab===2&&<>
       <div style={{...Kort,borderColor:"#c9a84c44"}}>
         <div style={Lbl}>📊 Individuell poängställning</div>
         {[...spelare].sort((a,b)=>b.poang-a.poang).map((s,i)=>{
@@ -1887,7 +1940,7 @@ function PoangAdmin({spelare,setSpelare,fordel=[]}){
       </div>
     </>}
 
-    {subTab===2&&<>
+    {subTab===3&&<>
       <StangensVag spelare={spelare} gilleData={gilleData} bynProcent={bynProcent} kultProcent={kultProcent} bynPoang={bynPoang} kultPoang={kultPoang} kultisterIds={kultisterIds}/>
       {gilleData.map(g=><div key={g.gid} style={{...Kort,borderColor:g.farg+"44",marginBottom:8}}>
         <div style={{display:"flex",justifyContent:"space-between",marginBottom:8}}>
