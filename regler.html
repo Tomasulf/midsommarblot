@@ -2650,15 +2650,7 @@ export default function App(){
   const [sTab,setSTab]=useState(0);
   const [antalBarn,setAntalBarn]=useState(2);
   const [barnGillenVal,setBarnGillenVal]=useState([]);
-  const [fordeltaBarn,setFordeltaBarn]=useState([]); // barnroller som delats ut i förväg
-
-  function rensaAllt(){
-    try{localStorage.removeItem("mb_spelare");localStorage.removeItem("mb_fordel");localStorage.removeItem("mb_dom");}catch(e){}
-    setSpelare(INITIAL_SPELARE.map(s=>({...s})));
-    setFordel([]);
-    setDomAvslojad(false);
-    setIdx(0);reset();
-  }
+  const [fordeltaBarn,setFordeltaBarn]=useState([]);
   const [idx,setIdx]=useState(0);
   const [roll,setRoll]=useState(null);
   const [avslojar,setAvslojar]=useState(false);
@@ -2680,6 +2672,14 @@ export default function App(){
   useEffect(()=>{try{localStorage.setItem("mb_spelare",JSON.stringify(spelare));}catch(e){};},[spelare]);
   useEffect(()=>{try{localStorage.setItem("mb_fordel",JSON.stringify(fordel));}catch(e){};},[fordel]);
   useEffect(()=>{try{localStorage.setItem("mb_dom",String(domAvslojad));}catch(e){};},[domAvslojad]);
+
+  function rensaAllt(){
+    try{localStorage.removeItem("mb_spelare");localStorage.removeItem("mb_fordel");localStorage.removeItem("mb_dom");}catch(e){}
+    setSpelare(INITIAL_SPELARE.map(s=>({...s})));
+    setFordel([]);
+    setDomAvslojad(false);
+    setIdx(0);reset();
+  }
   const [kontaktlista,setKontaktlista]=useState(()=>{
     try{const s=localStorage.getItem("mb_kontakter");if(s)return JSON.parse(s);}catch(e){}
     return Array.from({length:10},(_,i)=>({id:i+1,namn:"",kon:"tjej",alder:"",mail:"",telefon:""}));
